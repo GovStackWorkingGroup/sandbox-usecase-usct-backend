@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: govstack-backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: govstack-backend
+  labels:
+    run: govstack-backend
+  namespace: govstack-backend
+spec:
+  type: ClusterIP
+  selector:
+    run: govstack-backend
+  ports:
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: govstack-backend
+  namespace: govstack-backend
+spec:
+  selector:
+    matchLabels:
+      run: govstack-backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: govstack-backend
+    spec:
+      containers:
+        - name: govstack-backend
+          image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/govstackecr:portal-backend-0.0.1
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8081
+          env:
+            - name: servicename
+              value: "govstack-ss.govstack.svc.cluster.local"
+            - name: serviceport
+              value: "8443"
+            - name: certcn
+              value: "CN=4ef3c3c0b667"
+            - name: instance
+              value: "GOV"
+            - name: class
+              value: "DEV"
+            - name: member
+              value: "management"
+            - name: subsystem
+              value: "management"
+            - name: servicecode
+              value: "Test"
