@@ -14,9 +14,6 @@ import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -26,7 +23,6 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
-import java.util.Collections;
 
 @Configuration
 public class AppConfig {
@@ -68,21 +64,18 @@ public class AppConfig {
                 .setHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                 .build();
         // Allow TLSv1.3 protocol only
-        final HttpClientConnectionManager cm = PoolingHttpClientConnectionManagerBuilder.create()
+        final HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
                 .setSSLSocketFactory(sslSocketFactory)
                 .setDefaultTlsConfig(TlsConfig.custom()
                         .setHandshakeTimeout(Timeout.ofSeconds(30))
                         .setSupportedProtocols(TLS.V_1_3)
                         .build())
                 .build();
-        HttpClient client = HttpClients.custom()
-                .setConnectionManager(cm)
-                .build();
+        HttpClient httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
 
-        ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(client);
+        ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
 
-        RestTemplate template = new RestTemplate(requestFactory);
-        return  template;
+        return new RestTemplate(requestFactory);
     }
 
     @Bean
