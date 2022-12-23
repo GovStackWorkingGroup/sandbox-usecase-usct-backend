@@ -43,6 +43,10 @@ jobs:
           profile-name: CircleCIRole
           role-session-name: CircleSession
           session-duration: '1800'
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          region: ${AWS_DEFAULT_REGION}
+          tag: "${CIRCLE_SHA1}"   
       - run:
           name: Log-into-AWS-ECR
           command: |
