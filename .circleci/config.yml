@@ -29,8 +29,8 @@ jobs:
           name: Test
           command: mvn test
       - store_artifacts:
-          path: /target/backend-0.0.1-SNAPSHOT.jar
-          destination: /target/backend-0.0.1-SNAPSHOT.jar 
+          path: target/backend-0.0.1-SNAPSHOT.jar
+          destination: target/backend-0.0.1-SNAPSHOT.jar 
   aws-job:
     docker:
       - image: cimg/aws:2022.06
