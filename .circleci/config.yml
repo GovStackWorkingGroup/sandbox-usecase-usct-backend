@@ -33,6 +33,8 @@ jobs:
       - image: cimg/aws:2022.06
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.14
       # run the aws-cli/setup command from the orb
       - aws-cli/setup:
           role-arn: 'arn:aws:iam::463471358064:role/CircleCIRole'
