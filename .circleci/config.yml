@@ -3,6 +3,7 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@3.1
+  aws-ecr: circleci/aws-ecr@8.2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -45,6 +46,11 @@ jobs:
           command: |
             # must use same profile specified in the step above       
             aws ecr get-login-password --profile "CircleCIRole"
+      - aws-ecr/build_and_push_image:
+          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          region: ${AWS_DEFAULT_REGION}
+          tag: "${CIRCLE_SHA1}"
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
