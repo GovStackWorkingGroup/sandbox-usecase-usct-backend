@@ -30,7 +30,7 @@ jobs:
           command: mvn test
       - store_artifacts:
           path: /target/backend-0.0.1-SNAPSHOT.jar
-          destination:/target/backend-0.0.1-SNAPSHOT.jar 
+          destination: /target/backend-0.0.1-SNAPSHOT.jar 
   aws-job:
     docker:
       - image: cimg/aws:2022.06
@@ -38,6 +38,9 @@ jobs:
       - checkout
       #- setup_remote_docker:
          # version: 20.10.14
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
       # run the aws-cli/setup command from the orb
       - aws-cli/setup:
           role-arn: 'arn:aws:iam::463471358064:role/CircleCIRole'
@@ -73,6 +76,6 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-and-test
+     # - build-and-test
       - aws-job:
           context: aws   
