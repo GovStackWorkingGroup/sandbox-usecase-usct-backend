@@ -33,8 +33,11 @@ jobs:
       - image: cimg/aws:2022.06
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
+      #- setup_remote_docker:
+         # version: 20.10.14
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
       # run the aws-cli/setup command from the orb
       - aws-cli/setup:
           role-arn: 'arn:aws:iam::463471358064:role/CircleCIRole'
@@ -43,15 +46,15 @@ jobs:
           profile-name: CircleCIRole
           role-session-name: CircleSession
           session-duration: '1800'
-      - aws-ecr/build-and-push-image:
-          repo: "${AWS_RESOURCE_NAME_PREFIX}"
-          region: ${AWS_DEFAULT_REGION}
-          tag: "${CIRCLE_SHA1}"   
       - run:
           name: Log-into-AWS-ECR
           command: |
             # must use same profile specified in the step above       
             aws ecr get-login-password --profile "CircleCIRole"
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          region: ${AWS_DEFAULT_REGION}
+          tag: "${CIRCLE_SHA1}"   
       - run:
           name: Docker build 
           command: |
@@ -70,6 +73,6 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-and-test
+     # - build-and-test
       - aws-job:
           context: aws   
