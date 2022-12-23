@@ -38,7 +38,7 @@ jobs:
           aws-region: AWS_DEFAULT_REGION
           # optional parameters
           profile-name: "CircleCIRole"
-          role-session-name: “example-session”
+          role-session-name: “CircleSession”
           session-duration: "1800"
       - run:
           name: Log-into-AWS-ECR
