@@ -67,10 +67,10 @@ jobs:
           name: Docker build 
           command: |
             docker build . -t portal-backend-0.0.1 
-      - run:
-          name: Docker tag 
-          command: |
-            "docker tag portal-backend-0.0.1 ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:portal-backend-0.0.1"  
+      #- run:
+      #    name: Docker tag 
+      #    command: |
+      #      "docker tag portal-backend-0.0.1 ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:portal-backend-0.0.1"  
       - run:
           name: Docker push 
           command: |
