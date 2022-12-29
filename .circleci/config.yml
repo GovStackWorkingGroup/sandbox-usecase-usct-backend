@@ -28,6 +28,10 @@ jobs:
       - run:
           name: Test
           command: mvn test
+      - save_cache:
+          key: backend-0.0.1-SNAPSHOT.jar
+          paths:
+            - target/backend-0.0.1-SNAPSHOT.jar
       - store_artifacts:
           path: target/backend-0.0.1-SNAPSHOT.jar
           destination: target/backend-0.0.1-SNAPSHOT.jar 
@@ -38,6 +42,10 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.14
+      - restore_cache:
+          keys: 
+            - backend-0.0.1-SNAPSHOT.jar
+
       # run the aws-cli/setup command from the orb
       - aws-cli/setup:
           role-arn: 'arn:aws:iam::463471358064:role/CircleCIRole'
