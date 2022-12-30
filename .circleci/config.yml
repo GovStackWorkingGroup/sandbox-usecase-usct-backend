@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Update kubectl
           command: |
-            kubectl get pods -A      
+            kubectl get pods -A --profile "CircleCIRole"     
       - kubernetes/install-kubectl
       - kubernetes/create-or-update-resource:
           resource-file-path: helm-chart/portal-backend-dep.yml
