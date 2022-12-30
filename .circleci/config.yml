@@ -77,13 +77,12 @@ jobs:
           profile-name: CircleCIRole
           role-session-name: CircleSession
           session-duration: '1800' 
-      #- run:
-       #   name: Update kubectl
-        #  command: |
-         #   aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --profile "CircleCIRole"
+      - run:
+          name: Update kubectl
+          command: |
+            aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --profile "CircleCIRole"
       - kubernetes/install-kubectl
       - kubernetes/create-or-update-resource:
-          get-rollout-status: true
           resource-file-path: helm-chart/portal-backend-dep.yml
           resource-name: deployment/govstack-backend
           show-kubectl-command: true
