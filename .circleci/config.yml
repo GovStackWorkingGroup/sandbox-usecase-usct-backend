@@ -77,16 +77,15 @@ jobs:
           profile-name: CircleCIRole
           role-session-name: CircleSession
           session-duration: '1800' 
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: GovStack_sandbox
       - run:
           name: Debug
           command: aws sts get-caller-identity
-      - run:
-          name: Test AWS connection
-          command: aws s3 ls
-      - run:
-          name: Update kubectl
-          command: |
-            aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --profile "CircleCIRole"
+      #- run:
+       #   name: Update kubectl
+        #  command: |
+         #   aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --profile "CircleCIRole"
       - run:
           name: Update kubectl
           command: |
