@@ -81,6 +81,10 @@ jobs:
           name: Update kubectl
           command: |
             aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --profile "CircleCIRole"
+      - run:
+          name: Update kubectl
+          command: |
+            kubectl get pods -A      
       - kubernetes/install-kubectl
       - kubernetes/create-or-update-resource:
           resource-file-path: helm-chart/portal-backend-dep.yml
