@@ -93,5 +93,8 @@ workflows:
           context: aws
   Deploy project to DEV environment:
     jobs:
-      - deploy-project:
+      - hold:
           type: approval
+      - deploy-project:
+          requires: 
+            - hold
