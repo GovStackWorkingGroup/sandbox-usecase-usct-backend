@@ -96,5 +96,6 @@ workflows:
       - hold:
           type: approval
       - deploy-project:
+          context: aws
           requires: 
             - hold
