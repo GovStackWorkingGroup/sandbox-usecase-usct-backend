@@ -80,7 +80,7 @@ jobs:
       - run:
           name: Update kubectl
           command: |
-            aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox
+            aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --profile "CircleCIRole"
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: helm-chart/portal-backend-dep.yml
