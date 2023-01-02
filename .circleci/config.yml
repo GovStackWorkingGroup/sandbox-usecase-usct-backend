@@ -100,12 +100,15 @@ jobs:
           name: Update kubectl
           command: |
             kubectl get pods -A
-       
+      - run:
+          name: Update Sandbox
+          command: |
+            kubectl apply -f helm-chart/portal-backend-dep.yml
       #- kubernetes/install-kubectl
-      - kubernetes/create-or-update-resource:
-          resource-file-path: helm-chart/portal-backend-dep.yml
-          resource-name: deployment/govstack-backend
-          show-kubectl-command: true
+      #- kubernetes/create-or-update-resource:
+       #   resource-file-path: helm-chart/portal-backend-dep.yml
+        #  resource-name: deployment/govstack-backend
+         # show-kubectl-command: true
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
