@@ -83,10 +83,10 @@ jobs:
       - run:
           name: Debug
           command: aws sts get-caller-identity
-      - run:
-          name: Update kubectl
-          command: |
-            aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --role-arn arn:aws:iam::463471358064:role/CircleCIRole 
+     # - run:
+         # name: Update kubectl
+          #command: |
+           # aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --role-arn arn:aws:iam::463471358064:role/CircleCIRole 
       - run:
           name: Update kubectl
           command: |
