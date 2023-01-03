@@ -89,18 +89,6 @@ jobs:
           command: |
             aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --role-arn arn:aws:iam::463471358064:role/CircleCIRole 
       - run:
-          name: debug print
-          command: |
-            cat /home/circleci/.kube/config
-      - run:
-          name: debug print
-          command: |
-            env
-      - run:
-          name: Update kubectl
-          command: |
-            kubectl get pods -A
-      - run:
           name: Update Sandbox
           command: |
             kubectl apply -f helm-chart/portal-backend-dep.yml
