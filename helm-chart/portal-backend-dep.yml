@@ -28,6 +28,7 @@ spec:
       labels:
         run: govstack-backend
     spec:
+      serviceAccountName: ci-cd
       containers:
         - name: govstack-backend
           image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/govstackecr:portal-backend-0.0.1
