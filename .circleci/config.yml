@@ -29,7 +29,7 @@ jobs:
       # Then run your tests!
       - run:
           name: Test
-          command: mvn test
+          command: ./gradlew test
       - save_cache:
           key: backend-0.0.1-SNAPSHOT.jar
           paths:
