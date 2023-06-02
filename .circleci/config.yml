@@ -87,7 +87,7 @@ jobs:
       - run:
           name: Update kubectl
           command: |
-            aws eks update-kubeconfig --region eu-central-1 --name GovStack_sandbox --role-arn arn:aws:iam::463471358064:role/CircleCIRole 
+            aws eks update-kubeconfig --region eu-central-1 --name Govstack-sandbox-cluster-dev --role-arn arn:aws:iam::463471358064:role/CircleCIRole
       - run:
           name: Update Sandbox
           command: |
