@@ -64,7 +64,7 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           region: ${AWS_DEFAULT_REGION}
-          #tag: "${CIRCLE_SHA1}"
+          tag: "latest"
   deploy-project:
     docker:
       - image: cimg/aws:2022.06
