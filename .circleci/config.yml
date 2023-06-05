@@ -50,7 +50,7 @@ jobs:
 
       # run the aws-cli/setup command from the orb
       - aws-cli/setup:
-          role-arn: 'arn:aws:iam::463471358064:role/CircleCIRole'
+          role-arn: 'arn:aws:iam::${AWS_ACCOUNT}:role/${AWS_ROLE}'
           aws-region: AWS_DEFAULT_REGION
           # optional parameters
           profile-name: CircleCIRole
@@ -71,15 +71,15 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup:
-          role-arn: 'arn:aws:iam::463471358064:role/CircleCIRole'
+          role-arn: 'arn:aws:iam::${AWS_ACCOUNT}:role/${AWS_ROLE}'
           aws-region: AWS_DEFAULT_REGION
           # optional parameters
           profile-name: CircleCIRole
           role-session-name: CircleSession
           session-duration: '1800' 
       - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: Govstack-sandbox-cluster-dev
-          cluster-authentication-role-arn: arn:aws:iam::463471358064:role/CircleCIRole
+          cluster-name: ${AWS_CLUSTER_NAME}
+          cluster-authentication-role-arn: arn:aws:iam::${AWS_ACCOUNT}:role/${AWS_ROLE}
       - run:
           name: Debug
           command: aws sts get-caller-identity
@@ -87,16 +87,12 @@ jobs:
       - run:
           name: Update kubectl
           command: |
-            aws eks update-kubeconfig --region eu-central-1 --name Govstack-sandbox-cluster-dev --role-arn arn:aws:iam::463471358064:role/CircleCIRole
+            aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${AWS_CLUSTER_NAME}  --role-arn arn:aws:iam::${AWS_ACCOUNT}:role/${AWS_ROLE}
       - run:
           name: Update Sandbox
           command: |
-            kubectl apply -f helm-chart/portal-backend-dep.yml
-      #- kubernetes/install-kubectl
-      #- kubernetes/create-or-update-resource:
-       #   resource-file-path: helm-chart/portal-backend-dep.yml
-        #  resource-name: deployment/govstack-backend
-         # show-kubectl-command: true
+            helm upgrade --install mock-sris ./helm/ --create-namespace --namespace ${CHART_NAMESPACE}
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
