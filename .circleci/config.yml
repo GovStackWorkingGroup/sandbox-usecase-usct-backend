@@ -87,11 +87,12 @@ jobs:
       - run:
           name: Update kubectl
           command: |
-            aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${AWS_CLUSTER_NAME}  --role-arn arn:aws:iam::${AWS_ACCOUNT}:role/${AWS_ROLE}
+            aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${AWS_CLUSTER_NAME} --role-arn arn:aws:iam::${AWS_ACCOUNT}:role/${AWS_ROLE}
       - run:
           name: Update Sandbox
           command: |
-            helm upgrade --install mock-sris ./helm/ --create-namespace --namespace ${CHART_NAMESPACE}
+            helm dependency update ./helm
+            helm upgrade --install mock-sris ./helm --create-namespace --namespace ${CHART_NAMESPACE}
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
