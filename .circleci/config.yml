@@ -60,7 +60,7 @@ jobs:
           name: Log-into-AWS-ECR
           command: |
             # must use same profile specified in the step above       
-            aws ecr get-login-password --profile "CircleCIRole" 
+            aws ecr get-login-password --profile ${AWS_ROLE}
       - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           region: ${AWS_DEFAULT_REGION}
