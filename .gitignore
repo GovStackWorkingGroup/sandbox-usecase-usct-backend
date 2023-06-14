@@ -1,0 +1,29 @@
+**/target/
+/target/
+*/target/*
+.classpath
+.project
+.settings
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+*.iml
+*.idea
+
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
