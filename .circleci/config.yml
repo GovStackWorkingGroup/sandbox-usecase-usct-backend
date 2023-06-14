@@ -61,10 +61,37 @@ jobs:
           command: |
             # must use same profile specified in the step above       
             aws ecr get-login-password --profile ${AWS_ROLE}
-      - aws-ecr/build-and-push-image:
-          repo: "${AWS_RESOURCE_NAME_PREFIX}"
-          region: ${AWS_DEFAULT_REGION}
-          tag: "latest"
+  build-and-push:
+    docker:
+      - image: cimg/openjdk:17.0.7
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Set environment variables
+          command: |
+            echo 'export IMAGE_VERSION=$(cat ./build.gradle | grep "version =" | sed "s/version = '\''\([^'\'']*\)'\''/\1/")' >> $BASH_ENV
+            echo 'export ECR_REGISTRY=app/usct/dev-backend' >> $BASH_ENV
+            echo 'export DOCKER_IMAGE=${ECR_REGISTRY}:${IMAGE_VERSION}' >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: Build Docker image
+          command: |
+            ./gradlew bootBuildImage --imageName=${DOCKER_IMAGE}
+      - aws-cli/setup:
+          role-arn: 'arn:aws:iam::463471358064:role/${AWS_ROLE}'
+          aws-region: AWS_DEFAULT_REGION
+          profile-name: ${AWS_ROLE}
+          role-session-name: CircleSession
+          session-duration: '1800'
+      - run:
+          name: Docker login
+          command: |
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin 463471358064.dkr.ecr.eu-central-1.amazonaws.com
+            docker tag ${DOCKER_IMAGE} 463471358064.dkr.ecr.eu-central-1.amazonaws.com/${DOCKER_IMAGE}
+            docker push 463471358064.dkr.ecr.eu-central-1.amazonaws.com/${DOCKER_IMAGE}
+
   deploy-project:
     docker:
       - image: cimg/aws:2023.03
@@ -97,7 +124,7 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
-      - aws-job:
+      - build-and-push:
           context: aws
   Deploy project to DEV environment:
     jobs:
