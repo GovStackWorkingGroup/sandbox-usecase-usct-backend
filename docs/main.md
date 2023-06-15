@@ -1,4 +1,7 @@
 # Mock-SRIS
+This is a driver backend application for 
+[Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
+(USCT) use case.
 
 ## CI/CD
 
@@ -15,3 +18,8 @@ Pipeline variables:
 * `helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris` 
 * `helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris`
 
+
+## Test endpoints
+The repository has a test endpoint `/emulator-health` to check the connection to the [information system](https://docs.x-road.global/Architecture/arc-g_x-road_arhitecture.html#23-information-system)
+([payment-emulator](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/docs)) through the
+[information mediator](https://github.com/GovStackWorkingGroup/sandbox-bb-information-mediator/blob/main/information-mediator/docs/main.md).
