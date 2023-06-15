@@ -10,15 +10,6 @@ Pipeline variables:
 * CHART_NAMESPACE = `mock-sris`
 * AWS_DEFAULT_REGION = eu-central-1
 
-
-### Container image versioning
-Common image container versioning pattern e.g. `1.0.0` and auto-deployment process
-usually depends on services from cloud providers. 
-
-Mock-SRIS follows a common sandbox vision to remain cloud provider independent. 
-Based on the above, Mock-SRIS uses the `latest` tag to easily set up versioning
-and deploy a new version of the application.
-
 ## Useful commands
 
 * `helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris` 
