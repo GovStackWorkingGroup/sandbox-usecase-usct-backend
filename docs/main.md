@@ -8,8 +8,21 @@ The repository has a test endpoint `/emulator-health` to check the connection to
 ([payment-emulator](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/docs)) through the
 [information mediator](https://github.com/GovStackWorkingGroup/sandbox-bb-information-mediator/blob/main/information-mediator/docs/main.md).
 
-## CI/CD
+### Quick start
 
+After the installation finishes, one can access the interfaces e.g. with port forwarding.
+
+```
+kubectl port-forward \
+    -n mock-sris \
+    service/mock-sris 8080 8080
+```
+
+Curl command:
+
+`curl 'localhost:8080/emulator-health'`
+
+## CI/CD
 Pipeline variables:
 * AWS_RESOURCE_NAME_PREFIX = mock-sris/dev-app
 * AWS_CLUSTER_NAME = Kubernetes cluster name, e.g. "Govstack-sandbox-cluster-dev"
