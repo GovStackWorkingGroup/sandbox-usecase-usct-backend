@@ -3,6 +3,8 @@ This is a driver backend application for
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
 (USCT) use case.
 
+[Figma wireframes](https://www.figma.com/file/qVUaK5Z5FmgQV16C71RRCn/USCT---Vertical-Prototype?type=design&node-id=178-5054)
+
 ## Test endpoints
 The repository has a test endpoint `/emulator-health` to check the connection to the [information system](https://docs.x-road.global/Architecture/arc-g_x-road_arhitecture.html#23-information-system)
 ([payment-emulator](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/docs)) through the
@@ -35,3 +37,7 @@ Pipeline variables:
 
 * `helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris` 
 * `helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris`
+
+
+## DB connection
+`spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
