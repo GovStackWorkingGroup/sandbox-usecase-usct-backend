@@ -78,7 +78,6 @@ create table BENEFICIARY
 );
 
 
---
 INSERT INTO PERSON(foundational_id, first_name, last_name, email, date_of_birth, bank_account_owner_name, financial_address, financial_modality, iban, bank_name)
 values ( '9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Smith', 'john.smith@example.com','28-04-1977',  'John Smith', 'Wilhelmstraße 12', 'Bank Account',
          'DE12 3456 7812 3456 7890', 'Golden Bank' ),
@@ -90,7 +89,6 @@ values ( '9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Smith', 'john.smith@ex
 
 INSERT INTO CANDIDATE(PERSON_ID) values ( 1 );
 
---
 INSERT INTO PACKAGE (NAME, DESCRIPTION)
 VALUES ('UBI', 'Universal basic income'),
        ('TPA', 'Targeted Poverty Alleviation'),
@@ -98,17 +96,13 @@ VALUES ('UBI', 'Universal basic income'),
        ('CFS', 'Child and Family support');
 
 INSERT INTO CANDIDATE_PACKAGE (candidate_id, package_id)
-VALUES (1, 1);
---        (1, 2),
---        (1, 3),
---        (2, 1),
---        (2, 3),
---        (3, 2),
---        (3, 3);
---
+VALUES (1, 1),
+       (1, 2),
+       (1, 3);
+
 INSERT INTO HOUSEHOLD_INFORMATION (candidate_id, relative_id, relationship_type)
 VALUES (1, 2, 'WIFE'),
        (1, 3, 'CHILD');
---
+
 INSERT INTO BENEFICIARY (person_id, package_id, payment_status)
 VALUES (1, 1, 'ACCEPTED');

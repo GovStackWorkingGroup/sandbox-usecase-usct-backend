@@ -1,6 +1,9 @@
 package global.govstack.mocksris.controller;
 
-import global.govstack.mocksris.controller.dto.*;
+import global.govstack.mocksris.controller.dto.BeneficiaryDto;
+import global.govstack.mocksris.controller.dto.CreateBeneficiaryDto;
+import global.govstack.mocksris.controller.dto.PersonDto;
+import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.model.Person;
