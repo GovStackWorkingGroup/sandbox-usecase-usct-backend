@@ -40,5 +40,4 @@ Pipeline variables:
 
 
 ## DB connection
-
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
