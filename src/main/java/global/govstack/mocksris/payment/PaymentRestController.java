@@ -1,11 +1,10 @@
 package global.govstack.mocksris.payment;
 
+import global.govstack.mocksris.payment.dto.PaymentDTO;
 import global.govstack.mocksris.payment.dto.PaymentOnboardingBeneficiaryDTO;
 import global.govstack.mocksris.payment.dto.PaymentResponseDTO;
 import global.govstack.mocksris.service.payment.PaymentService;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
@@ -47,6 +46,30 @@ public class PaymentRestController {
             method = RequestMethod.POST)
     public PaymentResponseDTO updateBeneficiary(@RequestBody final PaymentOnboardingBeneficiaryDTO requestBody) {
         return paymentService.updateBeneficiary(requestBody);
+    }
+
+    @ApiOperation(value = "Pre-payment validation", nickname = "prepaymentValidationPost", notes = "", response = PaymentResponseDTO.class, tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful response", response = PaymentResponseDTO.class),
+            @ApiResponse(code = 400, message = "Bad request", response = PaymentResponseDTO.class) })
+    @RequestMapping(value = "/prepayment-validation",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    public PaymentResponseDTO prevalidatePayment(@RequestBody final PaymentDTO requestBody) {
+        return paymentService.prevalidatePayment(requestBody);
+    }
+
+    @ApiOperation(value = "Bulk payment processing", nickname = "bulkPaymentPost", notes = "", response = PaymentResponseDTO.class, tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful response", response = PaymentResponseDTO.class),
+            @ApiResponse(code = 400, message = "Bad request", response = PaymentResponseDTO.class) })
+    @RequestMapping(value = "/bulk-payment",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    public PaymentResponseDTO bulkPayment(@RequestBody final PaymentDTO requestBody) {
+        return paymentService.bulkPayment(requestBody);
     }
 
     @ExceptionHandler({HttpClientErrorException.class})
