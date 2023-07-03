@@ -12,7 +12,7 @@ sequenceDiagram
 Civil servant ->> MOCK SRIS: GET /api/v1/candidates
 Civil servant ->> MOCK SRIS: POST /api/v1/beneficiaries
     participant im as Information mediator
-MOCK SRIS ->> Payment mock: GET /register-beneficiary
+MOCK SRIS ->> Payment mock: POST /register-beneficiary
 Civil servant ->> MOCK SRIS: POST /order-payment
 MOCK SRIS ->> Payment mock: POST /prepayment-validation
 MOCK SRIS ->> Payment mock: POST /bulk-payment
