@@ -1,5 +1,6 @@
 package global.govstack.mocksris.service.payment;
 
+import global.govstack.mocksris.payment.dto.PaymentDTO;
 import global.govstack.mocksris.payment.dto.PaymentOnboardingBeneficiaryDTO;
 import global.govstack.mocksris.payment.dto.PaymentResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,20 @@ public class PaymentService {
     public PaymentResponseDTO updateBeneficiary(PaymentOnboardingBeneficiaryDTO data) {
         return new RestTemplate().postForObject(
                 base_url + "/update-beneficiary-details",
+                new HttpEntity<>(data, httpHeaders),
+                PaymentResponseDTO.class);
+    }
+
+    public PaymentResponseDTO prevalidatePayment(PaymentDTO data) {
+        return new RestTemplate().postForObject(
+                base_url + "/prepayment-validation",
+                new HttpEntity<>(data, httpHeaders),
+                PaymentResponseDTO.class);
+    }
+
+    public PaymentResponseDTO bulkPayment(PaymentDTO data) {
+        return new RestTemplate().postForObject(
+                base_url + "/bulk-payment",
                 new HttpEntity<>(data, httpHeaders),
                 PaymentResponseDTO.class);
     }
