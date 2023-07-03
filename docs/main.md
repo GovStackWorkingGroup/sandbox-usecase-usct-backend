@@ -41,3 +41,10 @@ Pipeline variables:
 
 ## DB connection
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
+
+
+## Environment variables
+
+PAYMENT_IM_BASE_URL = `http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/api`
+
+PAYMENT_IM_HEADER = `SANDBOX/ORG/CLIENT/TEST`

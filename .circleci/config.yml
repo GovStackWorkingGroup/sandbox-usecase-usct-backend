@@ -123,6 +123,8 @@ workflows:
   Build project and publish to ECR : # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
+      - hold:
+          type: approval
       - build-and-test
       - build-and-push:
           context: aws
