@@ -44,13 +44,13 @@ The Account Mapper will hold the mapping between Functional ID and Payment modal
 Sample Functional ID record for us assuming that a foundational ID is for 13 digits, a government/social protection
 agency is identified by a 6-digit code and multiple programs within an agency is identified by a 4-digit code is as follows:
 
-* Functional ID = <span style="color:blue">3712295860876</span><span style="color:green">066283</span><span style="color:orange">9876</span>
+Functional ID = <span style="color:blue">3712295860876</span><span style="color:green">066283</span><span style="color:orange">9876</span>
 
 Here,
 
-* <span style="color:blue">Foundational ID</span>
-* <span style="color:green">Government/social protection agency identifier</span>
-* <span style="color:orange">Program ID.</span>
+* <span style="color:blue">Foundational ID = 3712295860876</span>
+* <span style="color:green">Government/social protection agency identifier = 066283</span>
+* <span style="color:orange">Program ID = 9876</span>
 
 ### Government/social protection agency identifier
 
