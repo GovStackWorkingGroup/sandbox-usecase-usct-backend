@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'global.govstack'
-version = '0.0.100'
+version = '0.0.2'
 sourceCompatibility = '17'
 
 repositories {
