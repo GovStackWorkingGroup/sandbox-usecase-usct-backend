@@ -1,4 +1,4 @@
-package global.govstack.mocksris.payment.dto;
+package global.govstack.mocksris.controller.dto;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;

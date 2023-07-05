@@ -1,8 +1,8 @@
-package global.govstack.mocksris.service.payment;
+package global.govstack.mocksris.service;
 
-import global.govstack.mocksris.payment.dto.PaymentDTO;
-import global.govstack.mocksris.payment.dto.PaymentOnboardingBeneficiaryDTO;
-import global.govstack.mocksris.payment.dto.PaymentResponseDTO;
+import global.govstack.mocksris.controller.dto.PaymentDTO;
+import global.govstack.mocksris.controller.dto.PaymentOnboardingBeneficiaryDTO;
+import global.govstack.mocksris.controller.dto.PaymentResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +23,11 @@ public class PaymentService {
         httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.add("X-Road-Client", base_header);
+    }
+
+    public PaymentResponseDTO orderPayment(PaymentDTO paymentDTO) {
+        prevalidatePayment(paymentDTO);
+        return bulkPayment(paymentDTO);
     }
 
     public String health() {

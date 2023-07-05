@@ -1,4 +1,4 @@
-package global.govstack.mocksris.payment.dto;
+package global.govstack.mocksris.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
