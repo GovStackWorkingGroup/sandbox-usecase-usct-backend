@@ -47,7 +47,7 @@ public class BeneficiaryService {
                 savedBeneficiary.getPerson().getFinancialModality(),
                 savedBeneficiary.getPerson().getFinancialAddress()
         ));
-        var paymentDto = new PaymentOnboardingBeneficiaryDTO("stringstring", MOCK_SRIS_BB, beneficiaryDTO);
+        var paymentDto = new PaymentOnboardingBeneficiaryDTO(REQUEST_ID, MOCK_SRIS_BB, beneficiaryDTO);
         paymentService.registerBeneficiary(paymentDto);
         return savedBeneficiary;
     }
