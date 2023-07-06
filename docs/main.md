@@ -55,15 +55,15 @@ agency is identified by a 6-digit code and multiple programs within an agency is
 Test value =  066283
 
 ### ProgramId
-Test value =  9876
+Test value =  Package Id
 
-### SourceBBID
+### SourceBBId
 
 Test value = MOCK-SRIS-BB
 
 ### RequestId
 
-Test value = REQUEST_ID
+Test value = Random UUID for each Request
 
 ## Logic
 
@@ -71,7 +71,7 @@ Test value = REQUEST_ID
 
 * In our Mock-SRIS ProgramId should be PackageId
 * We will need to add properties for :
-* * [Government/social protection agency identifie](main.md#governmentsocial-protection-agency-identifier)r (it can be called in our case Mock-SRIS-ID)
+* * [Government/social protection agency identifier](main.md#governmentsocial-protection-agency-identifier)r (it can be called in our case Mock-SRIS-ID)
 * * [SourceBBID](main.md#sourcebbid) it should be defined also (it can be called in our case Mock-SRIS-BB-ID)
 * Note: In that case the functional id will be : Person Foundational Id + Mock-SRIS-ID + ProgramId
 
