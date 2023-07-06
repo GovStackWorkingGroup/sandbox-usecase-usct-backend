@@ -30,6 +30,8 @@ create table PACKAGE
     ID          INTEGER AUTO_INCREMENT,
     NAME        CHARACTER VARYING(255),
     DESCRIPTION CHARACTER VARYING(255),
+    AMOUNT      FLOAT,
+    CURRENCY    CHARACTER VARYING(255),
     constraint PK
         primary key (ID)
 );
