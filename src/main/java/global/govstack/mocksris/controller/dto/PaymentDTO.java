@@ -23,6 +23,13 @@ public class PaymentDTO {
     @Valid
     private List<PaymentCreditInstructionsDTO> creditInstructions = null;
 
+    public PaymentDTO(String requestId, String sourceBbId, String batchId, List<PaymentCreditInstructionsDTO> creditInstructionsDTO) {
+        this.requestID = requestId;
+        this.sourceBBID = sourceBbId;
+        this.batchID = batchId;
+        this.creditInstructions = creditInstructionsDTO;
+    }
+
     public PaymentDTO requestID(String requestID) {
         this.requestID = requestID;
         return this;

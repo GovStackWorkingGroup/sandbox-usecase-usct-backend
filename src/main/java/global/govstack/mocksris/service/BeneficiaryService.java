@@ -1,5 +1,6 @@
 package global.govstack.mocksris.service;
 
+import global.govstack.mocksris.configuration.PaymentProperties;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.model.Person;
@@ -18,12 +19,12 @@ public class BeneficiaryService {
     private final BeneficiaryRepository repository;
     private final PaymentService paymentService;
 
-    private final String SOURCE_BB_ID = "MOCK-SRIS-BB";
-    private final String GOVERNMENT_IDENTIFIER = "066283";
+    private final PaymentProperties properties;
 
-    public BeneficiaryService(BeneficiaryRepository repository, PaymentService paymentService) {
+    public BeneficiaryService(BeneficiaryRepository repository, PaymentService paymentService, PaymentProperties properties) {
         this.repository = repository;
         this.paymentService = paymentService;
+        this.properties = properties;
     }
 
     public List<Beneficiary> findAll() {
@@ -42,14 +43,16 @@ public class BeneficiaryService {
         beneficiary.setEnrolledPackage(enrolledPackage);
         beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
         Beneficiary savedBeneficiary = repository.save(beneficiary);
-        String functionalId = savedBeneficiary.getPerson().getFoundationalId()+ GOVERNMENT_IDENTIFIER + savedBeneficiary.getEnrolledPackage().getId();
+        String functionalId = savedBeneficiary.getPerson().getFoundationalId() +
+                properties.governmentIdentifier() +
+                savedBeneficiary.getEnrolledPackage().getId();
         var beneficiaryDTO = List.of(new PaymentOnboardingBeneficiaryDetailsDTO(
                 functionalId,
                 savedBeneficiary.getPerson().getFinancialModality(),
                 savedBeneficiary.getPerson().getFinancialAddress()
         ));
         var requestID = UUID.randomUUID().toString();
-        var paymentDto = new PaymentOnboardingBeneficiaryDTO(requestID, SOURCE_BB_ID, beneficiaryDTO);
+        var paymentDto = new PaymentOnboardingBeneficiaryDTO(requestID, properties.sourceBbId(), beneficiaryDTO);
         paymentService.registerBeneficiary(paymentDto);
         return savedBeneficiary;
     }

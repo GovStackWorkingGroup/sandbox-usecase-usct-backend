@@ -22,6 +22,14 @@ public class PaymentCreditInstructionsDTO {
     @JsonProperty("Narration")
     private String narration = null;
 
+    public PaymentCreditInstructionsDTO(String instructionID, String payeeFunctionalId, Float amount, String currency, String narration) {
+        this.instructionID = instructionID;
+        this.payeeFunctionalID = payeeFunctionalId;
+        this.amount = amount;
+        this.currency = currency;
+        this.narration = narration;
+    }
+
     public PaymentCreditInstructionsDTO instructionID(String instructionID) {
         this.instructionID = instructionID;
         return this;

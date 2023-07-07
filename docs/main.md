@@ -19,7 +19,9 @@ MOCK SRIS ->> Payment mock: POST /bulk-payment
 MOCK SRIS -->> Civil servant: Result
 ```
 
-## FunctionalID
+## Variables
+
+### FunctionalID
 
 Example = <span style="color:blue">3712295860876</span><span style="color:green">066283</span><span style="color:orange">9876</span>
 
@@ -51,46 +53,19 @@ Sample Functional ID record for us assuming that a foundational ID is for 13 dig
 agency is identified by a 6-digit code and multiple programs within an agency is identified by a 4-digit code is as follows:
 
 ### Government/social protection agency identifier
-
 Test value =  066283
 
-### ProgramId
-Test value =  Package Id
-
 ### SourceBBId
-
 Test value = MOCK-SRIS-BB
 
-### RequestId
+## Technical part
 
-Test value = Random UUID for each Request
-
-## Logic
-
-1. Beneficiary Onboarding (register) should be called after beneficiary creation:
-
-* In our Mock-SRIS ProgramId should be PackageId
-* We will need to add properties for :
-* * [Government/social protection agency identifier](main.md#governmentsocial-protection-agency-identifier)r (it can be called in our case Mock-SRIS-ID)
-* * [SourceBBID](main.md#sourcebbid) it should be defined also (it can be called in our case Mock-SRIS-BB-ID)
-* Note: In that case the functional id will be : Person Foundational Id + Mock-SRIS-ID + ProgramId
-
-2. New endpoint for init payment:
-
-* Same strategy for Functional Id as beneficiary onboarding
-* Should call validate payment and then disbursement payment endpoints
-* Missing properties in mock-sris:
-
-* * Amount - Maybe Should be part of Beneficiary record and value should be derived from package + candidate info
-* * Currency - Maybe should be part of Person Information
-
-## Test endpoints
+### Test endpoints
 The repository has a test endpoint `/emulator-health` to check the connection to the [information system](https://docs.x-road.global/Architecture/arc-g_x-road_arhitecture.html#23-information-system)
 ([payment-emulator](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/docs)) through the
 [information mediator](https://github.com/GovStackWorkingGroup/sandbox-bb-information-mediator/blob/main/information-mediator/docs/main.md).
 
 ### Quick start
-
 After the installation finishes, one can access the interfaces e.g. with port forwarding.
 
 ```
@@ -103,7 +78,7 @@ Curl command:
 
 `curl 'localhost:8080/emulator-health'`
 
-## CI/CD
+### CI/CD
 Pipeline variables:
 * AWS_RESOURCE_NAME_PREFIX = mock-sris/dev-app
 * AWS_CLUSTER_NAME = Kubernetes cluster name, e.g. "Govstack-sandbox-cluster-dev"
@@ -112,16 +87,16 @@ Pipeline variables:
 * CHART_NAMESPACE = `mock-sris`
 * AWS_DEFAULT_REGION = eu-central-1
 
-## Useful commands
+### Useful commands
 
 * `helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris` 
 * `helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris`
 
 
-## DB connection
+### DB connection
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
 
-## Environment variables
+### Information mediator variables
 
 **PAYMENT_IM_BASE_URL** = `http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/api`
 
