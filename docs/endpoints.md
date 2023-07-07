@@ -7,6 +7,40 @@ http://localhost:8080/swagger-ui/index.html
 
 ## Beneficiary
 
+### Order payment
+POST
+
+`/api/v1/payment/order-payment`
+
+Request body
+
+```json
+[
+  {
+    "id": 0,
+    "person": {
+      "id": 0,
+      "foundationalId": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string",
+      "dateOfBirth": "string",
+      "bankAccountOwnerName": "string",
+      "financialAddress": "string",
+      "financialModality": "string",
+      "iban": "string",
+      "bankName": "string"
+    },
+    "paymentStatus": "INITIATE",
+    "enrolledPackage": {
+      "id": 0,
+      "name": "string",
+      "description": "string"
+    }
+  }
+]
+```
+
 ### Get all
 `/api/v1/beneficiaries`
 
@@ -39,7 +73,9 @@ Response body
 ]
 ```
 
-### Post
+### Create 
+
+Post
 
 `/api/v1/beneficiaries`
 

@@ -91,11 +91,11 @@ values ( '9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Smith', 'john.smith@ex
 
 INSERT INTO CANDIDATE(PERSON_ID) values ( 1 );
 
-INSERT INTO PACKAGE (NAME, DESCRIPTION)
-VALUES ('UBI', 'Universal basic income'),
-       ('TPA', 'Targeted Poverty Alleviation'),
-       ('SP', 'Social pension'),
-       ('CFS', 'Child and Family support');
+INSERT INTO PACKAGE (NAME, DESCRIPTION, AMOUNT, CURRENCY)
+VALUES ('UBI', 'Universal basic income', 1234.5, 'EURO'),
+       ('TPA', 'Targeted Poverty Alleviation', 900, 'EURO'),
+       ('SP', 'Social pension', 750, 'EURO'),
+       ('CFS', 'Child and Family support', 500, 'EURO');
 
 INSERT INTO CANDIDATE_PACKAGE (candidate_id, package_id)
 VALUES (1, 1),
