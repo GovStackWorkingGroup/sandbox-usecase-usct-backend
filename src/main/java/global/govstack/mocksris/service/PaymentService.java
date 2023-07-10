@@ -29,7 +29,7 @@ public class PaymentService {
         this.paymentProperties = paymentProperties;
         httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("X-Road-Client", informationMediatorproperties.baseUrl());
+        httpHeaders.add("X-Road-Client", informationMediatorproperties.header());
     }
 
     public PaymentResponseDTO orderPayment(List<Beneficiary> beneficiaryList) {
