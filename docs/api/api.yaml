@@ -27,6 +27,7 @@ paths:
             "*/*":
               schema:
                 type: string
+                example: Thank you! Payment order received!
   "/api/v1/beneficiaries":
     get:
       tags:
@@ -321,6 +322,7 @@ components:
         id:
           type: integer
           format: int32
+          example: 1
         candidate:
           "$ref": "#/components/schemas/CandidateDto"
         relative:
