@@ -15,29 +15,30 @@ POST
 Request body
 
 ```json
-[
-  {
-    "id": 0,
-    "person": {
-      "id": 0,
-      "foundationalId": "string",
-      "firstName": "string",
-      "lastName": "string",
-      "email": "string",
-      "dateOfBirth": "string",
-      "bankAccountOwnerName": "string",
-      "financialAddress": "string",
-      "financialModality": "string",
-      "iban": "string",
-      "bankName": "string"
-    },
-    "paymentStatus": "INITIATE",
-    "enrolledPackage": {
-      "id": 0,
-      "name": "string",
-      "description": "string"
-    }
+[ {
+  "id": 2,
+  "person": {
+    "id": 1,
+    "foundationalId": "9b237f8a-4dc2-4438-af0d-5f01c469b302",
+    "firstName": "John",
+    "lastName": "Smith",
+    "email": "john.smith@example.com",
+    "dateOfBirth": "28-04-1977",
+    "bankAccountOwnerName": "John Smith",
+    "financialAddress": "Wilhelmstraße 12",
+    "financialModality": "Bank Account",
+    "iban": "DE12 3456 7812 3456 7890",
+    "bankName": "Golden Bank"
+  },
+  "paymentStatus": "INITIATE",
+  "enrolledPackage": {
+    "id": 1,
+    "name": "UBI",
+    "description": "Universal basic income",
+    "amount": 1000,
+    "currency": "EURO"
   }
+}
 ]
 ```
 
@@ -83,6 +84,7 @@ Post
 
 ```json
  {
+
   "person": {
     "id": 2,
     "foundationalId": "9b237f8a-4dc2-4438-af0d-5f01c469b302",
@@ -99,7 +101,9 @@ Post
   "enrolledPackage": {
     "id": 1,
     "name": "UBI",
-    "description": "Universal basic income"
+    "description": "Universal basic income",
+    "amount": 1000,
+    "currency": "EURO"
   }
 }
 ```
