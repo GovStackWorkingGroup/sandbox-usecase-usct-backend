@@ -1,4 +1,4 @@
-package global.govstack.mocksris.payment.dto;
+package global.govstack.mocksris.controller.dto;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,6 +18,12 @@ public class PaymentOnboardingBeneficiaryDTO {
     @JsonProperty("Beneficiaries")
     @Valid
     private List<PaymentOnboardingBeneficiaryDetailsDTO> beneficiaries = null;
+
+    public PaymentOnboardingBeneficiaryDTO(String requestID, String sourceBBID, List<PaymentOnboardingBeneficiaryDetailsDTO> beneficiaries) {
+        this.requestID = requestID;
+        this.sourceBBID = sourceBBID;
+        this.beneficiaries = beneficiaries;
+    }
 
     public PaymentOnboardingBeneficiaryDTO requestID(String requestID) {
         this.requestID = requestID;

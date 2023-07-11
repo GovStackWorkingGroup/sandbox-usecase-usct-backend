@@ -35,11 +35,13 @@ The data model is described in the diagram.
 
 ## Packages
 
-| Name         |          Type          | Modifiers                                            |                  Description      |
-|:-------------|:----------------------:|:-----------------------------------------------------|:----------------------------------------------------:|
-| id [PK]      |        integer         | NOT NULL                                             |                     Primary key                      |
-| name         | character varying(255) | Name of the package                                  |
-| description  |          text          | Description of the package can be taken fom OpenIMIS |
+| Name        |          Type          | Modifiers                                                  |                  Description      |
+|:------------|:----------------------:|:-----------------------------------------------------------|:----------------------------------------------------:|
+| id [PK]     |        integer         | NOT NULL                                                   |                     Primary key                      |
+| name        | character varying(255) | Name of the package                                        |
+| description |          text          | Description of the package can be taken fom OpenIMIS       |
+| amount      |     float     | The amount of money that should be paid to the beneficiary |
+| currency    | character varying(255) | The currency of the amount                             |
 
 ## Person
 

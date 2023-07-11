@@ -1,0 +1,335 @@
+---
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  "/api/v1/payment/order-payment":
+    post:
+      tags:
+        - payment-rest-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                "$ref": "#/components/schemas/BeneficiaryDto"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                type: string
+                example: Thank you! Payment order received!
+  "/api/v1/beneficiaries":
+    get:
+      tags:
+        - beneficiary-controller
+      operationId: getAll_2
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/BeneficiaryDto"
+    post:
+      tags:
+        - beneficiary-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreateBeneficiaryDto"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/BeneficiaryDto"
+  "/api/v1/relatives/{id}":
+    get:
+      tags:
+        - candidate-controller
+      operationId: getAllRelatives
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/RelativeDto"
+  "/api/v1/payment/emulator-health":
+    get:
+      tags:
+        - payment-rest-controller
+      operationId: getHealth
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/api/v1/packages":
+    get:
+      tags:
+        - package-controller
+      operationId: findById
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PackageDto"
+  "/api/v1/packages/{id}":
+    get:
+      tags:
+        - package-controller
+      operationId: findById_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/PackageDto"
+  "/api/v1/household-information":
+    get:
+      tags:
+        - household-information-controller
+      operationId: getAll
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/HouseholdInformationDto"
+  "/api/v1/household-information/{id}":
+    get:
+      tags:
+        - household-information-controller
+      operationId: getCandidate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/HouseholdInformationDto"
+  "/api/v1/candidates":
+    get:
+      tags:
+        - candidate-controller
+      operationId: getAll_1
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/CandidateDto"
+  "/api/v1/candidates/{id}":
+    get:
+      tags:
+        - candidate-controller
+      operationId: getCandidate_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CandidateDto"
+  "/api/v1/beneficiaries/{id}":
+    get:
+      tags:
+        - beneficiary-controller
+      operationId: getBeneficiary
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/BeneficiaryDto"
+components:
+  schemas:
+    BeneficiaryDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        person:
+          "$ref": "#/components/schemas/PersonDto"
+        paymentStatus:
+          type: string
+          enum:
+            - INITIATE
+            - ACCEPTED
+        enrolledPackage:
+          "$ref": "#/components/schemas/PackageDto"
+    PackageDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: UBI
+        description:
+          type: string
+          example: Universal basic income
+        amount:
+          type: number
+          format: float
+          example: 1000
+        currency:
+          type: string
+          example: EURO
+    PersonDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        foundationalId:
+          type: string
+          example: 9b237f8a-4dc2-4438-af0d-5f01c469b302
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Smith
+        email:
+          type: string
+          example: john.smith@example.com
+        dateOfBirth:
+          type: string
+          example: 28-04-1977
+        bankAccountOwnerName:
+          type: string
+          example: John Smith
+        financialAddress:
+          type: string
+          example: Wilhelmstraße 12
+        financialModality:
+          type: string
+          example: Bank Account
+        iban:
+          type: string
+          example: DE12 3456 7812 3456 7890
+        bankName:
+          type: string
+          example: Golden Bank
+    CreateBeneficiaryDto:
+      type: object
+      properties:
+        person:
+          "$ref": "#/components/schemas/PersonDto"
+        enrolledPackage:
+          "$ref": "#/components/schemas/PackageDto"
+    RelativeDto:
+      type: object
+      properties:
+        person:
+          "$ref": "#/components/schemas/PersonDto"
+        relationshipType:
+          type: string
+          enum:
+            - HUSBAND
+            - WIFE
+            - CHILD
+    CandidateDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        person:
+          "$ref": "#/components/schemas/PersonDto"
+        packages:
+          type: array
+          items:
+            "$ref": "#/components/schemas/PackageDto"
+    HouseholdInformationDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        candidate:
+          "$ref": "#/components/schemas/CandidateDto"
+        relative:
+          "$ref": "#/components/schemas/PersonDto"
+        relationshipType:
+          type: string
+          enum:
+            - HUSBAND
+            - WIFE
+            - CHILD

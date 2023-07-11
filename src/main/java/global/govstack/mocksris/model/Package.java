@@ -27,6 +27,30 @@ public class Package {
     @ManyToMany(mappedBy = "packages")
     private Set<Candidate> candidates = new HashSet<>();
 
+    @Column
+    private Float amount;
+
+    @Column
+    private String currency;
+
+    public Float getAmount() {
+        return amount;
+    }
+
+    public Package setAmount(Float amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public Package setCurrency(String currency) {
+        this.currency = currency;
+        return this;
+    }
+
     public Set<Candidate> getCandidates() {
         return candidates;
     }
