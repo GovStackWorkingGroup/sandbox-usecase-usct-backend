@@ -59,11 +59,11 @@ paths:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/BeneficiaryDto"
-  "/api/v1/relatives/{id}":
+  "/api/v1/person-relatives/{id}":
     get:
       tags:
-        - candidate-controller
-      operationId: getAllRelatives
+        - household-information-controller
+      operationId: getAllRelativesOfPerson
       parameters:
         - name: id
           in: path
@@ -285,24 +285,6 @@ components:
         bankName:
           type: string
           example: Golden Bank
-    CreateBeneficiaryDto:
-      type: object
-      properties:
-        person:
-          "$ref": "#/components/schemas/PersonDto"
-        enrolledPackage:
-          "$ref": "#/components/schemas/PackageDto"
-    RelativeDto:
-      type: object
-      properties:
-        person:
-          "$ref": "#/components/schemas/PersonDto"
-        relationshipType:
-          type: string
-          enum:
-            - HUSBAND
-            - WIFE
-            - CHILD
     CandidateDto:
       type: object
       properties:
@@ -316,6 +298,24 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/PackageDto"
+    CreateBeneficiaryDto:
+      type: object
+      properties:
+        candidateDto:
+          "$ref": "#/components/schemas/CandidateDto"
+        enrolledPackage:
+          "$ref": "#/components/schemas/PackageDto"
+    RelativeDto:
+      type: object
+      properties:
+        person:
+          "$ref": "#/components/schemas/PersonDto"
+        relationshipType:
+          type: string
+          enum:
+            - HUSBAND
+            - WIFE
+            - CHILD
     HouseholdInformationDto:
       type: object
       properties:
@@ -323,8 +323,8 @@ components:
           type: integer
           format: int32
           example: 1
-        candidate:
-          "$ref": "#/components/schemas/CandidateDto"
+        person:
+          "$ref": "#/components/schemas/PersonDto"
         relative:
           "$ref": "#/components/schemas/PersonDto"
         relationshipType:
