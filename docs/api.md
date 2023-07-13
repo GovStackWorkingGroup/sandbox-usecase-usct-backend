@@ -1,8 +1,5 @@
 # API
 
-[Service APIs](./api/api.yaml)
+[Swagger UI from repository](./api/api.yaml)
 
-Access URL:
-```
-http://localhost:8080/swagger-ui/index.html
-```
+[Swagger UI from up and running app](http://localhost:8080/swagger-ui/index.html)
