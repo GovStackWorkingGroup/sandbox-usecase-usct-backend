@@ -9,6 +9,9 @@ public class CandidateDto {
     private PersonDto person;
     private List<PackageDto> packages;
 
+    public CandidateDto() {
+    }
+
     public CandidateDto(Candidate candidate) {
         this.id = candidate.getId();
         this.person = new PersonDto(candidate.getPerson());

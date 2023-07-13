@@ -9,14 +9,14 @@ This is a driver backend application for
 ```mermaid
 sequenceDiagram
 
-Civil servant ->> MOCK SRIS: GET /api/v1/candidates
-Civil servant ->> MOCK SRIS: POST /api/v1/beneficiaries
+Civil servant ->> MOCK SRIS: Get all candidates
+Civil servant ->> MOCK SRIS: Create new beneficiary and remove beneficiary from candidates list
     participant im as Information mediator
-MOCK SRIS ->> Payment mock: POST /register-beneficiary
-Civil servant ->> MOCK SRIS: POST /order-payment
-MOCK SRIS ->> Payment mock: POST /prepayment-validation
-MOCK SRIS ->> Payment mock: POST /bulk-payment
-MOCK SRIS -->> Civil servant: Result
+MOCK SRIS ->> Payment mock: Automatically register beneficiary in payment system
+Civil servant ->> MOCK SRIS: Order payment
+MOCK SRIS ->> Payment mock: Automatically validate prepayment
+MOCK SRIS ->> Payment mock: Automatically make bulk payment
+MOCK SRIS -->> Civil servant: Return result
 ```
 
 ## Variables

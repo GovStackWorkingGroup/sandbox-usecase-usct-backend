@@ -52,13 +52,13 @@ create table CANDIDATE_PACKAGE
 create table HOUSEHOLD_INFORMATION
 (
     ID                INTEGER AUTO_INCREMENT,
-    CANDIDATE_ID      INTEGER,
+    PERSON_ID         INTEGER,
     RELATIVE_ID       INTEGER,
     RELATIONSHIP_TYPE CHARACTER VARYING(255) not null,
     constraint HOUSEHOLD_INFORMATION_PK
         primary key (ID),
-    constraint CANIDATE_ID___FK
-        foreign key (CANDIDATE_ID) references CANDIDATE,
+    constraint PERSON_ID___FK
+        foreign key (PERSON_ID) references PERSON,
     constraint "Relative__fk"
         foreign key (RELATIVE_ID) references PERSON
 );
@@ -83,6 +83,8 @@ create table BENEFICIARY
 INSERT INTO PERSON(foundational_id, first_name, last_name, email, date_of_birth, bank_account_owner_name, financial_address, financial_modality, iban, bank_name)
 values ( '9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Smith', 'john.smith@example.com','28-04-1977',  'John Smith', 'Wilhelmstraße 12', 'Bank Account',
          'DE12 3456 7812 3456 7890', 'Golden Bank' ),
+       ('9b237f8a-4dc2-4438-af0d-5f01c469b310', 'Emma', 'Smith', 'emma.smith@example.com','28-04-1977',  'Emma Smith', 'Wilhelmstraße 12', 'Bank Account',
+        'DE12 3456 7812 3456 7890', 'Golden Bank'),
        ('9b237f8a-4dc2-4438-af0d-5f01c469b303', 'Liam', 'Anderson', 'liam.anderson@example.com','28-04-1977',  'Liam Anderson', 'Wilhelmstraße 12', 'Bank Account',
         'DE12 3456 7812 3456 7890', 'Golden Bank'),
        ('9b237f8a-4dc2-4438-af0d-5f01c469b304', 'Olivia', 'Ramirez', 'olivia.ramirez@example.com','28-04-1977',  'Olivia Ramirez', 'Wilhelmstraße 12', 'Bank Account',
@@ -96,8 +98,6 @@ values ( '9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Smith', 'john.smith@ex
        ('9b237f8a-4dc2-4438-af0d-5f01c469b308', 'Benjamin', 'Mitchell', 'benjamin.Mitchell@example.com','28-04-1977',  'Benjamin Mitchell', 'Wilhelmstraße 12', 'Bank Account',
         'DE12 3456 7812 3456 7890', 'Golden Bank'),
        ('9b237f8a-4dc2-4438-af0d-5f01c469b309', 'Isabella', 'Turner', 'isabella.turner@example.com','28-04-1977',  'Isabella Turner', 'Wilhelmstraße 12', 'Bank Account',
-        'DE12 3456 7812 3456 7890', 'Golden Bank'),
-       ('9b237f8a-4dc2-4438-af0d-5f01c469b310', 'Emma', 'Smith', 'emma.smith@example.com','28-04-1977',  'Emma Smith', 'Wilhelmstraße 12', 'Bank Account',
         'DE12 3456 7812 3456 7890', 'Golden Bank'),
        ('9b237f8a-4dc2-4438-af0d-5f01c469b311', 'Bob', 'Smith', 'bob.smith@example.com','28-04-1977',  'Bob Smith', 'Wilhelmstraße 12', 'Bank Account',
         'DE12 3456 7812 3456 7890', 'Golden Bank');
@@ -149,7 +149,7 @@ VALUES (1, 1),
        (9, 2),
        (9, 3);
 
-INSERT INTO HOUSEHOLD_INFORMATION (candidate_id, relative_id, relationship_type)
+INSERT INTO HOUSEHOLD_INFORMATION (person_id, relative_id, relationship_type)
 VALUES (1, 2, 'WIFE'),
        (1, 3, 'CHILD');
 

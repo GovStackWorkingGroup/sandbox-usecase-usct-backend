@@ -21,8 +21,8 @@ public class HouseholdInformation {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "candidate_id", nullable = false)
-        private Candidate candidate;
+        @JoinColumn(name = "person_id", nullable = false)
+        private Person person;
 
         @ManyToOne
         @JoinColumn(name = "relative_id", nullable = false)
@@ -40,12 +40,12 @@ public class HouseholdInformation {
                 this.id = id;
         }
 
-        public Candidate getCandidate() {
-                return candidate;
+        public Person getPerson() {
+                return person;
         }
 
-        public void setCandidate(Candidate candidate) {
-                this.candidate = candidate;
+        public void setPerson(Person person) {
+                this.person = person;
         }
 
         public global.govstack.mocksris.types.RelationshipType getRelationshipType() {

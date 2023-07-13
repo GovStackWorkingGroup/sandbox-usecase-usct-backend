@@ -64,15 +64,15 @@ financial_address is https://govstack.gitbook.io/bb-payments/9-service-apis#docs
 | iban                    | character varying(255)  |           |                                International Bank Account Number  [More info](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/bad263faa7ff1c4d7788751e9cd06899c561853a)                                |
 | bank_name               | character varying(255)  |           |                                            Bank name  [More info](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/bad263faa7ff1c4d7788751e9cd06899c561853a)                                            |
 
-## Household infomration
+## Household information
 Family of related people.
 
 More info in OpenIMIS documentation.
 https://docs.openimis.org/en/22.10/user_manual/insuree_policies/family.html#id10
 
-| Name              |  Type   | Modifiers        |                   Description                   |
-|:------------------|:-------:|:----------- |:-----------------------------------------------:|
-| id [PK]           | integer | NOT NULL |                   Primary key                   |
-| candidate_id [FK] | integer | NOT NULL |             Candidate id forign key             |
-| relative_id [FK]  | integer | NOT NULL |           Relative id e.g. wife, child          |
-| type_relationship | character varying(255) | NOT NULL |  [Relationshipe types](relatioship-types.md)|
+| Name              |  Type   | Modifiers        |                 Description                 |
+|:------------------|:-------:|:----------- |:-------------------------------------------:|
+| id [PK]           | integer | NOT NULL |                 Primary key                 |
+| person_id [FK]    | integer | NOT NULL |            Person id forign key             |
+| relative_id [FK]  | integer | NOT NULL |        Relative id e.g. wife, child         |
+| type_relationship | character varying(255) | NOT NULL | [Relationshipe types](relatioship-types.md) |

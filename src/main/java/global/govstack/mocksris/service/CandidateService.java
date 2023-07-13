@@ -16,12 +16,15 @@ public class CandidateService {
 
     public List<Candidate> findAll() {
         return candidateRepository.findAll();
-
     }
 
     public Candidate findById(int id) {
         return candidateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Candidate with id: " + id + " doesn't exist"));
+    }
+
+    public void deleteById(Integer id){
+        candidateRepository.deleteCandidateById(id);
     }
 
     public Candidate save(Candidate candidate) {

@@ -2,8 +2,8 @@ package global.govstack.mocksris.service;
 
 import global.govstack.mocksris.configuration.PaymentProperties;
 import global.govstack.mocksris.model.Beneficiary;
+import global.govstack.mocksris.model.Candidate;
 import global.govstack.mocksris.model.Package;
-import global.govstack.mocksris.model.Person;
 import global.govstack.mocksris.controller.dto.PaymentOnboardingBeneficiaryDTO;
 import global.govstack.mocksris.controller.dto.PaymentOnboardingBeneficiaryDetailsDTO;
 import global.govstack.mocksris.repositories.BeneficiaryRepository;
@@ -18,12 +18,13 @@ import java.util.UUID;
 public class BeneficiaryService {
     private final BeneficiaryRepository repository;
     private final PaymentService paymentService;
-
+    private final CandidateService candidateService;
     private final PaymentProperties properties;
 
-    public BeneficiaryService(BeneficiaryRepository repository, PaymentService paymentService, PaymentProperties properties) {
+    public BeneficiaryService(BeneficiaryRepository repository, PaymentService paymentService, CandidateService candidateService, PaymentProperties properties) {
         this.repository = repository;
         this.paymentService = paymentService;
+        this.candidateService = candidateService;
         this.properties = properties;
     }
 
@@ -37,12 +38,13 @@ public class BeneficiaryService {
     }
 
     @Transactional
-    public Beneficiary create(Person person, Package enrolledPackage) {
+    public Beneficiary create(Candidate candidate, Package enrolledPackage) {
         Beneficiary beneficiary = new Beneficiary();
-        beneficiary.setPerson(person);
+        beneficiary.setPerson(candidate.getPerson());
         beneficiary.setEnrolledPackage(enrolledPackage);
         beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
         Beneficiary savedBeneficiary = repository.save(beneficiary);
+        candidateService.deleteById(candidate.getId());
         String functionalId = savedBeneficiary.getPerson().getFoundationalId() +
                 properties.governmentIdentifier() +
                 savedBeneficiary.getEnrolledPackage().getId();
