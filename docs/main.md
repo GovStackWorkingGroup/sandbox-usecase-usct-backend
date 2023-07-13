@@ -10,7 +10,7 @@ This is a driver backend application for
 sequenceDiagram
 
 Civil servant ->> MOCK SRIS: Get all candidates
-Civil servant ->> MOCK SRIS: Create new beneficiary and remove person from candidates list
+Civil servant ->> MOCK SRIS: Create new beneficiary and remove beneficiary from candidates list
     participant im as Information mediator
 MOCK SRIS ->> Payment mock: Automatically register beneficiary in payment system
 Civil servant ->> MOCK SRIS: Order payment
