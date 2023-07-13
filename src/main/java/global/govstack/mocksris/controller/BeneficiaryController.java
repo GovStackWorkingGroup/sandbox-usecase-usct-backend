@@ -2,11 +2,11 @@ package global.govstack.mocksris.controller;
 
 import global.govstack.mocksris.controller.dto.BeneficiaryDto;
 import global.govstack.mocksris.controller.dto.CreateBeneficiaryDto;
-import global.govstack.mocksris.controller.dto.PersonDto;
+import global.govstack.mocksris.controller.dto.CandidateDto;
 import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
+import global.govstack.mocksris.model.Candidate;
 import global.govstack.mocksris.model.Package;
-import global.govstack.mocksris.model.Person;
 import global.govstack.mocksris.service.BeneficiaryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -53,15 +53,14 @@ public class BeneficiaryController {
     @PostMapping(value = "/beneficiaries")
     @ResponseStatus(HttpStatus.CREATED)
     public BeneficiaryDto create(@RequestBody final CreateBeneficiaryDto createBeneficiaryDto) {
-
-        Person person = convertToEntity(createBeneficiaryDto.getPerson());
+        Candidate candidate = convertToEntity(createBeneficiaryDto.getCandidateDto());
         Package enroledPackage = convertToEntity(createBeneficiaryDto.getEnrolledPackage());
-        Beneficiary beneficiary = service.create(person, enroledPackage);
+        Beneficiary beneficiary = service.create(candidate, enroledPackage);
         return convertToDto(beneficiary);
     }
 
-    private Person convertToEntity(PersonDto personDto)  {
-        return modelMapper.map(personDto, Person.class);
+    private Candidate convertToEntity(CandidateDto candidateDto)  {
+        return modelMapper.map(candidateDto, Candidate.class);
     }
 
     private Package convertToEntity(PackageDto packageDto)  {

@@ -1,6 +1,5 @@
 package global.govstack.mocksris.service;
 
-import global.govstack.mocksris.model.Candidate;
 import global.govstack.mocksris.model.HouseholdInformation;
 import global.govstack.mocksris.repositories.HouseholdInformationRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class HouseholdInformationService {
                 .orElseThrow(() -> new RuntimeException("HouseholdInformation with id: " + id + " doesn't exist"));
     }
 
-    public List<HouseholdInformation> findAllRelatives(Candidate candidate) {
-        return householdInformationRepository.findAllByCandidate(candidate);
+    public List<HouseholdInformation> findAllRelatives(int personId) {
+        return householdInformationRepository.findAllByPersonId(personId);
     }
 }

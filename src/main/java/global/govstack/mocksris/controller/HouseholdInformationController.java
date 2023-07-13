@@ -1,6 +1,7 @@
 package global.govstack.mocksris.controller;
 
 import global.govstack.mocksris.controller.dto.HouseholdInformationDto;
+import global.govstack.mocksris.controller.dto.RelativeDto;
 import global.govstack.mocksris.model.HouseholdInformation;
 import global.govstack.mocksris.service.HouseholdInformationService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,5 +35,14 @@ public class HouseholdInformationController {
     public HouseholdInformationDto getCandidate(@PathVariable("id") int id) {
         HouseholdInformation householdInformation = householdInformationService.findById(id);
         return new HouseholdInformationDto(householdInformation);
+    }
+
+    @GetMapping("/person-relatives/{id}")
+    public List<RelativeDto> getAllRelativesOfPerson(@PathVariable("id") int id) {
+        return householdInformationService
+                .findAllRelatives(id)
+                .stream()
+                .map(RelativeDto::new)
+                .toList();
     }
 }

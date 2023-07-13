@@ -6,13 +6,13 @@ import global.govstack.mocksris.types.RelationshipType;
 public class HouseholdInformationDto {
 
     private int id;
-    private CandidateDto candidate;
+    private PersonDto person;
     private PersonDto relative;
     private RelationshipType relationshipType;
 
     public HouseholdInformationDto(HouseholdInformation householdInformation) {
         this.id = householdInformation.getId();
-        this.candidate = new CandidateDto(householdInformation.getCandidate());
+        this.person = new PersonDto(householdInformation.getPerson());
         this.relative = new PersonDto(householdInformation.getRelative());
         this.relationshipType = householdInformation.getRelationshipType();
     }
@@ -25,12 +25,12 @@ public class HouseholdInformationDto {
         this.id = id;
     }
 
-    public CandidateDto getCandidate() {
-        return candidate;
+    public PersonDto getPerson() {
+        return person;
     }
 
-    public void setCandidate(CandidateDto candidate) {
-        this.candidate = candidate;
+    public void setPerson(PersonDto person) {
+        this.person = person;
     }
 
     public RelationshipType getRelationshipType() {

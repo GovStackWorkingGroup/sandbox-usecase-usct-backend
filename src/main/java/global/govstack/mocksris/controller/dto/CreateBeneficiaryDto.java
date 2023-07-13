@@ -1,27 +1,23 @@
 package global.govstack.mocksris.controller.dto;
 
-import global.govstack.mocksris.model.Beneficiary;
-
 public class CreateBeneficiaryDto {
-    private PersonDto person;
+    private CandidateDto candidateDto;
     private PackageDto enrolledPackage;
 
-    public CreateBeneficiaryDto(PersonDto person, PackageDto enrolledPackage) {
-        this.person = person;
+    public CreateBeneficiaryDto() {
+    }
+
+    public CreateBeneficiaryDto(CandidateDto candidateDto, PackageDto enrolledPackage) {
+        this.candidateDto = candidateDto;
         this.enrolledPackage = enrolledPackage;
     }
 
-    public CreateBeneficiaryDto(Beneficiary beneficiary) {
-        this.person = new PersonDto(beneficiary.getPerson());
-        this.enrolledPackage = new PackageDto(beneficiary.getEnrolledPackage());
+    public CandidateDto getCandidateDto() {
+        return candidateDto;
     }
 
-    public PersonDto getPerson() {
-        return person;
-    }
-
-    public void setPerson(PersonDto person) {
-        this.person = person;
+    public void setCandidateDto(CandidateDto candidateDto) {
+        this.candidateDto = candidateDto;
     }
 
     public PackageDto getEnrolledPackage() {
