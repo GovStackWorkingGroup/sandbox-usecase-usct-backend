@@ -41,8 +41,8 @@ public class TokenService {
     }
 
     public RolesDto getRoles(Principal principal) {
-        var userDetails = userManager.loadUserByUsername(principal.getName());
-        var list = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        return new RolesDto(list);
+        var currentUser = userManager.loadUserByUsername(principal.getName());
+        var listOfRoles = currentUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        return new RolesDto(listOfRoles);
     }
 }
