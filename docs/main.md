@@ -58,6 +58,17 @@ Test value =  066283
 ### SourceBBId
 Test value = MOCK-SRIS-BB
 
+## Authentication / Authorization
+Project has two users `user` and `civil-servant`. Both accounts use `password` word as password.
+
+### Roles
+Project has two roles **USER** and **CIVIL-SERVANT**
+
+### Technology stack
+Project uses OAuth 2.0 Resource Server. For a details please take a look [documentation](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).
+
+Project uses [In-Memory Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html) to provide support for username/password based authentication that is stored in memory.
+
 ## Technical part
 
 ### Test endpoints
