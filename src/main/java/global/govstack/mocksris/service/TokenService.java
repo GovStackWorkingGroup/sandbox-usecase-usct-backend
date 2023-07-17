@@ -1,12 +1,15 @@
 package global.govstack.mocksris.service;
 
+import global.govstack.mocksris.controller.dto.RolesDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
@@ -15,9 +18,11 @@ import java.util.stream.Collectors;
 public class TokenService {
 
     private final JwtEncoder encoder;
+    private final InMemoryUserDetailsManager userManager;
 
-    public TokenService(JwtEncoder encoder) {
+    public TokenService(JwtEncoder encoder, InMemoryUserDetailsManager userManager) {
         this.encoder = encoder;
+        this.userManager = userManager;
     }
 
     public String generateToken(Authentication authentication) {
@@ -33,5 +38,11 @@ public class TokenService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public RolesDto getRoles(Principal principal) {
+        var userDetails = userManager.loadUserByUsername(principal.getName());
+        var list = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        return new RolesDto(list);
     }
 }

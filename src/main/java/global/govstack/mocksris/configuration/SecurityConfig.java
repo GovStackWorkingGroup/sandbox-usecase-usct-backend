@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .build(),
                 User.withUsername("civil-servant")
                         .password("{noop}password")
-                        .roles(CIVIL_SERVANT)
+                        .roles(USER, CIVIL_SERVANT)
                         .build()
         );
     }
@@ -75,7 +75,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher(new AntPathRequestMatcher("/token"))
+                .securityMatcher(new AntPathRequestMatcher("/api/v1/token"))
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
