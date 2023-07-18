@@ -2,8 +2,8 @@ package global.govstack.mocksris.configuration;
 
 public final class AuthoritiesConstants {
 
-    public static final String USER = "USER";
-    public static final String CIVIL_SERVANT = "CIVIL_SERVANT";
+    public static final String ENROLLMENT_OFFICER = "ENROLLMENT_OFFICER";
+    public static final String PAYMENT_OFFICER = "PAYMENT_OFFICER";
 
     private AuthoritiesConstants() {
     }

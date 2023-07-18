@@ -59,10 +59,11 @@ Test value =  066283
 Test value = MOCK-SRIS-BB
 
 ## Authentication / Authorization
-Project has two users `user` and `civil-servant`. Both accounts use `password` word as password.
 
-### Roles
-Project has two roles **USER** and **CIVIL-SERVANT**
+| User name          | Password |  Role |            Description             |                                                                                                                                                                              Access to next end-points |
+|:-------------------|:--------:|:----------|:----------------------------------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| enrollment-officer | password | ENROLLMENT_OFFICER | Officer responsible for enrollment | <ul><li>`/api/v1/payment/order-payment` </li><li>`/api/v1/beneficiaries/**`</li><li>`/api/v1/person-relatives/{id}`</li><li>`/api/v1/household-information/**`</li><li>`/api/v1/packages/**`</li></ul> |
+payment-officer    | password | PAYMENT_OFFICER |  Officer responsible for payment   |         <ul><li>`/api/v1/candidates/**` </li><li>`/api/v1/person-relatives/{id}`</li><li>`/api/v1/household-information/**`</li><li>`/api/v1/packages/**`</li></ul> |
 
 ### Technology stack
 Project uses OAuth 2.0 Resource Server. For a details please take a look [documentation](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).

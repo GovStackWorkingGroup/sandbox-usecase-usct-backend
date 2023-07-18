@@ -8,7 +8,6 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,16 +26,16 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.List;
 
-import static global.govstack.mocksris.configuration.AuthoritiesConstants.CIVIL_SERVANT;
-import static global.govstack.mocksris.configuration.AuthoritiesConstants.USER;
+import static global.govstack.mocksris.configuration.AuthoritiesConstants.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    private static final String SCOPE_ROLE = "SCOPE_ROLE_";
 
     private final RsaKeyProperties jwtConfigProperties;
 
@@ -47,31 +46,26 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager user() {
         return new InMemoryUserDetailsManager(
-                User.withUsername("user")
+                User.withUsername("enrollment-officer")
                         .password("{noop}password")
-                        .roles(USER)
+                        .roles(ENROLLMENT_OFFICER)
                         .build(),
-                User.withUsername("civil-servant")
+                User.withUsername("payment-officer")
                         .password("{noop}password")
-                        .roles(USER, CIVIL_SERVANT)
+                        .roles(PAYMENT_OFFICER)
                         .build()
         );
     }
 
+    @Order(1)
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain swaggerSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .exceptionHandling(
-                        (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-                .build();
+                .securityMatcher("/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**")
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                                .build();
     }
-
-    @Order(Ordered.HIGHEST_PRECEDENCE)
+    @Order(2)
     @Bean
     SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -84,6 +78,23 @@ public class SecurityConfig {
                     ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
                 })
                 .httpBasic(withDefaults())
+                .build();
+    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/v1/beneficiaries/**").hasAuthority(SCOPE_ROLE + PAYMENT_OFFICER)
+                        .requestMatchers("/api/v1/candidates/**").hasAuthority(SCOPE_ROLE + ENROLLMENT_OFFICER)
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(
+                        (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                 .build();
     }
 
