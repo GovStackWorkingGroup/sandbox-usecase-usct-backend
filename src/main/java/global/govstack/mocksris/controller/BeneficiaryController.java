@@ -1,8 +1,10 @@
 package global.govstack.mocksris.controller;
 
+import java.util.List;
+
 import global.govstack.mocksris.controller.dto.BeneficiaryDto;
-import global.govstack.mocksris.controller.dto.CreateBeneficiaryDto;
 import global.govstack.mocksris.controller.dto.CandidateDto;
+import global.govstack.mocksris.controller.dto.CreateBeneficiaryDto;
 import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Candidate;
@@ -10,19 +12,19 @@ import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.service.BeneficiaryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin
 public class BeneficiaryController {
 
     private final BeneficiaryService service;
