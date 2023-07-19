@@ -62,8 +62,7 @@ Test value = MOCK-SRIS-BB
 
 | User name          | Password |  Role |            Description             |                            Denied access to: |
 |:-------------------|:--------:|:----------|:----------------------------------:|---------------------------------------------:|
-| enrollment-officer | password | ENROLLMENT_OFFICER | Officer responsible for enrollment | <ul><li>`/api/v1/beneficiaries/**`</li></ul> |
-payment-officer    | password | PAYMENT_OFFICER |  Officer responsible for payment   |   <ul><li>`/api/v1/candidates/**` </li></ul> |
+ |payment-officer    | password | PAYMENT_OFFICER |  Officer responsible for payment   |   <ul><li>`/api/v1/candidates/**` </li></ul> |
 
 ### Technology stack
 Project uses OAuth 2.0 Resource Server. For a details please take a look [documentation](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).

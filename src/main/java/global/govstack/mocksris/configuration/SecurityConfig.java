@@ -86,7 +86,6 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/beneficiaries/**").hasAuthority(SCOPE_ROLE + PAYMENT_OFFICER)
                         .requestMatchers("/api/v1/candidates/**").hasAuthority(SCOPE_ROLE + ENROLLMENT_OFFICER)
                         .anyRequest().authenticated()
                 )
