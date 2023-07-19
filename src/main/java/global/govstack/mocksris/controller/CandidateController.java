@@ -1,19 +1,20 @@
 package global.govstack.mocksris.controller;
 
+import java.util.List;
+
 import global.govstack.mocksris.controller.dto.CandidateDto;
 import global.govstack.mocksris.model.Candidate;
 import global.govstack.mocksris.service.CandidateService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import java.util.List;
-
-
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin
 public class CandidateController {
 
     private final CandidateService candidateService;
