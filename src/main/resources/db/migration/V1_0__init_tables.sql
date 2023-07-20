@@ -122,10 +122,7 @@ VALUES ('UBI', 'Universal basic income', 1234.5, 'EURO'),
        ('CFS', 'Child and Family support', 500, 'EURO');
 
 INSERT INTO CANDIDATE_PACKAGE (candidate_id, package_id)
-VALUES (1, 1),
-       (1, 2),
-       (1, 3),
-       (2, 1),
+VALUES (2, 1),
        (2, 3),
        (3, 1),
        (3, 2),
