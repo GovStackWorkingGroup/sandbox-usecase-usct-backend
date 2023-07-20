@@ -122,7 +122,10 @@ VALUES ('UBI', 'Universal basic income', 1234.5, 'EURO'),
        ('CFS', 'Child and Family support', 500, 'EURO');
 
 INSERT INTO CANDIDATE_PACKAGE (candidate_id, package_id)
-VALUES (2, 1),
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (2, 1),
        (2, 3),
        (3, 1),
        (3, 2),
@@ -149,6 +152,3 @@ VALUES (2, 1),
 INSERT INTO HOUSEHOLD_INFORMATION (person_id, relative_id, relationship_type)
 VALUES (1, 2, 'WIFE'),
        (1, 3, 'CHILD');
-
-INSERT INTO BENEFICIARY (person_id, package_id, payment_status)
-VALUES (1, 1, 'ACCEPTED');
