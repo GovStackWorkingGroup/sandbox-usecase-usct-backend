@@ -64,6 +64,10 @@ Test value = MOCK-SRIS-BB
 |:-------------------|:--------:|:----------|:----------------------------------:|---------------------------------------------:|
  |payment-officer    | password | PAYMENT_OFFICER |  Officer responsible for payment   |   <ul><li>`/api/v1/candidates/**` </li></ul> |
 
+Related [specification](https://govstack.gitbook.io/specification/security-requirements/5-cross-cutting-requirements#5.27.3-example-rest-authentication-api).
+
+[Identity Building Block documentation](https://govstack.gitbook.io/bb-identity/2-description). 
+
 ### Technology stack
 Project uses OAuth 2.0 Resource Server. For a details please take a look [documentation](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).
 
