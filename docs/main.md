@@ -60,9 +60,11 @@ Test value = MOCK-SRIS-BB
 
 ## Authentication / Authorization
 
-| User name          | Password |  Role |            Description             |                            Denied access to: |
-|:-------------------|:--------:|:----------|:----------------------------------:|---------------------------------------------:|
- |payment-officer    | password | PAYMENT_OFFICER |  Officer responsible for payment   |   <ul><li>`/api/v1/candidates/**` </li></ul> |
+| User name       | Password | Role               |                     Description                     |
+|:----------------|:--------:|:-------------------|:---------------------------------------------------:|
+| registry-officer | password | REGISTRY_OFFICER   | Officer responsible for creating/editing candidates |
+| enrollment-officer | password | ENROLLMENT_OFFICER |         Officer responsible for enrollment          |
+| payment-officer | password | PAYMENT_OFFICER    |           Officer responsible for payment           |
 
 Related [specification](https://govstack.gitbook.io/specification/security-requirements/5-cross-cutting-requirements#5.27.3-example-rest-authentication-api).
 

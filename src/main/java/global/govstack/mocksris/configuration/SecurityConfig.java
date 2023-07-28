@@ -9,6 +9,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,6 +28,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static global.govstack.mocksris.configuration.AuthoritiesConstants.ENROLLMENT_OFFICER;
 import static global.govstack.mocksris.configuration.AuthoritiesConstants.PAYMENT_OFFICER;
+import static global.govstack.mocksris.configuration.AuthoritiesConstants.REGISTRY_ADMINISTRATION;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -34,7 +36,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private static final String SCOPE_ROLE = "SCOPE_ROLE_";
+    private static final String JWT_PART = "SCOPE_";
+    private static final String ROLE = JWT_PART + "ROLE_";
 
     private final RsaKeyProperties jwtConfigProperties;
 
@@ -52,6 +55,10 @@ public class SecurityConfig {
                 User.withUsername("payment-officer")
                         .password("{noop}password")
                         .roles(PAYMENT_OFFICER)
+                        .build(),
+                User.withUsername("registry-administration")
+                        .password("{noop}password")
+                        .roles(REGISTRY_ADMINISTRATION)
                         .build()
         );
     }
@@ -86,7 +93,9 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/candidates/**").hasAuthority(SCOPE_ROLE + ENROLLMENT_OFFICER)
+                        .requestMatchers(HttpMethod.POST,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
+                        .requestMatchers(HttpMethod.GET,"/api/v1/candidates/**").hasAuthority(ROLE + ENROLLMENT_OFFICER)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
