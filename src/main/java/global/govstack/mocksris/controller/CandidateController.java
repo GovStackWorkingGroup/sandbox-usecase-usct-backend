@@ -57,7 +57,7 @@ public class CandidateController {
 
     @PutMapping("/candidates/{id}")
     @ResponseStatus(HttpStatus.OK)
-    CandidateDto replaceEmployee(@RequestBody CandidateDto candidateDto) {
+    CandidateDto updateCandidate(@RequestBody CandidateDto candidateDto) {
         if (candidateDto.getId() == 0) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Invalid id");

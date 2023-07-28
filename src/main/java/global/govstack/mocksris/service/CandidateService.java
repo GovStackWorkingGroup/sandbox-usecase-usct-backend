@@ -7,6 +7,7 @@ import global.govstack.mocksris.model.Candidate;
 import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.model.Person;
 import global.govstack.mocksris.repositories.CandidateRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,7 @@ public class CandidateService {
         candidateRepository.deleteCandidateById(id);
     }
 
+    @Transactional
     public Candidate save(CreateCandidateDto createCandidateDto) {
         CreatePersonDto createPersonDto = createCandidateDto.person();
         Person person = personService.save(createPersonDto);
@@ -55,6 +57,7 @@ public class CandidateService {
         return candidateRepository.save(candidate);
     }
 
+    @Transactional
     public Candidate save(Candidate candidate) {
         personService.save(candidate.getPerson());
         return candidateRepository.save(candidate);
