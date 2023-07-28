@@ -7,6 +7,42 @@ servers:
   - url: http://localhost:8080
     description: Generated server url
 paths:
+  "/api/v1/candidates/{id}":
+    get:
+      tags:
+        - candidate-controller
+      operationId: getCandidate_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CandidateDto"
+    put:
+      tags:
+        - candidate-controller
+      operationId: replaceEmployee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CandidateDto"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CandidateDto"
   "/api/v1/token":
     post:
       tags:
@@ -39,7 +75,37 @@ paths:
             "*/*":
               schema:
                 type: string
-                example: Thank you! Payment order received!
+  "/api/v1/candidates":
+    get:
+      tags:
+        - candidate-controller
+      operationId: getAll_1
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/CandidateDto"
+    post:
+      tags:
+        - candidate-controller
+      operationId: createCandidate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreateCandidateDto"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CandidateDto"
   "/api/v1/beneficiaries":
     get:
       tags:
@@ -182,39 +248,6 @@ paths:
             "*/*":
               schema:
                 "$ref": "#/components/schemas/HouseholdInformationDto"
-  "/api/v1/candidates":
-    get:
-      tags:
-        - candidate-controller
-      operationId: getAll_1
-      responses:
-        '200':
-          description: OK
-          content:
-            "*/*":
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/CandidateDto"
-  "/api/v1/candidates/{id}":
-    get:
-      tags:
-        - candidate-controller
-      operationId: getCandidate_1
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            "*/*":
-              schema:
-                "$ref": "#/components/schemas/CandidateDto"
   "/api/v1/beneficiaries/{id}":
     get:
       tags:
@@ -236,22 +269,18 @@ paths:
                 "$ref": "#/components/schemas/BeneficiaryDto"
 components:
   schemas:
-    BeneficiaryDto:
+    CandidateDto:
       type: object
       properties:
         id:
           type: integer
           format: int32
-          example: 1
         person:
           "$ref": "#/components/schemas/PersonDto"
-        paymentStatus:
-          type: string
-          enum:
-            - INITIATE
-            - ACCEPTED
-        enrolledPackage:
-          "$ref": "#/components/schemas/PackageDto"
+        packages:
+          type: array
+          items:
+            "$ref": "#/components/schemas/PackageDto"
     PackageDto:
       type: object
       properties:
@@ -309,7 +338,7 @@ components:
         bankName:
           type: string
           example: Golden Bank
-    CandidateDto:
+    BeneficiaryDto:
       type: object
       properties:
         id:
@@ -318,10 +347,46 @@ components:
           example: 1
         person:
           "$ref": "#/components/schemas/PersonDto"
+        paymentStatus:
+          type: string
+          enum:
+            - INITIATE
+            - ACCEPTED
+        enrolledPackage:
+          "$ref": "#/components/schemas/PackageDto"
+    CreateCandidateDto:
+      type: object
+      properties:
+        person:
+          "$ref": "#/components/schemas/CreatePersonDto"
         packages:
+          uniqueItems: true
           type: array
           items:
             "$ref": "#/components/schemas/PackageDto"
+    CreatePersonDto:
+      type: object
+      properties:
+        foundationalId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        dateOfBirth:
+          type: string
+        bankAccountOwnerName:
+          type: string
+        financialAddress:
+          type: string
+        financialModality:
+          type: string
+        iban:
+          type: string
+        bankName:
+          type: string
     CreateBeneficiaryDto:
       type: object
       properties:
