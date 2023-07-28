@@ -49,21 +49,6 @@ create table CANDIDATE_PACKAGE
         foreign key (PACKAGE_ID) references PACKAGE
 );
 
-create table HOUSEHOLD_INFORMATION
-(
-    ID                INTEGER AUTO_INCREMENT,
-    PERSON_ID         INTEGER,
-    RELATIVE_ID       INTEGER,
-    RELATIONSHIP_TYPE CHARACTER VARYING(255) not null,
-    constraint HOUSEHOLD_INFORMATION_PK
-        primary key (ID),
-    constraint PERSON_ID___FK
-        foreign key (PERSON_ID) references PERSON,
-    constraint "Relative__fk"
-        foreign key (RELATIVE_ID) references PERSON
-);
-
-
 create table BENEFICIARY
 (
     ID              INTEGER AUTO_INCREMENT,
@@ -148,7 +133,3 @@ VALUES (1, 1),
        (9, 1),
        (9, 2),
        (9, 3);
-
-INSERT INTO HOUSEHOLD_INFORMATION (person_id, relative_id, relationship_type)
-VALUES (1, 2, 'WIFE'),
-       (1, 3, 'CHILD');
