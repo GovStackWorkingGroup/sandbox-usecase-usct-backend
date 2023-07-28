@@ -1,5 +1,6 @@
 package global.govstack.mocksris.model;
 
+import global.govstack.mocksris.controller.dto.CreatePersonDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +43,23 @@ public class Person {
 
     @Column
     private String bankName;
+
+    public Person() {
+
+    }
+
+    public Person(CreatePersonDto personDto) {
+        this.foundationalId = personDto.foundationalId();
+        this.firstName = personDto.firstName();
+        this.lastName = personDto.lastName();
+        this.email = personDto.email();
+        this.dateOfBirth = personDto.dateOfBirth();
+        this.bankAccountOwnerName = personDto.bankAccountOwnerName();
+        this.financialAddress = personDto.financialAddress();
+        this.financialModality = personDto.financialModality();
+        this.iban = personDto.iban();
+        this.bankName = personDto.bankName();
+    }
 
     public int getId() {
         return id;
