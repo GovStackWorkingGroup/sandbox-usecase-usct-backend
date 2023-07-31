@@ -62,7 +62,7 @@ Test value = MOCK-SRIS-BB
 
 | User name       | Password | Role               |                     Description                     |
 |:----------------|:--------:|:-------------------|:---------------------------------------------------:|
-| registry-officer | password | REGISTRY_OFFICER   | Officer responsible for creating/editing candidates |
+| registry-administration | password | REGISTRY_OFFICER   | Officer responsible for creating/editing candidates |
 | enrollment-officer | password | ENROLLMENT_OFFICER |         Officer responsible for enrollment          |
 | payment-officer | password | PAYMENT_OFFICER    |           Officer responsible for payment           |
 
