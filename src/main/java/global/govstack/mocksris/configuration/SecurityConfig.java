@@ -94,7 +94,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
+                        .requestMatchers(HttpMethod.POST,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
+                        .requestMatchers(HttpMethod.DELETE,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
                         .requestMatchers(HttpMethod.GET,"/api/v1/candidates/**").hasAuthority(ROLE + ENROLLMENT_OFFICER)
                         .anyRequest().authenticated()
                 )

@@ -38,7 +38,7 @@ public class CandidateService {
     }
 
     public void deleteById(Integer id) {
-        candidateRepository.deleteCandidateById(id);
+        candidateRepository.deleteById(id);
     }
 
     @Transactional

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -65,6 +66,12 @@ public class CandidateController {
         Candidate candidate = convertToEntity(candidateDto);
         var updatedCandidate = candidateService.save(candidate);
         return convertToDto(updatedCandidate);
+    }
+
+    @DeleteMapping("/candidates/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCandidate(@PathVariable("id") int id) {
+        candidateService.deleteById(id);
     }
 
     private Candidate convertToEntity(CandidateDto candidateDto) {
