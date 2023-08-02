@@ -45,7 +45,7 @@ public class BeneficiaryService {
         beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
         Beneficiary savedBeneficiary = repository.save(beneficiary);
         candidateService.deleteById(candidate.getId());
-        String functionalId = savedBeneficiary.getPerson().getFoundationalId() +
+        String functionalId = savedBeneficiary.getPerson().getPersonalIdCode() +
                 properties.governmentIdentifier() +
                 savedBeneficiary.getEnrolledPackage().getId();
         var beneficiaryDTO = List.of(new PaymentOnboardingBeneficiaryDetailsDTO(

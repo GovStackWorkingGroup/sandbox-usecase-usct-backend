@@ -16,7 +16,7 @@ public class Person {
     private int id;
 
     @Column(nullable = false)
-    private String foundationalId;
+    private String personalIdCode;
     @Column(nullable = false)
     private String firstName;
 
@@ -28,6 +28,22 @@ public class Person {
 
     @Column
     private String dateOfBirth;
+
+    @Column
+    private String region;
+
+    @Column
+    private String homeAddress;
+    @Column
+    private String phoneNumber;
+
+    @Column
+    private String occupation;
+
+    @Column
+    private String municipality;
+    @Column
+    private String zipCode;
 
     @Column
     private String bankAccountOwnerName;
@@ -49,11 +65,17 @@ public class Person {
     }
 
     public Person(CreatePersonDto personDto) {
-        this.foundationalId = personDto.foundationalId();
+        this.personalIdCode = personDto.personalIdCode();
         this.firstName = personDto.firstName();
         this.lastName = personDto.lastName();
         this.email = personDto.email();
         this.dateOfBirth = personDto.dateOfBirth();
+        this.region = personDto.region();
+        this.homeAddress = personDto.homeAddress();
+        this.phoneNumber = personDto.phoneNumber();
+        this.occupation = personDto.occupation();
+        this.municipality = personDto.municipality();
+        this.zipCode = personDto.zipCode();
         this.bankAccountOwnerName = personDto.bankAccountOwnerName();
         this.financialAddress = personDto.financialAddress();
         this.financialModality = personDto.financialModality();
@@ -69,12 +91,12 @@ public class Person {
         this.id = id;
     }
 
-    public String getFoundationalId() {
-        return foundationalId;
+    public String getPersonalIdCode() {
+        return personalIdCode;
     }
 
-    public void setFoundationalId(String foundationalId) {
-        this.foundationalId = foundationalId;
+    public void setPersonalIdCode(String foundationalId) {
+        this.personalIdCode = foundationalId;
     }
 
     public String getFirstName() {
@@ -111,6 +133,55 @@ public class Person {
 
     public String getBankAccountOwnerName() {
         return bankAccountOwnerName;
+    }
+
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public String getMunicipality() {
+        return municipality;
+    }
+
+    public void setMunicipality(String municipality) {
+        this.municipality = municipality;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public void setBankAccountOwnerName(String bankAccountOwnerName) {
