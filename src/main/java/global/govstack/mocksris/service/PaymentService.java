@@ -40,7 +40,7 @@ public class PaymentService {
         String batchId = UUID.randomUUID().toString();
         var creditInstructionsDTO = beneficiaryList.stream().map(beneficiary -> {
             String instructionId = UUID.randomUUID().toString();
-            var payeeFunctionalId = beneficiary.getPerson().getFoundationalId() +
+            var payeeFunctionalId = beneficiary.getPerson().getPersonalIdCode() +
                     paymentProperties.governmentIdentifier() +
                     beneficiary.getEnrolledPackage().getId().toString();
             var amount = beneficiary.getEnrolledPackage().getAmount();

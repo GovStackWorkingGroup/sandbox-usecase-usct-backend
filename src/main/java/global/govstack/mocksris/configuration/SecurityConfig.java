@@ -96,7 +96,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
                         .requestMatchers(HttpMethod.POST,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
                         .requestMatchers(HttpMethod.DELETE,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
-                        .requestMatchers(HttpMethod.GET,"/api/v1/candidates/**").hasAuthority(ROLE + ENROLLMENT_OFFICER)
+                        .requestMatchers(HttpMethod.GET,"/api/v1/candidates/**").hasAnyAuthority(ROLE + ENROLLMENT_OFFICER, ROLE + REGISTRY_ADMINISTRATION)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
