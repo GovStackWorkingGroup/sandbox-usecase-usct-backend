@@ -106,8 +106,12 @@ Pipeline variables:
 
 ### Useful commands
 
-* `helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris` 
-* `helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris`
+```shell
+helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris
+```
+```shell
+helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris
+```
 
 
 ### DB connection
