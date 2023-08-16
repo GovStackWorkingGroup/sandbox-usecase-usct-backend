@@ -3,6 +3,10 @@ This is a driver backend application for
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
 (USCT) use case.
 
+## Building block diagram
+
+[![](./images/bb.png)]()
+
 [![](./images/figma.png)](https://www.figma.com/file/qVUaK5Z5FmgQV16C71RRCn/USCT---Vertical-Prototype?type=design&node-id=178-5054)
 
 ## Application logic
@@ -85,7 +89,7 @@ The repository has a test endpoint `/emulator-health` to check the connection to
 ### Quick start
 After the installation finishes, one can access the interfaces e.g. with port forwarding.
 
-```
+``` shell
 kubectl port-forward \
     -n mock-sris \
     service/mock-sris 8080 8080
