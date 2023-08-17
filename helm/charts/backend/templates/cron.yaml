@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restart-usct
+spec:
+  schedule: "*/2 * * * *"
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: {{ .Values.deployment.containers.name }}
+              image: {{ .Values.deployment.containers.image }}
+              imagePullPolicy: {{ .Values.deployment.containers.imagePullPolicy }}
+
+
+          restartPolicy: OnFailure
