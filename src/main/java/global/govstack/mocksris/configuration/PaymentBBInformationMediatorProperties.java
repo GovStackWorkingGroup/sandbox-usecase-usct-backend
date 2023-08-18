@@ -4,4 +4,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
 @ConfigurationProperties(prefix = "payment.bb.im")
-public record InformationMediatorProperties(String baseUrl, String header) {}
+public record PaymentBBInformationMediatorProperties(String baseUrl, String header) {}

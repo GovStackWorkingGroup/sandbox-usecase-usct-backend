@@ -1,6 +1,6 @@
 package global.govstack.mocksris.service;
 
-import global.govstack.mocksris.configuration.InformationMediatorProperties;
+import global.govstack.mocksris.configuration.PaymentBBInformationMediatorProperties;
 import global.govstack.mocksris.configuration.PaymentProperties;
 import global.govstack.mocksris.controller.dto.PaymentCreditInstructionsDTO;
 import global.govstack.mocksris.controller.dto.PaymentDTO;
@@ -23,15 +23,15 @@ import java.util.UUID;
 public class PaymentService {
 
     private final HttpHeaders httpHeaders;
-    private final InformationMediatorProperties informationMediatorproperties;
+    private final PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties;
     private final PaymentProperties paymentProperties;
 
-    public PaymentService(InformationMediatorProperties informationMediatorproperties, PaymentProperties paymentProperties) {
-        this.informationMediatorproperties = informationMediatorproperties;
+    public PaymentService(PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties, PaymentProperties paymentProperties) {
+        this.paymentBBInformationMediatorproperties = paymentBBInformationMediatorproperties;
         this.paymentProperties = paymentProperties;
         httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add("X-Road-Client", informationMediatorproperties.header());
+        httpHeaders.add("X-Road-Client", paymentBBInformationMediatorproperties.header());
     }
 
     public PaymentResponseDTO orderPayment(List<Beneficiary> beneficiaryList) {
@@ -55,7 +55,7 @@ public class PaymentService {
 
     public String health() {
         return new RestTemplate().exchange(
-                informationMediatorproperties.baseUrl() + "/actuator/health",
+                paymentBBInformationMediatorproperties.baseUrl() + "/actuator/health",
                 HttpMethod.GET,
                 new HttpEntity<>(null, httpHeaders),
                 String.class).getBody();
@@ -64,7 +64,7 @@ public class PaymentService {
     public PaymentResponseDTO registerBeneficiary(PaymentOnboardingBeneficiaryDTO data) {
         try {
             return new RestTemplate().postForObject(
-                    informationMediatorproperties.baseUrl() + "/register-beneficiary",
+                    paymentBBInformationMediatorproperties.baseUrl() + "/register-beneficiary",
                     new HttpEntity<>(data, httpHeaders),
                     PaymentResponseDTO.class);
         } catch (Exception ex) {
@@ -75,7 +75,7 @@ public class PaymentService {
 
     public PaymentResponseDTO updateBeneficiary(PaymentOnboardingBeneficiaryDTO data) {
         return new RestTemplate().postForObject(
-                informationMediatorproperties.baseUrl() + "/update-beneficiary-details",
+                paymentBBInformationMediatorproperties.baseUrl() + "/update-beneficiary-details",
                 new HttpEntity<>(data, httpHeaders),
                 PaymentResponseDTO.class);
     }
@@ -83,7 +83,7 @@ public class PaymentService {
     public PaymentResponseDTO prevalidatePayment(PaymentDTO data) {
         try {
             return new RestTemplate().postForObject(
-                    informationMediatorproperties.baseUrl() + "/prepayment-validation",
+                    paymentBBInformationMediatorproperties.baseUrl() + "/prepayment-validation",
                     new HttpEntity<>(data, httpHeaders),
                     PaymentResponseDTO.class);
         } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class PaymentService {
     public PaymentResponseDTO bulkPayment(PaymentDTO data) {
         try {
             return new RestTemplate().postForObject(
-                    informationMediatorproperties.baseUrl() + "/bulk-payment",
+                    paymentBBInformationMediatorproperties.baseUrl() + "/bulk-payment",
                     new HttpEntity<>(data, httpHeaders),
                     PaymentResponseDTO.class);
         } catch (Exception ex) {
