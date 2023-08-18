@@ -1,19 +1,20 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: restart-usct
+  name: mock-sris
+  labels:
+    app: {{ .Values.deployment.name }}
 spec:
-  schedule: "*/2 * * * *"
-  successfulJobsHistoryLimit: 0
-  failedJobsHistoryLimit: 0
+  schedule: "*/1 * * * *"
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 61
       template:
+        metadata:
+          labels:
+            app: {{ .Values.deployment.name }}
         spec:
           containers:
             - name: {{ .Values.deployment.containers.name }}
               image: {{ .Values.deployment.containers.image }}
-              imagePullPolicy: {{ .Values.deployment.containers.imagePullPolicy }}
-
-
           restartPolicy: OnFailure

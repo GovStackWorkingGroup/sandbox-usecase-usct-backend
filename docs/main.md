@@ -19,6 +19,11 @@ MOCK SRIS ->> Payment mock: Automatically make bulk payment
 MOCK SRIS -->> Civil servant: Return result
 ```
 
+### Restart policy 
+Application has ten predefined candidates. When all candidates become a beneficiaries, the sandbox user will not have a new candidate to play with. Use case will lose a part of functionality. This situation is related to [multi-tenant](https://govstack-global.atlassian.net/wiki/search?text=multi%20tenant) topic.
+
+The [use-case](https://govstack.gitbook.io/sandbox/demo#unconditional-social-cash-transfer) restart schedule is a temporary solution. 
+
 ## Variables
 
 ### FunctionalID
