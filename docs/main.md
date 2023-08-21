@@ -111,10 +111,10 @@ Pipeline variables:
 ### Useful commands
 
 ```shell
-helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm upgrade --install usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
 ```
 ```shell
-helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm install --debug --dry-run usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
 ```
 
 
