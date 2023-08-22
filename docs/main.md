@@ -111,20 +111,20 @@ Pipeline variables:
 ### Useful commands
 
 ```shell
-helm install usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
+helm install mock-sris ./helm/ --create-namespace --namespace mock-sris
 ```
 
 ```shell
-helm upgrade --install usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
-```
-```shell
-helm install --debug --dry-run usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
+helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris
 ```
 
 ```shell
-    helm uninstall usct-umbrella --namespace usct-umbrella
+helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris
 ```
 
+```shell
+helm uninstall mock-sris --namespace mock-sris
+```
 
 ### DB connection
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
