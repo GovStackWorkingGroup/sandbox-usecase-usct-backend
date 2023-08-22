@@ -1,0 +1,11 @@
+### Sub Charts Specific Values ###
+backend:
+  enabled: true
+payment:
+  enabled: true
+im-central-server:
+  enabled: true
+im-security-server:
+  enabled: true
+ui:
+  enabled: true
