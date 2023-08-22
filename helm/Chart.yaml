@@ -21,3 +21,7 @@ dependencies:
     version: 0.1.0
     repository: file://charts/im-security-server
     condition: im-central-server.enabled
+  - name: ui
+    version: 0.1.0
+    repository: file://charts/ui
+    condition: ui.enabled

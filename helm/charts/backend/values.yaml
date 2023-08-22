@@ -1,9 +1,10 @@
 deployment:
   name: backend
   containers:
-    name: mock-sris-backend
+    name: dev-backend
     image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/dev-backend:0.0.10
-    imagePullPolicy: "Always"
+#    image: harbor.codemowers.eu/driver/mock-sris@sha256:f8b1782fd87d488aae920db61d82a2805a1455339bfc4edf82dd080da26f6e08
+    imagePullPolicy: "IfNotPresent"
 
 service:
   name: backend

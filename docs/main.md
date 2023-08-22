@@ -111,10 +111,18 @@ Pipeline variables:
 ### Useful commands
 
 ```shell
+helm install usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
+```
+
+```shell
 helm upgrade --install usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
 ```
 ```shell
 helm install --debug --dry-run usct-umbrella ./helm/ --create-namespace --namespace usct-umbrella
+```
+
+```shell
+    helm uninstall usct-umbrella --namespace usct-umbrella
 ```
 
 
