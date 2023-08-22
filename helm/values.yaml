@@ -2,10 +2,10 @@
 backend:
   enabled: true
 payment:
-  enabled: false
+  enabled: true
 im-central-server:
-  enabled: false
+  enabled: true
 im-security-server:
-  enabled: false
+  enabled: true
 ui:
-  enabled: false
+  enabled: true
