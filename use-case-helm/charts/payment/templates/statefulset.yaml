@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.payment_bb_emulator.name }}
+  labels:
+    {{- toYaml .Values.payment_bb_emulator.labels | nindent 4 }}
+spec:
+  serviceName: {{ .Values.payment_bb_emulator.service.name }}
+  replicas: {{ .Values.payment_bb_emulator.replicaCount }}
+  selector:
+    matchLabels:
+      {{- toYaml .Values.payment_bb_emulator.template.labels | nindent 6 }}
+  template:
+    metadata:
+      labels: 
+        {{- toYaml .Values.payment_bb_emulator.template.labels | nindent 8 }}
+    spec:
+      initContainers:
+        - name: fix-pvc-permissions
+          image: busybox
+          command: ["sh", "-c"]
+          args:
+            - 
+              chmod -R 777 {{ .Values.payment_bb_emulator.dbPersist.mountPath }}
+
+              if [ $FLUSH_DB_STORAGE == "true" ]; then
+                rm -r {{ .Values.payment_bb_emulator.dbPersist.mountPath }}/* || true;
+              fi
+          env:
+            - name: FLUSH_DB_STORAGE
+              value: "{{ .Values.payment_bb_emulator.dbPersist.flushStorageOnInit }}"
+          volumeMounts:
+            - name: {{ .Values.payment_bb_emulator.dbPersist.volumeMountName }}
+              mountPath: {{ .Values.payment_bb_emulator.dbPersist.mountPath }}
+      containers:
+        - name: {{ .Values.payment_bb_emulator.container.name }}
+          image: "{{ .Values.payment_bb_emulator.container.image }}:{{ .Values.payment_bb_emulator.container.imageTag }}"
+          imagePullPolicy: {{ .Values.payment_bb_emulator.container.imagePullPolicy }}
+          ports:
+          - containerPort: 8080
+            name: server
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: server
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: server
+          env:
+            - name: ACTIVE_PROFILES
+              value: {{ .Values.payment_bb_emulator.profiles }}
+            - name: DATABASE_PERSIST_PATH
+              value: {{ .Values.payment_bb_emulator.dbPersist.path }}
+          volumeMounts:
+            - name: {{ .Values.payment_bb_emulator.dbPersist.volumeMountName }}
+              mountPath: {{ .Values.payment_bb_emulator.dbPersist.mountPath }}
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+            requests:
+              cpu: "200m"
+              memory: 512Mi
+  volumeClaimTemplates:
+    - metadata:
+          name: {{ .Values.payment_bb_emulator.dbPersist.volumeMountName }}
+      spec:
+          accessModes:
+              - ReadWriteOnce
+          resources:
+              requests:
+                  storage: {{ .Values.payment_bb_emulator.dbPersist.storage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.payment_bb_emulator.service.name }}-service
+  labels:
+    {{- toYaml .Values.payment_bb_emulator.labels | nindent 4 }}
+spec:
+  type: {{ .Values.payment_bb_emulator.service.type }}
+  ports:
+    - port: {{ .Values.payment_bb_emulator.service.port }}
+      targetPort: {{ .Values.payment_bb_emulator.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- toYaml .Values.payment_bb_emulator.labels | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.payment_bb_emulator.service.name }}-headless
+  labels:
+    {{- toYaml .Values.payment_bb_emulator.labels | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .Values.payment_bb_emulator.service.port }}
+      targetPort: {{ .Values.payment_bb_emulator.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- toYaml .Values.payment_bb_emulator.labels | nindent 4 }}
