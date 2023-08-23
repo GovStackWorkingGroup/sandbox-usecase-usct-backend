@@ -111,15 +111,15 @@ Pipeline variables:
 ### Useful commands
 
 ```shell
-helm install mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm install mock-sris ./use-case-helm/ --create-namespace --namespace mock-sris
 ```
 
 ```shell
-helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm upgrade --install mock-sris ./use-case-helm/ --create-namespace --namespace mock-sris
 ```
 
 ```shell
-helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm install --debug --dry-run mock-sris ./use-case-helm/ --create-namespace --namespace mock-sris
 ```
 
 ```shell
