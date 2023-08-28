@@ -1,5 +1,5 @@
 ---
-serverImage: "463471358064.dkr.ecr.eu-central-1.amazonaws.com/im/x-road/security-server"
+serverImage: "harbor.k-space.ee/gov-stack/security-server"
 tokenPin: "1234"
 dbStorage: "5Gi"
 servers:

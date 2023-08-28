@@ -8,7 +8,7 @@ playground_frontend:
       app: "frontend"
   container:
     name: frontend
-    image: ui
+    image: harbor.k-space.ee/gov-stack/ui
     imageTag: latest
     imagePullPolicy: IfNotPresent
   profiles: "container"

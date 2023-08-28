@@ -2,7 +2,7 @@ deployment:
   name: backend
   containers:
     name: dev-backend
-    image: mock-sris:0.0.2
+    image: harbor.k-space.ee/gov-stack/mock-sris:0.0.2
     imagePullPolicy: IfNotPresent
 
 service:

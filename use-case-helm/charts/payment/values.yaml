@@ -8,7 +8,7 @@ payment_bb_emulator:
       app: "payment-bb-emulator"
   container:
     name: payment-bb-emulator-app
-    image: payment-emulator
+    image: harbor.k-space.ee/gov-stack/payment-emulator
     imageTag: 0.0.1
     imagePullPolicy: IfNotPresent
   service:
