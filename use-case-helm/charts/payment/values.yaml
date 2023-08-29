@@ -8,16 +8,9 @@ payment_bb_emulator:
       app: "payment-bb-emulator"
   container:
     name: payment-bb-emulator-app
-    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/bb/payments/emulator/dev-backend
+    image: harbor.k-space.ee/gov-stack/payment-emulator
     imageTag: 0.0.1
-    imagePullPolicy: "Always"
-  profiles: "container"
-  dbPersist: 
-    volumeMountName: "payment-bb-emulator-pvc"
-    path: "./dbdata/paymentbb"
-    mountPath: "/workspace/dbdata"
-    storage: 1Gi
-    flushStorageOnInit: false
+    imagePullPolicy: IfNotPresent
   service:
     name: "payment-bb-emulator"
     type: ClusterIP

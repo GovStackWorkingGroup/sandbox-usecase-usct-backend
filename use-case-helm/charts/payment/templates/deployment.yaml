@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.payment_bb_emulator.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.payment_bb_emulator.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.payment_bb_emulator.name }}
+    spec:
+      containers:
+        - name: {{ .Values.payment_bb_emulator.container.name }}
+          image: {{ .Values.payment_bb_emulator.container.image }}:{{ .Values.payment_bb_emulator.container.imageTag }}
+          imagePullPolicy: {{ .Values.payment_bb_emulator.container.imagePullPolicy }}

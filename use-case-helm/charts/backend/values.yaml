@@ -2,7 +2,7 @@ deployment:
   name: backend
   containers:
     name: dev-backend
-    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/dev-backend:0.0.1
+    image: harbor.k-space.ee/gov-stack/mock-sris:0.0.2
     imagePullPolicy: IfNotPresent
 
 service:
