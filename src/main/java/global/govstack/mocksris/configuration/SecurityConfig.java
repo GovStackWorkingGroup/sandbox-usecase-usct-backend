@@ -71,6 +71,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                                 .build();
     }
+
     @Order(2)
     @Bean
     SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -87,6 +88,7 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
                 .build();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -97,6 +99,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
                         .requestMatchers(HttpMethod.DELETE,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
                         .requestMatchers(HttpMethod.GET,"/api/v1/candidates/**").hasAnyAuthority(ROLE + ENROLLMENT_OFFICER, ROLE + REGISTRY_ADMINISTRATION)
+                        .requestMatchers("/api/v1/callback").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
