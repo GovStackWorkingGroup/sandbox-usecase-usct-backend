@@ -1,27 +1,56 @@
 # Mock-SRIS
 This is a driver backend application for 
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
+
 (USCT) use case.
 
-## Building block diagram
+[Live Demo](https://usct.dev.sandbox-playground.com/driver-poc/)
 
-[![](./images/bb.png)]()
+[//]: # (## Building block diagram need to update parts of the section)
 
-[![](./images/figma.png)](https://www.figma.com/file/qVUaK5Z5FmgQV16C71RRCn/USCT---Vertical-Prototype?type=design&node-id=178-5054)
+[//]: # ([![]&#40;./images/bb.png&#41;]&#40;&#41; Outdated)
+
+[//]: # ([![]&#40;./images/figma.png&#41;]&#40;https://www.figma.com/file/qVUaK5Z5FmgQV16C71RRCn/USCT---Vertical-Prototype?type=design&node-id=178-5054&#41; Outdated)
 
 ## Application logic
 ```mermaid
 sequenceDiagram
-
-Civil servant ->> MOCK SRIS: Get all candidates
-Civil servant ->> MOCK SRIS: Create new beneficiary and remove beneficiary from candidates list
+    Civil servant ->> MOCK SRIS: Sign in
     participant im as Information mediator
-MOCK SRIS ->> Payment mock: Automatically register beneficiary in payment system
-Civil servant ->> MOCK SRIS: Order payment
-MOCK SRIS ->> Payment mock: Automatically validate prepayment
-MOCK SRIS ->> Payment mock: Automatically make bulk payment
-MOCK SRIS -->> Civil servant: Return result
+    MOCK SRIS ->> eSignat: /v1/esignet/authorization/oauth-details //POST
+    MOCK SRIS ->> eSignat: /v1/esignet/authorization/send-otp //POST
+    MOCK SRIS ->> eSignat: /v1/esignet/authorization/authenticate //POST
+    MOCK SRIS ->> eSignat: /v1/esignet/authorization/auth-code //POST
+    MOCK SRIS ->> eSignat: /v1/esignet/authorization/token //POST
+%%    Civil servant ->> eSignat: /v1/esignet/authorization/userinfo //GET no need for sign in step 
+    Civil servant ->> MOCK SRIS: Get all candidates
+    Civil servant ->> MOCK SRIS: Create new beneficiary and remove beneficiary from candidates list
+    MOCK SRIS ->> Payment mock: Automatically register beneficiary in payment system
+    Civil servant ->> MOCK SRIS: Order payment
+    MOCK SRIS ->> Payment mock: Automatically validate prepayment
+    MOCK SRIS ->> Payment mock: Automatically make bulk payment
+    MOCK SRIS -->> Civil servant: Return result
 ```
+This implementation is blocked due to the issues mentioned in the [ticket](https://govstack-global.atlassian.net/browse/SND-531?focusedCommentId=12851&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-12851). 
+
+
+## Authentication / Authorization
+
+Take a look [MOSIP e-Signt documentation](https://docs.mosip.io/1.2.0/integrations/e-signet). 
+
+### Roles and permissions
+
+Missing MOSIP e-Signt related functionality. 
+
+| User name       | Password | Role               |                     Description                     |
+|:----------------|:--------:|:-------------------|:---------------------------------------------------:|
+| registry-administration | password | REGISTRY_OFFICER   | Officer responsible for creating/editing candidates |
+| enrollment-officer | password | ENROLLMENT_OFFICER |         Officer responsible for enrollment          |
+| payment-officer | password | PAYMENT_OFFICER    |           Officer responsible for payment           |
+
+Related [specification](https://govstack.gitbook.io/specification/security-requirements/5-cross-cutting-requirements#5.27.3-example-rest-authentication-api).
+
+[Identity Building Block documentation](https://govstack.gitbook.io/bb-identity/2-description).
 
 ## Variables
 
@@ -62,22 +91,6 @@ Test value =  066283
 ### SourceBBId
 Test value = MOCK-SRIS-BB
 
-## Authentication / Authorization
-
-| User name       | Password | Role               |                     Description                     |
-|:----------------|:--------:|:-------------------|:---------------------------------------------------:|
-| registry-administration | password | REGISTRY_OFFICER   | Officer responsible for creating/editing candidates |
-| enrollment-officer | password | ENROLLMENT_OFFICER |         Officer responsible for enrollment          |
-| payment-officer | password | PAYMENT_OFFICER    |           Officer responsible for payment           |
-
-Related [specification](https://govstack.gitbook.io/specification/security-requirements/5-cross-cutting-requirements#5.27.3-example-rest-authentication-api).
-
-[Identity Building Block documentation](https://govstack.gitbook.io/bb-identity/2-description). 
-
-### Technology stack
-Project uses OAuth 2.0 Resource Server. For a details please take a look [documentation](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).
-
-Project uses [In-Memory Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html) to provide support for username/password based authentication that is stored in memory.
 
 ## Technical part
 
