@@ -6,7 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import global.govstack.mocksris.types.PaymentModality;
 
 @Entity
 public class Person {
@@ -52,7 +54,8 @@ public class Person {
     private String financialAddress;
 
     @Column
-    private String financialModality;
+    @Enumerated(EnumType.STRING)
+    private PaymentModality financialModality;
 
     @Column
     private String iban;
@@ -78,7 +81,7 @@ public class Person {
         this.zipCode = personDto.zipCode();
         this.bankAccountOwnerName = personDto.bankAccountOwnerName();
         this.financialAddress = personDto.financialAddress();
-        this.financialModality = personDto.financialModality();
+        this.financialModality = PaymentModality.valueOf(personDto.financialModality());
         this.iban = personDto.iban();
         this.bankName = personDto.bankName();
     }
@@ -196,11 +199,11 @@ public class Person {
         this.financialAddress = financialAddress;
     }
 
-    public String getFinancialModality() {
+    public PaymentModality getFinancialModality() {
         return financialModality;
     }
 
-    public void setFinancialModality(String financialModality) {
+    public void setFinancialModality(PaymentModality financialModality) {
         this.financialModality = financialModality;
     }
 

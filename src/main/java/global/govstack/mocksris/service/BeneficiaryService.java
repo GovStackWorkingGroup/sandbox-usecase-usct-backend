@@ -50,7 +50,7 @@ public class BeneficiaryService {
                 savedBeneficiary.getEnrolledPackage().getId();
         var beneficiaryDTO = List.of(new PaymentOnboardingBeneficiaryDetailsDTO(
                 functionalId,
-                savedBeneficiary.getPerson().getFinancialModality(),
+                savedBeneficiary.getPerson().getFinancialModality().getCode(),
                 savedBeneficiary.getPerson().getFinancialAddress()
         ));
         var requestID = UUID.randomUUID().toString();

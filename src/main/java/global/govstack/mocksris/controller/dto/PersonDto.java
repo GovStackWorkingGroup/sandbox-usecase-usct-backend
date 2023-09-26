@@ -2,6 +2,7 @@ package global.govstack.mocksris.controller.dto;
 
 
 import global.govstack.mocksris.model.Person;
+import global.govstack.mocksris.types.PaymentModality;
 
 public class PersonDto {
     private int id;
@@ -40,7 +41,7 @@ public class PersonDto {
         this.zipCode = person.getZipCode();
         this.bankAccountOwnerName = person.getBankAccountOwnerName();
         this.financialAddress = person.getFinancialAddress();
-        this.financialModality = person.getFinancialModality();
+        this.financialModality = person.getFinancialModality().name();
         this.iban = person.getIban();
         this.bankName = person.getBankName();
     }
