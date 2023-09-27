@@ -23,7 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin
-@PreAuthorize("hasRole('REGISTRY_ADMINISTRATION')")
+@PreAuthorize("hasAnyRole('REGISTRY_OFFICER','ENROLLMENT_OFFICER')")
 public class CandidateController {
 
   private final CandidateService candidateService;
@@ -71,10 +71,6 @@ public class CandidateController {
   }
 
   private Candidate convertToEntity(CandidateDto candidateDto) {
-    return modelMapper.map(candidateDto, Candidate.class);
-  }
-
-  private Candidate convertToEntity(CreateCandidateDto candidateDto) {
     return modelMapper.map(candidateDto, Candidate.class);
   }
 

@@ -27,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.text.ParseException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.NimbusJwtClientAuthenticationParametersConverter;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequestEntityConverter;
@@ -60,7 +60,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoderFactory;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -92,23 +91,6 @@ public class SecurityConfig {
 
   public SecurityConfig(RsaKeyProperties jwtConfigProperties) {
     this.jwtConfigProperties = jwtConfigProperties;
-  }
-
-  @Bean
-  public InMemoryUserDetailsManager user() {
-    return new InMemoryUserDetailsManager(
-        User.withUsername("enrollment-officer")
-            .password("{noop}password")
-            .roles(ENROLLMENT_OFFICER)
-            .build(),
-        User.withUsername("payment-officer")
-            .password("{noop}password")
-            .roles(PAYMENT_OFFICER)
-            .build(),
-        User.withUsername("registry-administration")
-            .password("{noop}password")
-            .roles(REGISTRY_ADMINISTRATION)
-            .build());
   }
 
   @Order(1)
@@ -196,11 +178,18 @@ public class SecurityConfig {
                             if (authority instanceof OidcUserAuthority oidc) {
                               var subject = oidc.getIdToken().getSubject();
                               log.info("Logging in user {}", subject);
-                              // TODO: map users
-                              return Set.of(
-                                  new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER),
-                                  new SimpleGrantedAuthority("ROLE_" + REGISTRY_ADMINISTRATION),
-                                  new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
+                              if (Objects.equals(subject, "299950323465436931629862208523254959")) {
+                                return Set.of(
+                                    new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
+                              }
+                              if (Objects.equals(subject, "268505314334796284434550524121540566")) {
+                                return Set.of(
+                                    new SimpleGrantedAuthority("ROLE_" + REGISTRY_ADMINISTRATION));
+                              }
+                              if (Objects.equals(subject, "294629625538148508290996199782510910")) {
+                                return Set.of(
+                                    new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
+                              }
                             }
                           }
                           return Set.of();

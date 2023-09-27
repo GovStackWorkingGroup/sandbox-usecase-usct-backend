@@ -6,6 +6,7 @@ import global.govstack.mocksris.service.PaymentService;
 import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/payment")
 @CrossOrigin
+@PreAuthorize("hasRole('PAYMENT_OFFICER')")
 public class PaymentRestController {
   private final PaymentService paymentService;
 
