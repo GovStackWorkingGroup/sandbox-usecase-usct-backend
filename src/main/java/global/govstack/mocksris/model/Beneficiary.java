@@ -1,5 +1,6 @@
 package global.govstack.mocksris.model;
 
+import global.govstack.mocksris.types.PaymentOnboardingStatus;
 import global.govstack.mocksris.types.PaymentStatus;
 
 import jakarta.persistence.Entity;
@@ -28,10 +29,16 @@ public class Beneficiary {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "package_id", nullable = false)
     private Package enrolledPackage;
+    @Column
+    private String functionalId;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentOnboardingStatus paymentOnboardingStatus;
+    @Column
+    private String paymentOnboardingRequestId;
 
     public int getId() {
         return id;
@@ -63,5 +70,32 @@ public class Beneficiary {
 
     public void setEnrolledPackage(Package enrolledPackage) {
         this.enrolledPackage = enrolledPackage;
+    }
+
+    public PaymentOnboardingStatus getPaymentOnboardingStatus() {
+        return paymentOnboardingStatus;
+    }
+
+    public Beneficiary setPaymentOnboardingStatus(PaymentOnboardingStatus paymentOnboardingStatus) {
+        this.paymentOnboardingStatus = paymentOnboardingStatus;
+        return this;
+    }
+
+    public String getPaymentOnboardingRequestId() {
+        return paymentOnboardingRequestId;
+    }
+
+    public Beneficiary setPaymentOnboardingRequestId(String paymentOnboardingRequestId) {
+        this.paymentOnboardingRequestId = paymentOnboardingRequestId;
+        return this;
+    }
+
+    public String getFunctionalId() {
+        return functionalId;
+    }
+
+    public Beneficiary setFunctionalId(String functionalId) {
+        this.functionalId = functionalId;
+        return this;
     }
 }

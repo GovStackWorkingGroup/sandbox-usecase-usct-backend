@@ -100,6 +100,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE,"/api/v1/candidates/**").hasAuthority(ROLE + REGISTRY_ADMINISTRATION)
                         .requestMatchers(HttpMethod.GET,"/api/v1/candidates/**").hasAnyAuthority(ROLE + ENROLLMENT_OFFICER, ROLE + REGISTRY_ADMINISTRATION)
                         .requestMatchers("/api/v1/callback").permitAll()
+                        .requestMatchers("/api/v1/beneficiary-register-callback").permitAll()
+                        .requestMatchers("/api/v1/beneficiary-update-callback").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

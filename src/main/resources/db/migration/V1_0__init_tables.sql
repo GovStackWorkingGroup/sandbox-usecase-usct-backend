@@ -57,10 +57,13 @@ create table CANDIDATE_PACKAGE
 
 create table BENEFICIARY
 (
-    ID              INTEGER AUTO_INCREMENT,
-    PERSON_ID    INTEGER,
-    PACKAGE_ID      INTEGER,
-    PAYMENT_STATUS          CHARACTER VARYING(255),
+    ID                                      INTEGER AUTO_INCREMENT,
+    PERSON_ID                               INTEGER,
+    PACKAGE_ID                              INTEGER,
+    FUNCTIONAL_ID                           CHARACTER VARYING(255),
+    PAYMENT_STATUS                          CHARACTER VARYING(255),
+    PAYMENT_ONBOARDING_STATUS               CHARACTER VARYING(255),
+    PAYMENT_ONBOARDING_REQUEST_ID           CHARACTER VARYING(255),
     constraint BENEFICIARY_PK
         primary key (ID),
     constraint "beneficiary_PACKAGE_id_fk"
@@ -69,7 +72,6 @@ create table BENEFICIARY
         foreign key (PERSON_ID) references PERSON
 
 );
-
 
 INSERT INTO PERSON(personal_id_code, first_name, last_name, email, date_of_birth, region, home_address, phone_number,
                    occupation, municipality, zip_code, bank_account_owner_name, financial_address, financial_modality,
