@@ -14,18 +14,18 @@ This is a driver backend application for
 ## Application logic
 ```mermaid
 sequenceDiagram
-    Civil servant ->> MOCK SRIS: Sign in
-    MOCK SRIS ->> eSignat: User authentication
+    Civil servant ->> USCT-backend: Sign in
+    USCT-backend ->> E-Signat: User authentication
     participant im as Information mediator
 
 %%    Civil servant ->> eSignat: /v1/esignet/authorization/userinfo //GET no need for sign in step 
-    Civil servant ->> MOCK SRIS: Get all candidates
-    Civil servant ->> MOCK SRIS: Create new beneficiary and remove beneficiary from candidates list
-    MOCK SRIS ->> Payment mock: Automatically register beneficiary in payment system
-    Civil servant ->> MOCK SRIS: Order payment
-    MOCK SRIS ->> Payment mock: Automatically validate prepayment
-    MOCK SRIS ->> Payment mock: Automatically make bulk payment
-    MOCK SRIS -->> Civil servant: Return result
+    Civil servant ->> USCT-backend: Get all candidates
+    Civil servant ->> USCT-backend: Create new beneficiary and remove beneficiary from candidates list
+    USCT-backend ->> Payment emulator: Automatically register beneficiary in payment system
+    Civil servant ->> USCT-backend: Order payment
+    USCT-backend ->> Payment emulator: Automatically validate prepayment
+    USCT-backend ->> Payment emulator: Automatically make bulk payment
+    USCT-backend -->> Civil servant: Return result
 ```
 This implementation is blocked due to the issues mentioned in the [ticket](https://govstack-global.atlassian.net/browse/SND-531?focusedCommentId=12851&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-12851). 
 
