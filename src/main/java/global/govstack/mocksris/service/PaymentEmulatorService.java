@@ -4,16 +4,15 @@ import global.govstack.mocksris.configuration.PaymentBBInformationMediatorProper
 import global.govstack.mocksris.configuration.PaymentProperties;
 import global.govstack.mocksris.controller.dto.*;
 import global.govstack.mocksris.model.Beneficiary;
+import global.govstack.mocksris.repositories.BeneficiaryRepository;
 import global.govstack.mocksris.types.PaymentOnboardingCallbackMode;
+import global.govstack.mocksris.types.PaymentOnboardingStatus;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,12 +23,15 @@ public class PaymentEmulatorService implements PaymentService {
   private final HttpHeaders httpHeaders;
   private final PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties;
   private final PaymentProperties paymentProperties;
+  private final BeneficiaryRepository beneficiaryRepository;
 
   public PaymentEmulatorService(
       PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties,
-      PaymentProperties paymentProperties) {
+      PaymentProperties paymentProperties,
+      BeneficiaryRepository beneficiaryRepository) {
     this.paymentBBInformationMediatorproperties = paymentBBInformationMediatorproperties;
     this.paymentProperties = paymentProperties;
+    this.beneficiaryRepository = beneficiaryRepository;
     httpHeaders = new HttpHeaders();
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
     httpHeaders.add("X-Road-Client", paymentBBInformationMediatorproperties.header());
@@ -89,6 +91,13 @@ public class PaymentEmulatorService implements PaymentService {
               paymentBBInformationMediatorproperties.baseUrl() + "/register-beneficiary",
               new HttpEntity<>(paymentDto, httpHeaders),
               PaymentResponseDTO.class);
+      updateBeneficiaryPaymentStatus(beneficiaries, PaymentOnboardingStatus.ONBOARDED, requestID);
+    } catch (HttpClientErrorException ex) {
+      if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+        updateBeneficiary(beneficiaries);
+      } else {
+        throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
+      }
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
@@ -104,9 +113,20 @@ public class PaymentEmulatorService implements PaymentService {
               paymentBBInformationMediatorproperties.baseUrl() + "/update-beneficiary-details",
               new HttpEntity<>(paymentDto, httpHeaders),
               PaymentResponseDTO.class);
+      updateBeneficiaryPaymentStatus(beneficiaries, PaymentOnboardingStatus.ONBOARDED, requestID);
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
+  }
+
+  private List<Beneficiary> updateBeneficiaryPaymentStatus(
+      List<Beneficiary> beneficiaries, PaymentOnboardingStatus status, String requestID) {
+    beneficiaries.forEach(
+        beneficiary -> {
+          beneficiary.setPaymentOnboardingStatus(status);
+          beneficiary.setPaymentOnboardingRequestId(requestID);
+        });
+    return beneficiaryRepository.saveAll(beneficiaries);
   }
 
   private PaymentOnboardingBeneficiaryDTO convertBeneficiary(

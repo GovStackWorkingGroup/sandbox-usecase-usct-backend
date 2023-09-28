@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class PaymentHubOnboardingBeneficiaryDTO {
-  @JsonProperty("RequestID")
+  @JsonProperty("requestID")
   private String requestID = null;
 
-  @JsonProperty("Beneficiaries")
+  @JsonProperty("beneficiaries")
   @Valid
   private List<PaymentHubOnboardingBeneficiaryDetailsDTO> beneficiaries = null;
 

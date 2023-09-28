@@ -15,22 +15,15 @@ public class PaymentHubBeneficiaryResponseDTO {
   @JsonProperty("requestID")
   private String requestID = null;
 
-  public PaymentHubBeneficiaryResponseDTO(
-      String responseCode, String responseDescription, String requestID) {
-    this.responseCode = responseCode;
-    this.responseDescription = responseDescription;
-    this.requestID = requestID;
-  }
-
   public PaymentHubBeneficiaryResponseDTO responseCode(String responseCode) {
     this.responseCode = responseCode;
     return this;
   }
 
   /**
-   * Get payeeFunctionalID
+   * Get responseCode
    *
-   * @return payeeFunctionalID
+   * @return responseCode
    */
   @ApiModelProperty(value = "")
   @Size(min = 20, max = 20)
@@ -48,9 +41,9 @@ public class PaymentHubBeneficiaryResponseDTO {
   }
 
   /**
-   * Get paymentModality
+   * Get responseDescription
    *
-   * @return paymentModality
+   * @return responseDescription
    */
   @ApiModelProperty(value = "")
   @Size(min = 2, max = 2)
@@ -68,9 +61,9 @@ public class PaymentHubBeneficiaryResponseDTO {
   }
 
   /**
-   * Get financialAddress
+   * Get getRequestID
    *
-   * @return financialAddress
+   * @return getRequestID
    */
   @ApiModelProperty(value = "")
   @Size(max = 30)

@@ -65,7 +65,7 @@ public class PaymentRestController {
             .map(PaymentHubBeneficairyOnboardingFailedCallbackDTO::payeeIdentity)
             .toList();
     paymentService.updatePaymentOnboardingStatus(
-        failedBeneficiaries, beneficiaryCBDto.requestID(), mode);
+        failedBeneficiaries, beneficiaryCBDto.registerRequestID(), mode);
   }
 
   private Beneficiary convertToEntity(BeneficiaryDto beneficiaryDto) {

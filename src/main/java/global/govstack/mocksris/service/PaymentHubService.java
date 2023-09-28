@@ -62,7 +62,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     // TODO: REPLACE WITH CONFIG CB url
     // httpHeaders.add("X-CallbackURL", paymentHubProperties.callbackBaseUrl() +
-    // "/api/v1/beneficiary-callback");
+    // "/api/v1/payment/beneficiary-register-callback");
     httpHeaders.add("X-CallbackURL", "https://webhook.site/cf437b0e-06a3-4dbc-b994-10b61daf5704");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
@@ -93,7 +93,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     // TODO: REPLACE WITH CONFIG CB url
     // httpHeaders.add("X-CallbackURL", paymentHubProperties.callbackBaseUrl() +
-    // "/api/v1/beneficiary-callback");
+    // "/api/v1/payment/beneficiary-update-callback");
     httpHeaders.add("X-CallbackURL", "https://webhook.site/cf437b0e-06a3-4dbc-b994-10b61daf5704");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
@@ -157,7 +157,8 @@ public class PaymentHubService implements PaymentService {
 
     beneficiaryRepository.saveAll(beneficiaries);
 
-    if (onboardingMode.equals(PaymentOnboardingCallbackMode.REGISTER)) {
+    if (onboardingMode.equals(PaymentOnboardingCallbackMode.REGISTER)
+        && !failedBeneficiaries.isEmpty()) {
       updateBeneficiary(failedBeneficiaries);
     }
   }
