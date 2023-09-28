@@ -8,3 +8,5 @@ deployment:
 service:
   name: backend
   port: 8080
+
+oidcKeystorePassword: ""
