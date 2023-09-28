@@ -1,5 +1,8 @@
 package global.govstack.mocksris.types;
 
 public enum PaymentOnboardingStatus {
-    NONE, REGISTERING, UPDATING, ONBOARDED
+  NONE,
+  REGISTERING,
+  UPDATING,
+  ONBOARDED
 }
