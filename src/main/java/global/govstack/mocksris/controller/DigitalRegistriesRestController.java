@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/digitalregistries")
 @CrossOrigin
-@PreAuthorize("hasAnyRole('PAYMENT_OFFICER','ENROLLMENT_OFFICER','REGISTRY_ADMINISTRATION')")
+@PreAuthorize("hasAnyRole('PAYMENT_OFFICER','ENROLLMENT_OFFICER','REGISTRY_OFFICER')")
 public class DigitalRegistriesRestController {
   private final DigitalRegistriesService digitalRegistriesService;
 
