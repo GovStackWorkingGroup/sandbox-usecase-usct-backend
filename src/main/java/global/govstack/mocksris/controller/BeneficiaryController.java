@@ -34,6 +34,7 @@ public class BeneficiaryController {
     this.service = service;
     this.modelMapper = modelMapper;
   }
+
   @PreAuthorize("hasRole('PAYMENT_OFFICER')")
   @GetMapping("/beneficiaries")
   public List<BeneficiaryDto> getAll() {
