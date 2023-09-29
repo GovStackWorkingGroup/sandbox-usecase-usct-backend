@@ -74,8 +74,6 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class SecurityConfig {
 
-  private static final String JWT_PART = "SCOPE_";
-  private static final String ROLE = JWT_PART + "ROLE_";
   public static final String CLAIMS =
       """
       {"userinfo":{
