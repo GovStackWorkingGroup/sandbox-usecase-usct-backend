@@ -26,8 +26,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +41,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.NimbusJwtClientAuthenticationParametersConverter;
@@ -63,6 +64,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -148,7 +150,8 @@ public class SecurityConfig {
             customizer ->
                 customizer
                     .logoutUrl("/api/logout")
-                    .logoutSuccessUrl("/driver-poc")
+                    .logoutSuccessHandler(
+                        new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                     .deleteCookies("MOCK_SRIS_SESSION"))
         .oauth2Login(
             customizer -> {
@@ -171,30 +174,7 @@ public class SecurityConfig {
                     ae.authorizationRequestResolver(resolver);
                   });
               customizer.userInfoEndpoint(
-                  ue -> {
-                    ue.userAuthoritiesMapper(
-                        authorities -> {
-                          for (var authority : authorities) {
-                            if (authority instanceof OidcUserAuthority oidc) {
-                              var subject = oidc.getIdToken().getSubject();
-                              log.info("Logging in user {}", subject);
-                              if (Objects.equals(subject, "299950323465436931629862208523254959")) {
-                                return Set.of(
-                                    new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
-                              }
-                              if (Objects.equals(subject, "268505314334796284434550524121540566")) {
-                                return Set.of(
-                                    new SimpleGrantedAuthority("ROLE_" + REGISTRY_ADMINISTRATION));
-                              }
-                              if (Objects.equals(subject, "294629625538148508290996199782510910")) {
-                                return Set.of(
-                                    new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
-                              }
-                            }
-                          }
-                          return Set.of();
-                        });
-                  });
+                  ue -> ue.userAuthoritiesMapper(SecurityConfig::mapAuthorities));
               customizer.tokenEndpoint(
                   te -> {
                     var requestEntityConverter =
@@ -209,6 +189,26 @@ public class SecurityConfig {
         .exceptionHandling(
             ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
         .build();
+  }
+
+  private static Collection<? extends GrantedAuthority> mapAuthorities(
+      Collection<? extends GrantedAuthority> authorities) {
+    for (var authority : authorities) {
+      if (authority instanceof OidcUserAuthority oidc) {
+        var subject = oidc.getIdToken().getSubject();
+        log.info("Logging in user {}", subject);
+        return switch (subject) {
+          case "299950323465436931629862208523254959" -> Set.of(
+              new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
+          case "268505314334796284434550524121540566" -> Set.of(
+              new SimpleGrantedAuthority("ROLE_" + REGISTRY_ADMINISTRATION));
+          case "294629625538148508290996199782510910" -> Set.of(
+              new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
+          default -> Set.of();
+        };
+      }
+    }
+    return Set.of();
   }
 
   @Bean

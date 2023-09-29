@@ -20,6 +20,7 @@ public class AuthController {
   public RolesDto getRoles(OAuth2AuthenticationToken principal) {
     return new RolesDto(
         principal.getPrincipal().getAttribute("email"),
+        principal.getPrincipal().getAttribute("name"),
         principal.getAuthorities().stream().map(Object::toString).toList());
   }
 }
