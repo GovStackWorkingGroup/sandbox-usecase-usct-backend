@@ -7,4 +7,9 @@ public record PaymentHubProperties(
     String accountMapperURL,
     String bulkConnectorURL,
     String callbackBaseUrl,
-    String registeringInstitutionId) {}
+    String registeringInstitutionId,
+    String tenant,
+    String programId,
+    String jwsTenantCert,
+    String jwsTenantPublicKey,
+    String jwsTenantPrivateKey) {}

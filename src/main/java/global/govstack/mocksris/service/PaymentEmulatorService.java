@@ -1,10 +1,14 @@
 package global.govstack.mocksris.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import global.govstack.mocksris.configuration.PaymentBBInformationMediatorProperties;
 import global.govstack.mocksris.configuration.PaymentProperties;
 import global.govstack.mocksris.controller.dto.*;
 import global.govstack.mocksris.model.Beneficiary;
+import global.govstack.mocksris.model.PaymentDisbursement;
 import global.govstack.mocksris.repositories.BeneficiaryRepository;
+import global.govstack.mocksris.repositories.PaymentDisbursementRepository;
 import global.govstack.mocksris.types.PaymentOnboardingCallbackMode;
 import global.govstack.mocksris.types.PaymentOnboardingStatus;
 import java.util.List;
@@ -12,6 +16,7 @@ import java.util.UUID;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,21 +29,31 @@ public class PaymentEmulatorService implements PaymentService {
   private final PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties;
   private final PaymentProperties paymentProperties;
   private final BeneficiaryRepository beneficiaryRepository;
+  private final PaymentDisbursementRepository paymentDisbursementRepository;
+
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public PaymentEmulatorService(
       PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties,
       PaymentProperties paymentProperties,
-      BeneficiaryRepository beneficiaryRepository) {
+      BeneficiaryRepository beneficiaryRepository,
+      PaymentDisbursementRepository paymentDisbursementRepository) {
     this.paymentBBInformationMediatorproperties = paymentBBInformationMediatorproperties;
     this.paymentProperties = paymentProperties;
     this.beneficiaryRepository = beneficiaryRepository;
+    this.paymentDisbursementRepository = paymentDisbursementRepository;
     httpHeaders = new HttpHeaders();
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
     httpHeaders.add("X-Road-Client", paymentBBInformationMediatorproperties.header());
   }
 
   @Override
-  public void orderPayment(List<Beneficiary> beneficiaryList) {
+  public void orderPayment(List<Beneficiary> beneficiaries) {
+    var beneficiaryList =
+        beneficiaryRepository.findAllById(beneficiaries.stream().map(b -> b.getId()).toList());
+
+    validateOnboardingStatus(beneficiaryList);
+
     String requestId = UUID.randomUUID().toString();
     String batchId = UUID.randomUUID().toString();
     var creditInstructionsDTO =
@@ -61,8 +76,31 @@ public class PaymentEmulatorService implements PaymentService {
     var paymentDTO =
         new PaymentDTO(requestId, paymentProperties.sourceBbId(), batchId, creditInstructionsDTO);
     prevalidatePayment(paymentDTO);
-    bulkPayment(paymentDTO);
+    var result = bulkPayment(paymentDTO);
+
+    var request = "\"headers\":%s, \"body\":%s";
+    try {
+      request =
+          String.format(
+              request,
+              objectMapper.writeValueAsString(httpHeaders.entrySet()),
+              objectMapper.writeValueAsString(paymentDTO));
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+    var response = "";
+    try {
+      response = objectMapper.writeValueAsString(result);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+    paymentDisbursementRepository.save(
+        new PaymentDisbursement("emulator", requestId, request, response));
   }
+
+  public void updatePaymentOrderStatus(String callbackBody) {}
 
   @Override
   public void updatePaymentOnboardingStatus(
@@ -82,6 +120,7 @@ public class PaymentEmulatorService implements PaymentService {
   }
 
   @Override
+  @Transactional
   public void registerBeneficiary(List<Beneficiary> beneficiaries) {
     var requestID = UUID.randomUUID().toString();
     PaymentOnboardingBeneficiaryDTO paymentDto = convertBeneficiary(beneficiaries, requestID);
@@ -104,6 +143,7 @@ public class PaymentEmulatorService implements PaymentService {
   }
 
   @Override
+  @Transactional
   public void updateBeneficiary(List<Beneficiary> beneficiaries) {
     var requestID = UUID.randomUUID().toString();
     PaymentOnboardingBeneficiaryDTO paymentDto = convertBeneficiary(beneficiaries, requestID);
@@ -169,5 +209,10 @@ public class PaymentEmulatorService implements PaymentService {
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
+  }
+
+  @Override
+  public List<PaymentDisbursement> getPaymentDisbursements() {
+    return paymentDisbursementRepository.findAll();
   }
 }

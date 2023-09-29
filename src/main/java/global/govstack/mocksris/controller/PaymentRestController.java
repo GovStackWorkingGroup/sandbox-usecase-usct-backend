@@ -1,12 +1,16 @@
 package global.govstack.mocksris.controller;
 
 import global.govstack.mocksris.controller.dto.BeneficiaryDto;
+import global.govstack.mocksris.controller.dto.PaymentDisbursementDto;
 import global.govstack.mocksris.controller.dto.PaymentHubBeneficairyOnboardingCallbackDTO;
 import global.govstack.mocksris.controller.dto.PaymentHubBeneficairyOnboardingFailedCallbackDTO;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.service.PaymentService;
 import global.govstack.mocksris.types.PaymentOnboardingCallbackMode;
+import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -55,6 +59,22 @@ public class PaymentRestController {
   public void beneficiaryUpdateOnboardingCB(
       @RequestBody final PaymentHubBeneficairyOnboardingCallbackDTO beneficiaryCBDto) {
     beneficiaryOnboardingCB(beneficiaryCBDto, PaymentOnboardingCallbackMode.UPDATE);
+  }
+
+  @PutMapping(value = "/payment-callback")
+  @ResponseStatus(HttpStatus.OK)
+  public void beneficiaryPaymentCB(HttpServletRequest request) throws IOException {
+    paymentService.updatePaymentOrderStatus(
+        request.getReader().lines().collect(Collectors.joining()));
+  }
+
+  @GetMapping(value = "/payment-orders")
+  @ResponseStatus(HttpStatus.OK)
+  public List<PaymentDisbursementDto> getPaymentOrders(HttpServletRequest request)
+      throws IOException {
+    var paymentDisbursementsDto =
+        paymentService.getPaymentDisbursements().stream().map(PaymentDisbursementDto::new).toList();
+    return paymentDisbursementsDto;
   }
 
   private void beneficiaryOnboardingCB(
