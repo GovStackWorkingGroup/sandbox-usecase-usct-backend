@@ -1,5 +1,6 @@
 # Mock-SRIS
-This is a driver backend application for 
+
+This is a driver backend application for
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
 (USCT) use case.
 
@@ -12,13 +13,14 @@ This is a driver backend application for
 [//]: # ([![]&#40;./images/figma.png&#41;]&#40;https://www.figma.com/file/qVUaK5Z5FmgQV16C71RRCn/USCT---Vertical-Prototype?type=design&node-id=178-5054&#41; Outdated)
 
 ## Application logic
+
 ```mermaid
 sequenceDiagram
     Civil servant ->> USCT-backend: Sign in
     USCT-backend ->> E-Signat: User authentication
     participant im as Information mediator
 
-%%    Civil servant ->> eSignat: /v1/esignet/authorization/userinfo //GET no need for sign in step 
+%%  Civil servant ->> eSignet: /v1/esignet/authorization/userinfo //GET no need for sign in step 
     Civil servant ->> USCT-backend: Get all candidates
     Civil servant ->> USCT-backend: Create new beneficiary and remove beneficiary from candidates list
     USCT-backend ->> Payment emulator: Automatically register beneficiary in payment system
@@ -27,21 +29,24 @@ sequenceDiagram
     USCT-backend ->> Payment emulator: Automatically make bulk payment
     USCT-backend -->> Civil servant: Return result
 ```
-This implementation is blocked due to the issues mentioned in the [ticket](https://govstack-global.atlassian.net/browse/SND-531?focusedCommentId=12851&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-12851). 
 
+This implementation is blocked due to the issues mentioned in
+the [ticket](https://govstack-global.atlassian.net/browse/SND-531?focusedCommentId=12851&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-12851).
 
 ## Authentication / Authorization
-[MOSIP e-Signt](https://docs.mosip.io/1.2.0/integrations/e-signet) uses as OpenID Connect. 
+
+[MOSIP e-Signt](https://docs.mosip.io/1.2.0/integrations/e-signet) uses as OpenID Connect.
 
 ### Roles and permissions
 
-| FoundationalId | Role | subject |                     Description           |
-|----------------|------|---------|---------|
-|5649650687                |ENROLLMENT_OFFICER      |299950323465436931629862208523254959         |         Officer responsible for enrollment|
-|2371487382                |PAYMENT_OFFICER      |294629625538148508290996199782510910         |           Officer responsible for payment |
-|4893724702                |REGISTRY_ADMINISTRATION      |268505314334796284434550524121540566         | Officer responsible for creating/editing candidates |
+| FoundationalId | Role                    | subject                              | Description                                         |
+|----------------|-------------------------|--------------------------------------|-----------------------------------------------------|
+| 5649650687     | ENROLLMENT_OFFICER      | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
+| 2371487382     | PAYMENT_OFFICER         | 294629625538148508290996199782510910 | Officer responsible for payment                     |
+| 4893724702     | REGISTRY_ADMINISTRATION | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
 
 ### Other test users
+
 * 7436956034
 * 5879614089
 * 3145283460
@@ -50,6 +55,7 @@ This implementation is blocked due to the issues mentioned in the [ticket](https
 * 8917213569
 
 ## Quick start
+
 After the installation finishes, one can access the interfaces e.g. with port forwarding.
 
 ``` shell
@@ -63,7 +69,9 @@ Curl command:
 `curl 'localhost:8080/emulator-health'`
 
 ### CI/CD
+
 Pipeline variables:
+
 * AWS_RESOURCE_NAME_PREFIX = mock-sris/dev-app
 * AWS_CLUSTER_NAME = Kubernetes cluster name, e.g. "Govstack-sandbox-cluster-dev"
 * AWS_ACCOUNT = 463471358064 (Sandbox Dev)
@@ -90,10 +98,12 @@ helm uninstall mock-sris --namespace mock-sris
 ```
 
 ### DB connection
+
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
 
 ### Information mediator variables
 
-**PAYMENT_IM_BASE_URL** = `http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/api`
+**PAYMENT_IM_BASE_URL
+** = `http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/api`
 
 **PAYMENT_IM_HEADER** = `SANDBOX/ORG/CLIENT/TEST`

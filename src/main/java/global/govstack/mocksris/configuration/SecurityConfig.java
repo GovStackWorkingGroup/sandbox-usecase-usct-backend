@@ -78,7 +78,7 @@ public class SecurityConfig {
   public static final String CLAIMS =
       """
       {"userinfo":{
-        "given_name":{"essential":true},
+        "name":{"essential":true},
         "phone_number":{"essential":false},
         "email":{"essential":true},
         "picture":{"essential":false},
