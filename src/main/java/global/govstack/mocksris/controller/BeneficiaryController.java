@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin
-@PreAuthorize("hasRole('PAYMENT_OFFICER')")
 public class BeneficiaryController {
 
   private final BeneficiaryService service;
@@ -36,17 +35,20 @@ public class BeneficiaryController {
     this.modelMapper = modelMapper;
   }
 
+  @PreAuthorize("hasRole('PAYMENT_OFFICER')")
   @GetMapping("/beneficiaries")
   public List<BeneficiaryDto> getAll() {
     return service.findAll().stream().map(BeneficiaryDto::new).toList();
   }
 
+  @PreAuthorize("hasRole('PAYMENT_OFFICER')")
   @GetMapping("/beneficiaries/{id}")
   public BeneficiaryDto getBeneficiary(@PathVariable("id") int id) {
     Beneficiary beneficiary = service.findById(id);
     return new BeneficiaryDto(beneficiary);
   }
 
+  @PreAuthorize("hasRole('ENROLLMENT_OFFICER')")
   @PostMapping(value = "/beneficiaries")
   @ResponseStatus(HttpStatus.CREATED)
   public BeneficiaryDto create(@RequestBody final CreateBeneficiaryDto createBeneficiaryDto) {
