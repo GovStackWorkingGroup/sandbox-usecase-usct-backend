@@ -2,7 +2,7 @@ package global.govstack.mocksris.configuration;
 
 import static global.govstack.mocksris.configuration.AuthoritiesConstants.ENROLLMENT_OFFICER;
 import static global.govstack.mocksris.configuration.AuthoritiesConstants.PAYMENT_OFFICER;
-import static global.govstack.mocksris.configuration.AuthoritiesConstants.REGISTRY_ADMINISTRATION;
+import static global.govstack.mocksris.configuration.AuthoritiesConstants.REGISTRY_OFFICER;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -204,7 +204,7 @@ public class SecurityConfig {
           case "299950323465436931629862208523254959" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
           case "268505314334796284434550524121540566" -> Set.of(
-              new SimpleGrantedAuthority("ROLE_" + REGISTRY_ADMINISTRATION));
+              new SimpleGrantedAuthority("ROLE_" + REGISTRY_OFFICER));
           case "294629625538148508290996199782510910" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
           default -> Set.of();

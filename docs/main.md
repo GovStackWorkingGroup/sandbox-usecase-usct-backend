@@ -39,11 +39,11 @@ the [ticket](https://govstack-global.atlassian.net/browse/SND-531?focusedComment
 
 ### Roles and permissions
 
-| FoundationalId | Role                    | subject                              | Description                                         |
-|----------------|-------------------------|--------------------------------------|-----------------------------------------------------|
-| 5649650687     | ENROLLMENT_OFFICER      | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
-| 2371487382     | PAYMENT_OFFICER         | 294629625538148508290996199782510910 | Officer responsible for payment                     |
-| 4893724702     | REGISTRY_ADMINISTRATION | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
+| FoundationalId | Role               | subject                              | Description                                         |
+|----------------|--------------------|--------------------------------------|-----------------------------------------------------|
+| 5649650687     | ENROLLMENT_OFFICER | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
+| 2371487382     | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
+| 4893724702     | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
 
 ### Other test users
 
