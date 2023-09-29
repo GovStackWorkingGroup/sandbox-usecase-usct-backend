@@ -63,6 +63,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.client.RestTemplate;
@@ -157,6 +158,8 @@ public class SecurityConfig {
             customizer -> {
               customizer.loginProcessingUrl("/api/login/oauth2/code/*");
               customizer.successHandler(new SimpleUrlAuthenticationSuccessHandler("/driver-poc"));
+              customizer.failureHandler(
+                  new SimpleUrlAuthenticationFailureHandler("/driver-poc/login?error"));
               customizer.authorizationEndpoint(
                   ae -> {
                     ae.baseUri("/api/oauth2/authorization");
