@@ -137,7 +137,8 @@ public class PaymentHubService implements PaymentService {
                     new PaymentHubOnboardingBeneficiaryDetailsDTO(
                         beneficiary.getFunctionalId(),
                         beneficiary.getPerson().getFinancialModality().getCode(),
-                        beneficiary.getPerson().getFinancialAddress()))
+                        beneficiary.getPerson().getFinancialAddress(),
+                        beneficiary.getPerson().getBankName()))
             .toList();
 
     return new PaymentHubOnboardingBeneficiaryDTO(requestID, paymentHubDetailsDto);
@@ -211,7 +212,7 @@ public class PaymentHubService implements PaymentService {
                 String.class)
             .getBody();
 
-    var request = "\"headers\":%s, \"body\":%s";
+    var request = "{\"headers\":%s, \"body\":%s}";
     try {
       var headers = objectMapper.writeValueAsString(httpHeaders.entrySet());
       request = String.format(request, headers, body);
