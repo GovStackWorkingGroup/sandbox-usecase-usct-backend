@@ -30,9 +30,6 @@ sequenceDiagram
     USCT-backend -->> Civil servant: Return result
 ```
 
-This implementation is blocked due to the issues mentioned in
-the [ticket](https://govstack-global.atlassian.net/browse/SND-531?focusedCommentId=12851&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-12851).
-
 ## Authentication / Authorization
 
 [MOSIP e-Signt](https://docs.mosip.io/1.2.0/integrations/e-signet) uses as OpenID Connect.
@@ -45,29 +42,7 @@ the [ticket](https://govstack-global.atlassian.net/browse/SND-531?focusedComment
 | 4893724702     | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
 | 2371487382     | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
 
-### Other test users
-
-* 7436956034
-* 5879614089
-* 3145283460
-* 7540825162
-* 9531082389
-* 8917213569
-
-## Quick start
-
-After the installation finishes, one can access the interfaces e.g. with port forwarding.
-
-``` shell
-kubectl port-forward \
-    -n mock-sris \
-    service/mock-sris 8080 8080
-```
-
-Curl command:
-
-`curl 'localhost:8080/emulator-health'`
-
+Endpoint: `/api/oauth2/authorization/esignet`
 ### CI/CD
 
 Pipeline variables:
