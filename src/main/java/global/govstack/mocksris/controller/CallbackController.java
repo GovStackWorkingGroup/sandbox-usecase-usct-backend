@@ -24,6 +24,7 @@ public class CallbackController {
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
+  @PreAuthorize("permitAll()")
   @RequestMapping(value = "/callback")
   public RequestDataDto callback(HttpServletRequest request) throws IOException {
     Map<String, List<String>> headersMap =

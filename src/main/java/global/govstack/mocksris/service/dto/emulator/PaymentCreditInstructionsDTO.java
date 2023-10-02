@@ -1,4 +1,4 @@
-package global.govstack.mocksris.controller.dto;
+package global.govstack.mocksris.service.dto.emulator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
