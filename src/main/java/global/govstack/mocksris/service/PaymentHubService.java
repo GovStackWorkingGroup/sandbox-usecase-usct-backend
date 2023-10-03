@@ -138,7 +138,7 @@ public class PaymentHubService implements PaymentService {
                         beneficiary.getFunctionalId(),
                         beneficiary.getPerson().getFinancialModality().getCode(),
                         beneficiary.getPerson().getFinancialAddress(),
-                        beneficiary.getPerson().getBankName()))
+                        beneficiary.getPerson().getIban()))
             .toList();
 
     return new PaymentHubOnboardingBeneficiaryDTO(requestID, paymentHubDetailsDto);
