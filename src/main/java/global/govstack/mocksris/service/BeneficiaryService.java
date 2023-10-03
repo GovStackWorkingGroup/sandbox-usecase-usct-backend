@@ -57,7 +57,7 @@ public class BeneficiaryService {
         List.of(
             new PaymentOnboardingBeneficiaryDetailsDTO(
                 functionalId,
-                savedBeneficiary.getPerson().getFinancialModality(),
+                savedBeneficiary.getPerson().getFinancialModality().name(),
                 savedBeneficiary.getPerson().getFinancialAddress()));
     var requestID = UUID.randomUUID().toString();
     var paymentDto =

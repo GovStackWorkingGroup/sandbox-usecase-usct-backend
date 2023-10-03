@@ -1,8 +1,11 @@
 package global.govstack.mocksris.model;
 
 import global.govstack.mocksris.controller.dto.CreatePersonDto;
+import global.govstack.mocksris.types.PaymentModality;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,7 +43,9 @@ public class Person {
 
   @Column private String financialAddress;
 
-  @Column private String financialModality;
+  @Column
+  @Enumerated(EnumType.STRING)
+  private PaymentModality financialModality;
 
   @Column private String iban;
 
@@ -62,7 +67,7 @@ public class Person {
     this.zipCode = personDto.zipCode();
     this.bankAccountOwnerName = personDto.bankAccountOwnerName();
     this.financialAddress = personDto.financialAddress();
-    this.financialModality = personDto.financialModality();
+    this.financialModality = PaymentModality.valueOf(personDto.financialModality());
     this.iban = personDto.iban();
     this.bankName = personDto.bankName();
   }
@@ -179,11 +184,11 @@ public class Person {
     this.financialAddress = financialAddress;
   }
 
-  public String getFinancialModality() {
+  public PaymentModality getFinancialModality() {
     return financialModality;
   }
 
-  public void setFinancialModality(String financialModality) {
+  public void setFinancialModality(PaymentModality financialModality) {
     this.financialModality = financialModality;
   }
 
