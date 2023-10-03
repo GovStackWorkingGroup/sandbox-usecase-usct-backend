@@ -9,7 +9,6 @@ import global.govstack.mocksris.types.PaymentOnboardingCallbackMode;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,27 +56,22 @@ public class PaymentRestController {
   @PreAuthorize("permitAll()")
   @PutMapping(value = "/beneficiary-register-callback")
   @ResponseStatus(HttpStatus.OK)
-  public void beneficiaryRegisterOnboardingCB(HttpServletRequest request) throws IOException {
-    paymentService.updatePaymentOnboardingStatus(
-        request.getReader().lines().collect(Collectors.joining()),
-        PaymentOnboardingCallbackMode.REGISTER);
+  public void beneficiaryRegisterOnboardingCB(@RequestBody String body) throws IOException {
+    paymentService.updatePaymentOnboardingStatus(body, PaymentOnboardingCallbackMode.REGISTER);
   }
 
   @PreAuthorize("permitAll()")
   @PutMapping(value = "/beneficiary-update-callback")
   @ResponseStatus(HttpStatus.OK)
-  public void beneficiaryUpdateOnboardingCB(HttpServletRequest request) throws IOException {
-    paymentService.updatePaymentOnboardingStatus(
-        request.getReader().lines().collect(Collectors.joining()),
-        PaymentOnboardingCallbackMode.UPDATE);
+  public void beneficiaryUpdateOnboardingCB(@RequestBody String body) throws IOException {
+    paymentService.updatePaymentOnboardingStatus(body, PaymentOnboardingCallbackMode.UPDATE);
   }
 
   @PreAuthorize("permitAll()")
   @PutMapping(value = "/payment-callback")
   @ResponseStatus(HttpStatus.OK)
-  public void beneficiaryPaymentCB(HttpServletRequest request) throws IOException {
-    paymentService.updatePaymentOrderStatus(
-        request.getReader().lines().collect(Collectors.joining()));
+  public void beneficiaryPaymentCB(@RequestBody String body) throws IOException {
+    paymentService.updatePaymentOrderStatus(body);
   }
 
   @GetMapping(value = "/payment-orders")
