@@ -3,6 +3,7 @@ package global.govstack.mocksris.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import global.govstack.mocksris.configuration.PaymentHubBBInformationMediatorProperties;
 import global.govstack.mocksris.configuration.PaymentHubProperties;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.PaymentDisbursement;
@@ -28,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException;
 @ConditionalOnProperty(name = "payment.config.mode", havingValue = "paymenthub")
 public class PaymentHubService implements PaymentService {
   private final PaymentHubProperties paymentHubProperties;
+  private final PaymentHubBBInformationMediatorProperties paymentHubBBInformationMediatorProperties;
   private final HttpComponentsClientHttpRequestFactory requestFactory;
   private final BeneficiaryRepository beneficiaryRepository;
   private final PaymentDisbursementRepository paymentDisbursementRepository;
@@ -36,10 +38,12 @@ public class PaymentHubService implements PaymentService {
 
   public PaymentHubService(
       PaymentHubProperties paymentHubProperties,
+      PaymentHubBBInformationMediatorProperties paymentHubBBInformationMediatorProperties,
       HttpComponentsClientHttpRequestFactory requestFactory,
       BeneficiaryRepository beneficiaryRepository,
       PaymentDisbursementRepository paymentDisbursementRepository) {
     this.paymentHubProperties = paymentHubProperties;
+    this.paymentHubBBInformationMediatorProperties = paymentHubBBInformationMediatorProperties;
     this.requestFactory = requestFactory;
     this.beneficiaryRepository = beneficiaryRepository;
     this.paymentDisbursementRepository = paymentDisbursementRepository;
@@ -47,12 +51,14 @@ public class PaymentHubService implements PaymentService {
 
   @Override
   public String health() {
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
     String acHealth =
         new RestTemplate()
             .exchange(
                 paymentHubProperties.accountMapperURL() + "/actuator/health",
                 HttpMethod.GET,
-                new HttpEntity<>(null),
+                new HttpEntity<>(httpHeaders),
                 String.class)
             .getBody();
     String bcHealth =
@@ -60,7 +66,7 @@ public class PaymentHubService implements PaymentService {
             .exchange(
                 paymentHubProperties.bulkConnectorURL() + "/actuator/health",
                 HttpMethod.GET,
-                new HttpEntity<>(null),
+                new HttpEntity<>(httpHeaders),
                 String.class)
             .getBody();
 
@@ -75,6 +81,7 @@ public class PaymentHubService implements PaymentService {
         paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/beneficiary-register-callback");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
+    httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
 
     var requestID = UUID.randomUUID().toString();
     var paymentHubDto = convertBeneficiaries(beneficiaries, requestID);
@@ -105,6 +112,7 @@ public class PaymentHubService implements PaymentService {
         paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/beneficiary-update-callback");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
+    httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
 
     var requestID = UUID.randomUUID().toString();
     var paymentHubDto = convertBeneficiaries(beneficiaries, requestID);
@@ -202,6 +210,7 @@ public class PaymentHubService implements PaymentService {
     httpHeaders.add("X-Program-ID", paymentHubProperties.programId());
     httpHeaders.add("X-Signature", signOrderPaymentRequest(requestID, body));
     httpHeaders.add("type", "raw");
+    httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
 
     var response =
         new RestTemplate(requestFactory)
