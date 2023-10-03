@@ -38,7 +38,7 @@ public class PersonDto {
     this.zipCode = person.getZipCode();
     this.bankAccountOwnerName = person.getBankAccountOwnerName();
     this.financialAddress = person.getFinancialAddress();
-    this.financialModality = person.getFinancialModality();
+    this.financialModality = person.getFinancialModality().name();
     this.iban = person.getIban();
     this.bankName = person.getBankName();
   }
