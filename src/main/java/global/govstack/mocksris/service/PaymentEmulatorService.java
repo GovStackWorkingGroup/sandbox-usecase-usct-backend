@@ -30,6 +30,7 @@ public class PaymentEmulatorService implements PaymentService {
   private final PaymentProperties paymentProperties;
   private final BeneficiaryRepository beneficiaryRepository;
   private final PaymentDisbursementRepository paymentDisbursementRepository;
+  private final RestTemplate restTemplate;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -45,6 +46,7 @@ public class PaymentEmulatorService implements PaymentService {
     httpHeaders = new HttpHeaders();
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
     httpHeaders.add("X-Road-Client", paymentBBInformationMediatorproperties.header());
+    this.restTemplate = new RestTemplate();
   }
 
   @Override
@@ -108,7 +110,7 @@ public class PaymentEmulatorService implements PaymentService {
 
   @Override
   public String health() {
-    return new RestTemplate()
+    return restTemplate
         .exchange(
             paymentBBInformationMediatorproperties.baseUrl() + "/actuator/health",
             HttpMethod.GET,
@@ -123,11 +125,10 @@ public class PaymentEmulatorService implements PaymentService {
     var requestID = UUID.randomUUID().toString();
     PaymentOnboardingBeneficiaryDTO paymentDto = convertBeneficiary(beneficiaries, requestID);
     try {
-      new RestTemplate()
-          .postForObject(
-              paymentBBInformationMediatorproperties.baseUrl() + "/register-beneficiary",
-              new HttpEntity<>(paymentDto, httpHeaders),
-              PaymentResponseDTO.class);
+      restTemplate.postForObject(
+          paymentBBInformationMediatorproperties.baseUrl() + "/register-beneficiary",
+          new HttpEntity<>(paymentDto, httpHeaders),
+          PaymentResponseDTO.class);
       updateBeneficiaryPaymentStatus(beneficiaries, PaymentOnboardingStatus.ONBOARDED, requestID);
     } catch (HttpClientErrorException ex) {
       if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
@@ -146,11 +147,10 @@ public class PaymentEmulatorService implements PaymentService {
     var requestID = UUID.randomUUID().toString();
     PaymentOnboardingBeneficiaryDTO paymentDto = convertBeneficiary(beneficiaries, requestID);
     try {
-      new RestTemplate()
-          .postForObject(
-              paymentBBInformationMediatorproperties.baseUrl() + "/update-beneficiary-details",
-              new HttpEntity<>(paymentDto, httpHeaders),
-              PaymentResponseDTO.class);
+      restTemplate.postForObject(
+          paymentBBInformationMediatorproperties.baseUrl() + "/update-beneficiary-details",
+          new HttpEntity<>(paymentDto, httpHeaders),
+          PaymentResponseDTO.class);
       updateBeneficiaryPaymentStatus(beneficiaries, PaymentOnboardingStatus.ONBOARDED, requestID);
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
@@ -187,11 +187,10 @@ public class PaymentEmulatorService implements PaymentService {
 
   private PaymentResponseDTO prevalidatePayment(PaymentDTO data) {
     try {
-      return new RestTemplate()
-          .postForObject(
-              paymentBBInformationMediatorproperties.baseUrl() + "/prepayment-validation",
-              new HttpEntity<>(data, httpHeaders),
-              PaymentResponseDTO.class);
+      return restTemplate.postForObject(
+          paymentBBInformationMediatorproperties.baseUrl() + "/prepayment-validation",
+          new HttpEntity<>(data, httpHeaders),
+          PaymentResponseDTO.class);
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
@@ -199,11 +198,10 @@ public class PaymentEmulatorService implements PaymentService {
 
   private PaymentResponseDTO bulkPayment(PaymentDTO data) {
     try {
-      return new RestTemplate()
-          .postForObject(
-              paymentBBInformationMediatorproperties.baseUrl() + "/bulk-payment",
-              new HttpEntity<>(data, httpHeaders),
-              PaymentResponseDTO.class);
+      return restTemplate.postForObject(
+          paymentBBInformationMediatorproperties.baseUrl() + "/bulk-payment",
+          new HttpEntity<>(data, httpHeaders),
+          PaymentResponseDTO.class);
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }

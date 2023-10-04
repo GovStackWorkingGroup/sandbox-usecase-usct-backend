@@ -33,6 +33,8 @@ public class PaymentHubService implements PaymentService {
   private final HttpComponentsClientHttpRequestFactory requestFactory;
   private final BeneficiaryRepository beneficiaryRepository;
   private final PaymentDisbursementRepository paymentDisbursementRepository;
+  private final RestTemplate restTemplate;
+  private final RestTemplate restTemplateSelfSigned;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -47,6 +49,8 @@ public class PaymentHubService implements PaymentService {
     this.requestFactory = requestFactory;
     this.beneficiaryRepository = beneficiaryRepository;
     this.paymentDisbursementRepository = paymentDisbursementRepository;
+    this.restTemplate = new RestTemplate();
+    this.restTemplateSelfSigned = new RestTemplate(requestFactory);
   }
 
   @Override
@@ -54,7 +58,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
     String acHealth =
-        new RestTemplate()
+        restTemplate
             .exchange(
                 paymentHubProperties.accountMapperURL() + "/actuator/health",
                 HttpMethod.GET,
@@ -62,7 +66,7 @@ public class PaymentHubService implements PaymentService {
                 String.class)
             .getBody();
     String bcHealth =
-        new RestTemplate(requestFactory)
+        restTemplateSelfSigned
             .exchange(
                 paymentHubProperties.bulkConnectorURL() + "/actuator/health",
                 HttpMethod.GET,
@@ -94,11 +98,10 @@ public class PaymentHubService implements PaymentService {
     beneficiaryRepository.saveAll(beneficiaries);
 
     try {
-      new RestTemplate()
-          .postForObject(
-              paymentHubProperties.accountMapperURL() + "/beneficiary",
-              new HttpEntity<>(paymentHubDto, httpHeaders),
-              PaymentHubBeneficiaryResponseDTO.class);
+      restTemplate.postForObject(
+          paymentHubProperties.accountMapperURL() + "/beneficiary",
+          new HttpEntity<>(paymentHubDto, httpHeaders),
+          PaymentHubBeneficiaryResponseDTO.class);
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
@@ -125,12 +128,11 @@ public class PaymentHubService implements PaymentService {
     beneficiaryRepository.saveAll(beneficiaries);
 
     try {
-      new RestTemplate()
-          .exchange(
-              paymentHubProperties.accountMapperURL() + "/beneficiary",
-              HttpMethod.PUT,
-              new HttpEntity<>(paymentHubDto, httpHeaders),
-              PaymentHubBeneficiaryResponseDTO.class);
+      restTemplate.exchange(
+          paymentHubProperties.accountMapperURL() + "/beneficiary",
+          HttpMethod.PUT,
+          new HttpEntity<>(paymentHubDto, httpHeaders),
+          PaymentHubBeneficiaryResponseDTO.class);
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
@@ -213,7 +215,7 @@ public class PaymentHubService implements PaymentService {
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
 
     var response =
-        new RestTemplate(requestFactory)
+        restTemplateSelfSigned
             .exchange(
                 paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
                 HttpMethod.POST,
