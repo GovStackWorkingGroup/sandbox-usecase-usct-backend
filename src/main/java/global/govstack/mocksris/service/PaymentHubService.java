@@ -251,9 +251,8 @@ public class PaymentHubService implements PaymentService {
                       UUID.randomUUID().toString(),
                       List.of(
                           new PaymentHubOrderPaymentPartyDTO(
-                              beneficiary.getPerson().getFinancialModality().getKey(),
-                              beneficiary.getFunctionalId())),
-                      beneficiary.getPerson().getFinancialModality().paymentMode(),
+                              "functionalId", beneficiary.getFunctionalId())),
+                      paymentHubProperties.paymentMode(),
                       beneficiary.getEnrolledPackage().getAmount(),
                       beneficiary.getEnrolledPackage().getCurrency(),
                       "Payment for " + beneficiary.getEnrolledPackage().getName() + " package");

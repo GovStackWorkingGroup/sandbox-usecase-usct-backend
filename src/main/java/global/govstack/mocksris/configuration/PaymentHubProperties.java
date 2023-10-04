@@ -10,4 +10,5 @@ public record PaymentHubProperties(
     String registeringInstitutionId,
     String tenant,
     String programId,
-    String jwsTenantPrivateKey) {}
+    String jwsTenantPrivateKey,
+    String paymentMode) {}
