@@ -31,7 +31,7 @@ sequenceDiagram
     USCT-backend -->> Civil servant: Return result
 ```
 
-## Authentication / Authorization
+## Identity BB
 
 [MOSIP e-Signt](https://docs.mosip.io/1.2.0/integrations/e-signet) uses as OpenID Connect.
 
@@ -45,16 +45,22 @@ sequenceDiagram
 
 Endpoint: `/api/oauth2/authorization/esignet`
 
-## Building Blocks
 
-### Payment Building Block
+## Payment Building Block
 
-Payments Building Block is used as payment service that can disburse payment to Beneficiaries.
+Payments BB is used as payment service that can disburse payment to Beneficiaries which compliant with [specification](https://govstack.gitbook.io/bb-payments/).
 
 Supported payment Building blocks are:
 
 * Payment Building block emulator
-* Mifos Payment Hub 
+  * [API spec](https://govstack.gitbook.io/bb-payments/) version 1.0
+
+  * [Implementation](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/implementation) 
+  * [Documentation](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/docs)
+* Mifos Payment Hub
+  * [API spec](https://govstack.gitbook.io/bb-payments/) version 2.0 (In Development!) 
+  * Implementation (in progress)
+  * Documentation (in progress)
 
 Environment variable is used to define which service to use:
 
@@ -70,26 +76,13 @@ Environment variables for global configuration:
 | GOVERNMENT_IDENTIFIER | Identifier of the GOVERNMENT that is using the Payment BB | Any Identifier    | "066283"       |
 
 
-#### Payment Building Block Emulator
-
-* [API spec](https://govstack.gitbook.io/bb-payments/) version 1.0
-* [Implementation](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/implementation)
-* [Documentation](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/blob/main/emulator/docs/1-main.md)
-
-Environment variables "emulator" configuration:
-
+### Payment BB Emulator environment variables
 | Name                | Description                                                                                                                                                                                 | Default Value                                                                                  |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
 | PAYMENT_IM_BASE_URL | URL for accessing Payment BB                                                                                                                                                                | http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/api |
 | PAYMENT_IM_HEADER   | Header value for Information Mediator Building Block request header "X-Road-Client". More [Information](https://govstack.gitbook.io/bb-information-mediation/v/information-mediation-1.0/). | "PAYMENT_IM_HEADER:SANDBOX/ORG/CLIENT/TEST"                                                    |
 
-#### Mifos Payment Hub
-
-* API spec: [API spec](https://govstack.gitbook.io/bb-payments/) version 2.0 (In Development!)
-* Implementation: TBD
-* Documentation : TBD
-
-Environment variables "Payment Hub" configuration:
+### Mifos Payment Hub environment variables 
 
 | Name                               | Description                                                                                                                                                                                 | Default Value                                                                                                                         |
 |------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
@@ -135,10 +128,3 @@ helm uninstall mock-sris --namespace mock-sris
 ## DB connection
 
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
-
-## Information mediator variables
-
-**PAYMENT_IM_BASE_URL
-** = `http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/api`
-
-**PAYMENT_IM_HEADER** = `SANDBOX/ORG/CLIENT/TEST`
