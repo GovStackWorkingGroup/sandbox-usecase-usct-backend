@@ -17,7 +17,7 @@ This is a driver backend application for
 ```mermaid
 sequenceDiagram
     Civil servant ->> USCT-backend: Sign in
-    USCT-backend ->> E-Signat: User authentication
+    USCT-backend ->> Identity BB: User authentication
     participant im as Information mediator
 
 %%  Civil servant ->> eSignet: /v1/esignet/authorization/userinfo //GET no need for sign in step 
