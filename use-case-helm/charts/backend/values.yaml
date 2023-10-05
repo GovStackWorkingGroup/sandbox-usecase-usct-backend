@@ -1,10 +1,13 @@
 deployment:
   name: backend
   containers:
-    name: dev-backend
-    image: harbor.k-space.ee/gov-stack/mock-sris:0.0.2
+    name: usct-backend
+    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/plg-backend
+    imageTag: 0.0.1
     imagePullPolicy: IfNotPresent
 
 service:
   name: backend
   port: 8080
+
+oidcKeystorePassword: ""

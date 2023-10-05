@@ -8,8 +8,8 @@ playground_frontend:
       app: "frontend"
   container:
     name: frontend
-    image: harbor.k-space.ee/gov-stack/ui
-    imageTag: latest
+    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/plg-ui
+    imageTag: 0.0.1
     imagePullPolicy: IfNotPresent
   profiles: "container"
   service:
