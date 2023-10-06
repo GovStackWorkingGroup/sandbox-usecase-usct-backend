@@ -8,22 +8,22 @@
 
 ## Installation 
 1. Pull the [helm chart](./../use-case-helm).
-3. Use next commands to up and run application.
+2. Use next commands to up and run application.
 
 ```shell
-helm install mock-sris ./use-case-helm/ --create-namespace --namespace mock-sris
+helm install usct ./use-case-helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm upgrade --install mock-sris ./use-case-helm/ --create-namespace --namespace mock-sris
+helm upgrade --install usct ./use-case-helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm uninstall mock-sris --namespace mock-sris
+helm uninstall usct --namespace usct
 ```
 
 
-4. Port forward UI of the Security Server 3 (aka Provider Security Server)
+3. Port forward UI of the Security Server 3 (aka Provider Security Server)
 
 ``` shell
 kubectl port-forward \
@@ -31,19 +31,19 @@ kubectl port-forward \
     service/ss3 4000 4000
 ```
 
-5. Navigate to 'Clients' tab and press 'Add subsystem' button.
-6. Fill 'Payment' name as Subsystem Code.
-7. Press Yes in Register client popup window.
-8. Go into new 'PAYMENT' subsystem 
-9. Click on 'Services' tub. 
-10. Press 'Add REST' button.
-11. Choose 'OpenAPI 3 Description' option 
-12. Fill 'http://payment-bb-emulator.mock-sris.svc.cluster.local:8080/v3/api-docs' into URL placeholder and 'api' into Service Code. 
-13. Enable a new created service --> click on the related switch.
+4. Navigate to 'Clients' tab and press 'Add subsystem' button. 
+5. Fill 'Payment' name as Subsystem Code. 
+6. Press Yes in Register client popup window. 
+7. Go into new 'PAYMENT' subsystem 
+8. Click on 'Services' tub. 
+9. Press 'Add REST' button. 
+10. Choose 'OpenAPI 3 Description' option 
+11. Fill 'http://payment-bb-emulator.mock-sris.svc.cluster.local:8080/v3/api-docs' into URL placeholder and 'api' into Service Code. 
+12. Enable a new created service --> click on the related switch. 
 13. Expand a new created REST definition 
-14. Press 'Add subjects' in the 'Service Parameters' tab
+14. Press 'Add subjects' in the 'Service Parameters' tab 
 15. Press 'Search' button 
-16. Check 'Client' and 'Provider' checkboxes and press 'Add selected'
+16. Check 'Client' and 'Provider' checkboxes and press 'Add selected' 
 17. Close popup
 
 
