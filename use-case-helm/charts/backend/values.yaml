@@ -11,3 +11,27 @@ service:
   port: 8080
 
 oidcKeystorePassword: ""
+
+payment:
+  config:
+    mode: "emulator"
+  variables:
+    source_bb_id: "MOCK-SRIS-BB"
+    government_identifier: "066283"
+  bb:
+    im:
+      base_url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/api"
+      header: "SANDBOX/ORG/CLIENT/TEST"
+
+paymenthub:
+  bb:
+    account_mapper_url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/account-mapper"
+    bulk_connector_url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/bulk-connector"
+    callback_base_url: "http://backend.usct.svc.cluster.local:8080"
+    registering_institution_id: 123456
+    tenant: rhino
+    program_id: "00"
+    jws_tenant_private_key: ""
+    payment_mode: "mojaloop"
+    im:
+      header: "SANDBOX/ORG/CLIENT/TEST"

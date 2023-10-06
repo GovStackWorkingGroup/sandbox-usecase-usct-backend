@@ -6,6 +6,7 @@ metadata:
   namespace: "{{ $.Release.Namespace }}"
 stringData:
   keystorePassword: "{{ .Values.oidcKeystorePassword }}"
+  paymentHubPrivateKey: "{{.Values.paymenthub.bb.jws_tenant_private_key}}"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -32,3 +33,34 @@ spec:
                 secretKeyRef:
                   name: "{{ .Values.deployment.name }}-secrets"
                   key: keystorePassword
+            - name: JWS_TENANT_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.deployment.name }}-secrets"
+                  key: paymentHubPrivateKey
+            - name: PAYMENT_MODE
+              value: "{{ .Values.payment.config.mode }}"
+            - name: MOCK-SRIS-BB
+              value: "{{ .Values.payment.variables.source_bb_id }}"
+            - name: GOVERNMENT_IDENTIFIER
+              value: "{{ .Values.payment.variables.government_identifier }}"
+            - name: PAYMENT_IM_BASE_URL
+              value: "{{ .Values.payment.bb.im.base_url }}"
+            - name: PAYMENT_IM_HEADER
+              value: "{{ .Values.payment.bb.im.header }}"
+            - name: PAYMENTHUB_ACCOUNT_MAPPER_URL
+              value: "{{ .Values.paymenthub.bb.account_mapper_url }}"
+            - name: PAYMENTHUB_BULK_CONNECTOR_URL
+              value: "{{ .Values.paymenthub.bb.bulk_connector_url }}"
+            - name: PAYMENT_CALLBACK_BASE_URL
+              value: "{{ .Values.paymenthub.bb.callback_base_url }}"
+            - name: PAYMENT_REGISTERING_INSTITUTION_ID
+              value: "{{ .Values.paymenthub.bb.registering_institution_id }}"
+            - name: PAYMENTHUB_TENANT
+              value: "{{ .Values.paymenthub.bb.tenant }}"
+            - name: PAYMENTHUB_PROGRAM_ID
+              value: "{{ .Values.paymenthub.bb.program_id }}"
+            - name: PAYMENTHUB_PAYMENT_MODE
+              value: "{{ .Values.paymenthub.bb.payment_mode }}"
+            - name: PAYMENTHUB_IM_HEADER
+              value: "{{ .Values.paymenthub.bb.im.header }}"

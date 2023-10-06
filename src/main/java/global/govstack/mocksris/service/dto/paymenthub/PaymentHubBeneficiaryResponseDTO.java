@@ -1,21 +1,21 @@
-package global.govstack.mocksris.controller.dto;
+package global.govstack.mocksris.service.dto.paymenthub;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
-public class PaymentResponseDTO {
-  @JsonProperty("ResponseCode")
+public class PaymentHubBeneficiaryResponseDTO {
+  @JsonProperty("responseCode")
   private String responseCode = null;
 
-  @JsonProperty("ResponseDescription")
+  @JsonProperty("responseDescription")
   private String responseDescription = null;
 
-  @JsonProperty("RequestID")
+  @JsonProperty("requestID")
   private String requestID = null;
 
-  public PaymentResponseDTO responseCode(String responseCode) {
+  public PaymentHubBeneficiaryResponseDTO responseCode(String responseCode) {
     this.responseCode = responseCode;
     return this;
   }
@@ -26,7 +26,7 @@ public class PaymentResponseDTO {
    * @return responseCode
    */
   @ApiModelProperty(value = "")
-  @Size(min = 2, max = 2)
+  @Size(min = 20, max = 20)
   public String getResponseCode() {
     return responseCode;
   }
@@ -35,7 +35,7 @@ public class PaymentResponseDTO {
     this.responseCode = responseCode;
   }
 
-  public PaymentResponseDTO responseDescription(String responseDescription) {
+  public PaymentHubBeneficiaryResponseDTO responseDescription(String responseDescription) {
     this.responseDescription = responseDescription;
     return this;
   }
@@ -46,7 +46,7 @@ public class PaymentResponseDTO {
    * @return responseDescription
    */
   @ApiModelProperty(value = "")
-  @Size(max = 200)
+  @Size(min = 2, max = 2)
   public String getResponseDescription() {
     return responseDescription;
   }
@@ -55,18 +55,18 @@ public class PaymentResponseDTO {
     this.responseDescription = responseDescription;
   }
 
-  public PaymentResponseDTO requestID(String requestID) {
+  public PaymentHubBeneficiaryResponseDTO requestID(String requestID) {
     this.requestID = requestID;
     return this;
   }
 
   /**
-   * Get requestID
+   * Get getRequestID
    *
-   * @return requestID
+   * @return getRequestID
    */
   @ApiModelProperty(value = "")
-  @Size(min = 12, max = 12)
+  @Size(max = 30)
   public String getRequestID() {
     return requestID;
   }
@@ -83,10 +83,12 @@ public class PaymentResponseDTO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PaymentResponseDTO paymentResponseDTO = (PaymentResponseDTO) o;
-    return Objects.equals(this.responseCode, paymentResponseDTO.responseCode)
-        && Objects.equals(this.responseDescription, paymentResponseDTO.responseDescription)
-        && Objects.equals(this.requestID, paymentResponseDTO.requestID);
+    PaymentHubBeneficiaryResponseDTO paymentHubBeneficiaryResponseDTO =
+        (PaymentHubBeneficiaryResponseDTO) o;
+    return Objects.equals(this.responseCode, paymentHubBeneficiaryResponseDTO.responseCode)
+        && Objects.equals(
+            this.responseDescription, paymentHubBeneficiaryResponseDTO.responseDescription)
+        && Objects.equals(this.requestID, paymentHubBeneficiaryResponseDTO.requestID);
   }
 
   @Override
@@ -97,7 +99,7 @@ public class PaymentResponseDTO {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InlineResponse200 {\n");
+    sb.append("class PaymentHubBeneficiaryResponseDTO {\n");
 
     sb.append("    responseCode: ").append(toIndentedString(responseCode)).append("\n");
     sb.append("    responseDescription: ")
