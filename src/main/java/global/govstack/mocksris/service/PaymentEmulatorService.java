@@ -80,7 +80,7 @@ public class PaymentEmulatorService implements PaymentService {
     prevalidatePayment(paymentDTO);
     var result = bulkPayment(paymentDTO);
 
-    var request = "\"headers\":%s, \"body\":%s";
+    var request = "{\"headers\":%s, \"body\":%s}";
     try {
       request =
           String.format(
