@@ -27,7 +27,7 @@ paymenthub:
   bb:
     account_mapper_url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/account-mapper"
     bulk_connector_url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/bulk-connector"
-    callback_base_url: "http://usct.backend.svc.cluster.local:8080"
+    callback_base_url: "http://backend.usct.svc.cluster.local:8080"
     registering_institution_id: 123456
     tenant: rhino
     program_id: "00"
