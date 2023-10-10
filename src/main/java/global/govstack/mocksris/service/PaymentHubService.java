@@ -82,7 +82,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
         "X-CallbackURL",
-        paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/beneficiary-register-callback");
+        paymentHubProperties.callbackBaseUrl() + "/api/v1/callback/payment/beneficiary-register");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
@@ -112,7 +112,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
         "X-CallbackURL",
-        paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/beneficiary-update-callback");
+        paymentHubProperties.callbackBaseUrl() + "/api/v1/callback/payment/beneficiary-update");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
@@ -203,7 +203,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
         "X-CallbackURL",
-        paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/payment-callback");
+        paymentHubProperties.callbackBaseUrl() + "/api/v1/callback/payment/payment");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
     httpHeaders.add("Purpose", "USCT Payment");
