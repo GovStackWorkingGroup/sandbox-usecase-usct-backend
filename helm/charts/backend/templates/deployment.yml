@@ -64,3 +64,5 @@ spec:
               value: "{{ .Values.paymenthub.bb.payment_mode }}"
             - name: PAYMENTHUB_IM_HEADER
               value: "{{ .Values.paymenthub.bb.im.header }}"
+            - name: CALLBACK_CIDR
+              value: "{{ .Values.callback.cidr }}"
