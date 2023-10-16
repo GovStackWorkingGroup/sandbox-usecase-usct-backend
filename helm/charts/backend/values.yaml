@@ -35,3 +35,6 @@ paymenthub:
     im:
       header: "SANDBOX/ORG/CLIENT/TEST"
 
+callback:
+  cidr: "0.0.0.0/0,::/0"
+

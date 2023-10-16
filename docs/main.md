@@ -96,6 +96,14 @@ Environment variables for global configuration:
 | PAYMENTHUB_PAYMENT_MODE            | More information in PaymentHub Documentation ( TBD )                                                                                                                                        | mojaloop                                                                                                                              |
 | PAYMENTHUB_IM_HEADER               | Header value for Information Mediator Building Block request header "X-Road-Client". More [Information](https://govstack.gitbook.io/bb-information-mediation/v/information-mediation-1.0/). | SANDBOX/ORG/CLIENT/TEST                                                                                                               |
 
+## IP FILTER
+In order to protect by IP callback endpoints, whitelist of IP can be provided by ENV VAR
+
+| Name          | Description                                | Default Value                     |
+|---------------|--------------------------------------------|-----------------------------------|
+| CALLBACK_CIDR | Comma separated CIDR-s for whitelisting IP | All IP ranges eg "0.0.0.0/0,::/0" |
+
+
 ## CI/CD
 
 Pipeline variables:

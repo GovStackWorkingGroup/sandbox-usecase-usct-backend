@@ -5,7 +5,6 @@ import global.govstack.mocksris.controller.dto.PaymentDisbursementDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.service.PaymentDisbursementService;
 import global.govstack.mocksris.service.PaymentService;
-import global.govstack.mocksris.types.PaymentOnboardingCallbackMode;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,27 +49,6 @@ public class PaymentRestController {
     List<Beneficiary> list = beneficiaryDtos.stream().map(this::convertToEntity).toList();
     paymentService.orderPayment(list);
     return "Thank you! Payment order received!";
-  }
-
-  @PreAuthorize("permitAll()")
-  @PutMapping(value = "/beneficiary-register-callback")
-  @ResponseStatus(HttpStatus.OK)
-  public void beneficiaryRegisterOnboardingCB(@RequestBody String body) throws IOException {
-    paymentService.updatePaymentOnboardingStatus(body, PaymentOnboardingCallbackMode.REGISTER);
-  }
-
-  @PreAuthorize("permitAll()")
-  @PutMapping(value = "/beneficiary-update-callback")
-  @ResponseStatus(HttpStatus.OK)
-  public void beneficiaryUpdateOnboardingCB(@RequestBody String body) throws IOException {
-    paymentService.updatePaymentOnboardingStatus(body, PaymentOnboardingCallbackMode.UPDATE);
-  }
-
-  @PreAuthorize("permitAll()")
-  @PutMapping(value = "/payment-callback")
-  @ResponseStatus(HttpStatus.OK)
-  public void beneficiaryPaymentCB(@RequestBody String body) throws IOException {
-    paymentService.updatePaymentOrderStatus(body);
   }
 
   @GetMapping(value = "/payment-orders")

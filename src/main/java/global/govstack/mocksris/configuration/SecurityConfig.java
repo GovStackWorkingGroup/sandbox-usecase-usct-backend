@@ -141,8 +141,6 @@ public class SecurityConfig {
                 authorize
                     .requestMatchers(antMatcher("/api/v1/callback/**"))
                     .permitAll()
-                    .requestMatchers(antMatcher("/api/v1/payment/**"))
-                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .cors(withDefaults())
