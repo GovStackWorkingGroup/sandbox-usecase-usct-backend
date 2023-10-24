@@ -30,7 +30,7 @@ spec:
                   key: paymentHubPrivateKey
             - name: PAYMENT_MODE
               value: "{{ .Values.payment.config.mode }}"
-            - name: MOCK-SRIS-BB
+            - name: USCT-BB
               value: "{{ .Values.payment.variables.source_bb_id }}"
             - name: GOVERNMENT_IDENTIFIER
               value: "{{ .Values.payment.variables.government_identifier }}"

@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'global.govstack.mock-sris' is invalid and this project uses 'global.govstack.mocksris' instead.
+* The original package name 'global.govstack.usct' is invalid and this project uses 'global.govstack.usct' instead.
 
 # Getting Started
 

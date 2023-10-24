@@ -27,7 +27,7 @@ helm uninstall usct --namespace usct
 
 ``` shell
 kubectl port-forward \
-    -n mock-sris \
+    -n usct \
     service/ss3 4000 4000
 ```
 
@@ -38,7 +38,7 @@ kubectl port-forward \
 8. Click on 'Services' tub. 
 9. Press 'Add REST' button. 
 10. Choose 'OpenAPI 3 Description' option 
-11. Fill 'http://payment-bb-emulator.mock-sris.svc.cluster.local:8080/v3/api-docs' into URL placeholder and 'api' into Service Code. 
+11. Fill 'http://payment-bb-emulator.usct.svc.cluster.local:8080/v3/api-docs' into URL placeholder and 'api' into Service Code. 
 12. Enable a new created service --> click on the related switch. 
 13. Expand a new created REST definition 
 14. Press 'Add subjects' in the 'Service Parameters' tab 

@@ -36,7 +36,7 @@ jobs:
             - target/backend-0.0.1-SNAPSHOT.jar
       - store_artifacts:
           path: target/backend-0.0.1-SNAPSHOT.jar
-          destination: target/backend-0.0.1-SNAPSHOT.jar 
+          destination: target/backend-0.0.1-SNAPSHOT.jar
   aws-job:
     docker:
       - image: cimg/aws:2022.06
@@ -45,7 +45,7 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
       - restore_cache:
-          keys: 
+          keys:
             - backend-0.0.1-SNAPSHOT.jar
 
       # run the aws-cli/setup command from the orb
@@ -105,17 +105,17 @@ jobs:
           # optional parameters
           profile-name: CircleCIRole
           role-session-name: CircleSession
-          session-duration: '1800' 
+          session-duration: '1800'
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: ${AWS_CLUSTER_NAME}
           cluster-authentication-role-arn: arn:aws:iam::${AWS_ACCOUNT}:role/${AWS_ROLE}
       - helm/install-helm-client:
           version: v3.2.0
       - run:
-          name: Update mock-sris
+          name: Update usct
           command: |
             helm dependency update ./helm
-            helm upgrade --install mock-sris ./helm --create-namespace --namespace ${CHART_NAMESPACE}
+            helm upgrade --install usct ./helm --create-namespace --namespace ${CHART_NAMESPACE}
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -134,5 +134,5 @@ workflows:
           type: approval
       - deploy-project:
           context: aws
-          requires: 
+          requires:
             - hold
