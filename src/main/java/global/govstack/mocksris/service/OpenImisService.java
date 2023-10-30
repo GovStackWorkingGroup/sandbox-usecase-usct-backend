@@ -1,5 +1,6 @@
 package global.govstack.mocksris.service;
 
+import global.govstack.mocksris.configuration.OpenImisProperties;
 import global.govstack.mocksris.controller.dto.OpenImisPackageSet;
 import global.govstack.mocksris.controller.dto.PackageDto;
 import org.apache.hc.client5.http.utils.Base64;
@@ -17,15 +18,17 @@ import java.util.Optional;
 public class OpenImisService {
 
     private final RestTemplate restTemplate;
+    private final OpenImisProperties openImisProperties;
 
-    public OpenImisService() {
+    public OpenImisService(OpenImisProperties openImisProperties) {
+        this.openImisProperties = openImisProperties;
         this.restTemplate = new RestTemplate();
     }
 
     public List<PackageDto> getAll() {
         OpenImisPackageSet packagesSet =
                 restTemplate
-                        .exchange("http://backend.open-imis.svc.cluster.local:8000/data/registryname/111?search=package&filter=phone",
+                        .exchange(openImisProperties.url(),
                                 HttpMethod.GET,
                                 new HttpEntity<>(createHeaders("admin", "govstack")),
                                 OpenImisPackageSet.class)
@@ -38,7 +41,7 @@ public class OpenImisService {
 
         OpenImisPackageSet packagesSet =
                 restTemplate
-                        .exchange("http://backend.open-imis.svc.cluster.local:8000/data/registryname/111?search=147&filter=ID",
+                        .exchange(openImisProperties.url(),
                                 HttpMethod.GET,
                                 new HttpEntity<>(createHeaders("admin", "govstack")),
                                 OpenImisPackageSet.class)
