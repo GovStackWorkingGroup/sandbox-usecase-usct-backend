@@ -1,6 +1,7 @@
 package global.govstack.mocksris.controller.dto;
 
 import global.govstack.mocksris.model.Beneficiary;
+import global.govstack.mocksris.service.PackageService;
 import global.govstack.mocksris.types.PaymentStatus;
 
 public class BeneficiaryDto {
@@ -8,6 +9,7 @@ public class BeneficiaryDto {
   private PersonDto person;
   private PaymentStatus paymentStatus;
   private PackageDto enrolledPackage;
+  private PackageService packageService;
 
   public BeneficiaryDto() {}
 
@@ -15,7 +17,7 @@ public class BeneficiaryDto {
     this.id = beneficiary.getId();
     this.person = new PersonDto(beneficiary.getPerson());
     this.paymentStatus = beneficiary.getPaymentStatus();
-    this.enrolledPackage = new PackageDto(beneficiary.getEnrolledPackage());
+    this.enrolledPackage = packageService.getById( beneficiary.getEnrolledPackageId());
   }
 
   public int getId() {

@@ -24,11 +24,11 @@ public class PackageController {
 
   @GetMapping("/packages")
   public List<PackageDto> findById() {
-    return packageService.findAll().stream().map(PackageDto::new).toList();
+    return packageService.findAll();
   }
 
   @GetMapping("/packages/{id}")
   public PackageDto findById(@PathVariable("id") int id) {
-    return new PackageDto(packageService.getById(id));
+    return packageService.getById(id);
   }
 }

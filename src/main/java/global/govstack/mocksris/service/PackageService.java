@@ -1,25 +1,25 @@
 package global.govstack.mocksris.service;
 
-import global.govstack.mocksris.model.Package;
-import global.govstack.mocksris.repositories.PackageRepository;
 import java.util.List;
+
+import global.govstack.mocksris.controller.dto.PackageDto;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PackageService {
-  private final PackageRepository packageRepository;
+  private final OpenImisService openImisService;
 
-  public PackageService(PackageRepository packageRepository) {
-    this.packageRepository = packageRepository;
+  public PackageService(OpenImisService openImisService) {
+    this.openImisService = openImisService;
   }
 
-  public List<Package> findAll() {
-    return packageRepository.findAll();
+  public List<PackageDto> findAll() {
+    return openImisService.getAll();
   }
 
-  public Package getById(int id) {
-    return packageRepository
-        .findById(id)
+  public PackageDto getById(int id) {
+    return openImisService
+        .getById(id)
         .orElseThrow(() -> new RuntimeException("Package with id: " + id + " doesn't exist"));
   }
 }

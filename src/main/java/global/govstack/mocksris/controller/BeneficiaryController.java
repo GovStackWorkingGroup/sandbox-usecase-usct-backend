@@ -6,7 +6,6 @@ import global.govstack.mocksris.controller.dto.CreateBeneficiaryDto;
 import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Candidate;
-import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.service.BeneficiaryService;
 import java.util.List;
 import org.modelmapper.ModelMapper;
@@ -53,8 +52,8 @@ public class BeneficiaryController {
   @ResponseStatus(HttpStatus.CREATED)
   public BeneficiaryDto create(@RequestBody final CreateBeneficiaryDto createBeneficiaryDto) {
     Candidate candidate = convertToEntity(createBeneficiaryDto.getCandidateDto());
-    Package enroledPackage = convertToEntity(createBeneficiaryDto.getEnrolledPackage());
-    Beneficiary beneficiary = service.create(candidate, enroledPackage);
+    int enrolledPackageId = createBeneficiaryDto.getEnrolledPackage().getId();
+    Beneficiary beneficiary = service.create(candidate, enrolledPackageId);
     return convertToDto(beneficiary);
   }
 

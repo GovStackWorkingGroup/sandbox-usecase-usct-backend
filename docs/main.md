@@ -22,6 +22,7 @@ sequenceDiagram
 
 %%  Civil servant ->> eSignet: /v1/esignet/authorization/userinfo //GET no need for sign in step 
     Civil servant ->> USCT-backend: Get all candidates
+    USCT-backend ->> OpenIMIS: Get packages
     Civil servant ->> USCT-backend: Create new beneficiary and remove beneficiary from candidates list
     USCT-backend ->> Payment BB: Automatically register beneficiary in payment system if not registered
     USCT-backend ->> Payment BB: Automatically update beneficiary in payment system if registered
@@ -136,3 +137,8 @@ helm uninstall mock-sris --namespace mock-sris
 ## DB connection
 
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
+
+
+## Password/Secret
+
+https://govstack-global.atlassian.net/wiki/spaces/DEMO/pages/338690049/Passwords

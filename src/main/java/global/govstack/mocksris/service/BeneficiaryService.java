@@ -3,7 +3,6 @@ package global.govstack.mocksris.service;
 import global.govstack.mocksris.configuration.PaymentProperties;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Candidate;
-import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.repositories.BeneficiaryRepository;
 import global.govstack.mocksris.types.PaymentStatus;
 import java.util.List;
@@ -39,15 +38,15 @@ public class BeneficiaryService {
   }
 
   @Transactional
-  public Beneficiary create(Candidate candidate, Package enrolledPackage) {
+  public Beneficiary create(Candidate candidate, int enrolledPackageId) {
     String functionalId =
         candidate.getPerson().getPersonalIdCode()
             + properties.governmentIdentifier()
-            + enrolledPackage.getId();
+            + enrolledPackageId;
 
     Beneficiary beneficiary = new Beneficiary();
     beneficiary.setPerson(candidate.getPerson());
-    beneficiary.setEnrolledPackage(enrolledPackage);
+    beneficiary.setEnrolledPackageId(enrolledPackageId);
     beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
     beneficiary.setFunctionalId(functionalId);
     Beneficiary savedBeneficiary = repository.save(beneficiary);

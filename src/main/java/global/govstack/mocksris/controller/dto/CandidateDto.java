@@ -1,6 +1,8 @@
 package global.govstack.mocksris.controller.dto;
 
 import global.govstack.mocksris.model.Candidate;
+import global.govstack.mocksris.service.PackageService;
+
 import java.util.List;
 
 public class CandidateDto {
@@ -10,10 +12,10 @@ public class CandidateDto {
 
   public CandidateDto() {}
 
-  public CandidateDto(Candidate candidate) {
+  public CandidateDto(Candidate candidate, List<PackageDto> packages) {
     this.id = candidate.getId();
     this.person = new PersonDto(candidate.getPerson());
-    this.packages = candidate.getPackages().stream().map(PackageDto::new).toList();
+    this.packages = packages;
   }
 
   public int getId() {

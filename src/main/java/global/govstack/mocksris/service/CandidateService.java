@@ -1,16 +1,18 @@
 package global.govstack.mocksris.service;
 
+import global.govstack.mocksris.controller.dto.CandidateDto;
 import global.govstack.mocksris.controller.dto.CreateCandidateDto;
 import global.govstack.mocksris.controller.dto.CreatePersonDto;
 import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Candidate;
-import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.model.Person;
 import global.govstack.mocksris.repositories.CandidateRepository;
 import jakarta.transaction.Transactional;
+
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -20,23 +22,37 @@ public class CandidateService {
   private final PersonService personService;
   private final ModelMapper modelMapper;
 
+  private final PackageService packageService;
+  private Map<Integer, PackageDto> packagesCache;
+
+
   public CandidateService(
-      CandidateRepository candidateRepository,
-      PersonService personService,
-      ModelMapper modelMapper) {
+          CandidateRepository candidateRepository,
+          PersonService personService,
+          ModelMapper modelMapper, PackageService packageService) {
     this.candidateRepository = candidateRepository;
     this.personService = personService;
     this.modelMapper = modelMapper;
+    this.packageService = packageService;
+    this.packagesCache = new ConcurrentHashMap<>();
   }
 
-  public List<Candidate> findAll() {
-    return candidateRepository.findAll();
+  public List<CandidateDto> findAll() {
+    List<PackageDto> allPackages = packageService.findAll();
+    allPackages.forEach(item -> packagesCache.put(item.getId(), item));
+    List<Candidate> candidates = candidateRepository.findAll();
+    return candidates.stream().map(candidate -> {
+      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(packageId -> packagesCache.get(packageId)).toList();
+      return new CandidateDto(candidate, packageDtoList);
+    }).toList();
   }
 
-  public Candidate findById(int id) {
-    return candidateRepository
-        .findById(id)
-        .orElseThrow(() -> new RuntimeException("Candidate with id: " + id + " doesn't exist"));
+  public CandidateDto findById(int id) {
+      Candidate candidate = candidateRepository
+              .findById(id)
+              .orElseThrow(() -> new RuntimeException("Candidate with id: " + id + " doesn't exist"));
+      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(packageId -> packagesCache.get(packageId)).toList();
+     return new CandidateDto(candidate, packageDtoList);
   }
 
   public void deleteById(Integer id) {
@@ -49,12 +65,7 @@ public class CandidateService {
     Person person = personService.save(createPersonDto);
     Candidate candidate = new Candidate();
     candidate.setPerson(person);
-    Set<Package> packages =
-        createCandidateDto.packages().stream()
-            .map(this::convertToEntity)
-            .collect(Collectors.toSet());
-
-    candidate.setPackages(packages);
+    candidate.setPackageIds(createCandidateDto.packageIds());
     return candidateRepository.save(candidate);
   }
 
