@@ -25,7 +25,7 @@ public class OpenImisService {
     public List<PackageDto> getAll() {
         OpenImisPackageSet packagesSet =
                 restTemplate
-                        .exchange("http://localhost:8000/data/registryname/111?search=package&filter=phone",
+                        .exchange("http://backend.open-imis.svc.cluster.local:8000/data/registryname/111?search=package&filter=phone",
                                 HttpMethod.GET,
                                 new HttpEntity<>(createHeaders("admin", "govstack")),
                                 OpenImisPackageSet.class)
@@ -38,7 +38,7 @@ public class OpenImisService {
 
         OpenImisPackageSet packagesSet =
                 restTemplate
-                        .exchange("http://localhost:8000/data/registryname/111?search=147&filter=ID",
+                        .exchange("http://backend.open-imis.svc.cluster.local:8000/data/registryname/111?search=147&filter=ID",
                                 HttpMethod.GET,
                                 new HttpEntity<>(createHeaders("admin", "govstack")),
                                 OpenImisPackageSet.class)
