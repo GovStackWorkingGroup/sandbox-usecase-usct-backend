@@ -3,7 +3,6 @@ package global.govstack.mocksris.controller;
 import global.govstack.mocksris.controller.dto.BeneficiaryDto;
 import global.govstack.mocksris.controller.dto.CandidateDto;
 import global.govstack.mocksris.controller.dto.CreateBeneficiaryDto;
-import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Candidate;
 import global.govstack.mocksris.service.BeneficiaryService;
@@ -37,14 +36,13 @@ public class BeneficiaryController {
   @PreAuthorize("hasRole('PAYMENT_OFFICER')")
   @GetMapping("/beneficiaries")
   public List<BeneficiaryDto> getAll() {
-    return service.findAll().stream().map(BeneficiaryDto::new).toList();
+    return service.findAll();
   }
 
   @PreAuthorize("hasRole('PAYMENT_OFFICER')")
   @GetMapping("/beneficiaries/{id}")
   public BeneficiaryDto getBeneficiary(@PathVariable("id") int id) {
-    Beneficiary beneficiary = service.findById(id);
-    return new BeneficiaryDto(beneficiary);
+    return service.findById(id);
   }
 
   @PreAuthorize("hasRole('ENROLLMENT_OFFICER')")
@@ -59,10 +57,6 @@ public class BeneficiaryController {
 
   private Candidate convertToEntity(CandidateDto candidateDto) {
     return modelMapper.map(candidateDto, Candidate.class);
-  }
-
-  private Package convertToEntity(PackageDto packageDto) {
-    return modelMapper.map(packageDto, Package.class);
   }
 
   private BeneficiaryDto convertToDto(Beneficiary beneficiary) {

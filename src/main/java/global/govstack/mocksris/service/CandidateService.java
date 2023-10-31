@@ -20,38 +20,33 @@ import org.springframework.stereotype.Service;
 public class CandidateService {
   private final CandidateRepository candidateRepository;
   private final PersonService personService;
-  private final ModelMapper modelMapper;
-
   private final PackageService packageService;
-  private Map<Integer, PackageDto> packagesCache;
 
 
   public CandidateService(
           CandidateRepository candidateRepository,
           PersonService personService,
-          ModelMapper modelMapper, PackageService packageService) {
+          PackageService packageService) {
     this.candidateRepository = candidateRepository;
     this.personService = personService;
-    this.modelMapper = modelMapper;
     this.packageService = packageService;
-    this.packagesCache = new ConcurrentHashMap<>();
   }
 
   public List<CandidateDto> findAll() {
     List<PackageDto> allPackages = packageService.findAll();
-    allPackages.forEach(item -> packagesCache.put(item.getId(), item));
     List<Candidate> candidates = candidateRepository.findAll();
     return candidates.stream().map(candidate -> {
-      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(packageId -> packagesCache.get(packageId)).toList();
+      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(allPackages::get).toList();
       return new CandidateDto(candidate, packageDtoList);
     }).toList();
   }
 
   public CandidateDto findById(int id) {
-      Candidate candidate = candidateRepository
+    List<PackageDto> allPackages = packageService.findAll();
+    Candidate candidate = candidateRepository
               .findById(id)
               .orElseThrow(() -> new RuntimeException("Candidate with id: " + id + " doesn't exist"));
-      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(packageId -> packagesCache.get(packageId)).toList();
+      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(allPackages::get).toList();
      return new CandidateDto(candidate, packageDtoList);
   }
 
@@ -73,9 +68,5 @@ public class CandidateService {
   public Candidate save(Candidate candidate) {
     personService.save(candidate.getPerson());
     return candidateRepository.save(candidate);
-  }
-
-  private Package convertToEntity(PackageDto packageDto) {
-    return modelMapper.map(packageDto, Package.class);
   }
 }
