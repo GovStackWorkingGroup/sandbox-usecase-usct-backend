@@ -30,7 +30,7 @@ public class OpenImisService {
     }
 
     public List<PackageDto> getAll() {
-        log.info("Get all packages from OpenIMIS");
+        log.info("Get all packages from OpenIMIS URL: {}", openImisProperties.url());
         try {
             OpenImisPackageSet packagesSet =
                     restTemplate
