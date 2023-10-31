@@ -10,10 +10,7 @@ import global.govstack.mocksris.repositories.CandidateRepository;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,20 +30,18 @@ public class CandidateService {
   }
 
   public List<CandidateDto> findAll() {
-    List<PackageDto> allPackages = packageService.findAll();
     List<Candidate> candidates = candidateRepository.findAll();
     return candidates.stream().map(candidate -> {
-      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(allPackages::get).toList();
+      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(packageService::getById).toList();
       return new CandidateDto(candidate, packageDtoList);
     }).toList();
   }
 
   public CandidateDto findById(int id) {
-    List<PackageDto> allPackages = packageService.findAll();
     Candidate candidate = candidateRepository
               .findById(id)
               .orElseThrow(() -> new RuntimeException("Candidate with id: " + id + " doesn't exist"));
-      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(allPackages::get).toList();
+      List<PackageDto> packageDtoList = candidate.getPackageIds().stream().map(packageService::getById).toList();
      return new CandidateDto(candidate, packageDtoList);
   }
 
