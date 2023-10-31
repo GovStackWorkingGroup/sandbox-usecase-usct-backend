@@ -46,6 +46,15 @@ sequenceDiagram
 
 Endpoint: `/api/oauth2/authorization/esignet`
 
+## OpenIMIS
+
+OpenIMIS is package provider.
+USCT heavily uses packages. To improve performance USCT uses cache for package to avoid redundant requests. 
+
+### Example of request
+
+![Get Packages OpenIMIS](images/getPackages.gif)
+
 
 ## Payment Building Block
 
