@@ -56,5 +56,4 @@ public class PackageDto {
   public String getCurrency() {
     return "EURO";
   }
-
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "Candidate" )
+@Entity(name = "Candidate")
 public class Candidate {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

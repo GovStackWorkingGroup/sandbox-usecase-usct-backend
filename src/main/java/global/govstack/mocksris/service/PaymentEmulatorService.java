@@ -37,10 +37,11 @@ public class PaymentEmulatorService implements PaymentService {
   private ObjectMapper objectMapper = new ObjectMapper();
 
   public PaymentEmulatorService(
-          PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties,
-          PaymentProperties paymentProperties,
-          BeneficiaryRepository beneficiaryRepository,
-          PaymentDisbursementRepository paymentDisbursementRepository, PackageService packageService) {
+      PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties,
+      PaymentProperties paymentProperties,
+      BeneficiaryRepository beneficiaryRepository,
+      PaymentDisbursementRepository paymentDisbursementRepository,
+      PackageService packageService) {
     this.paymentBBInformationMediatorproperties = paymentBBInformationMediatorproperties;
     this.paymentProperties = paymentProperties;
     this.beneficiaryRepository = beneficiaryRepository;
@@ -68,8 +69,10 @@ public class PaymentEmulatorService implements PaymentService {
             .map(
                 beneficiary -> {
                   PackageDto packageDto =
-                          packages.stream().filter(item -> item.getId() == beneficiary.getEnrolledPackageId()).findFirst()
-                                  .orElse(new PackageDto(1,"default","default package", 0));
+                      packages.stream()
+                          .filter(item -> item.getId() == beneficiary.getEnrolledPackageId())
+                          .findFirst()
+                          .orElse(new PackageDto(1, "default", "default package", 0));
                   String instructionId = UUID.randomUUID().toString();
                   var payeeFunctionalId =
                       beneficiary.getPerson().getPersonalIdCode()
@@ -77,8 +80,7 @@ public class PaymentEmulatorService implements PaymentService {
                           + packageDto.getId();
                   var amount = packageDto.getAmount();
                   var currency = packageDto.getCurrency();
-                  var narration =
-                      "Payment for " + packageDto.getName() + " package";
+                  var narration = "Payment for " + packageDto.getName() + " package";
                   return new PaymentCreditInstructionsDTO(
                       instructionId, payeeFunctionalId, amount, currency, narration);
                 })

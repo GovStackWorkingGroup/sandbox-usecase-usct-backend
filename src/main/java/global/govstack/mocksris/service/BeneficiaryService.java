@@ -6,62 +6,69 @@ import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Candidate;
 import global.govstack.mocksris.repositories.BeneficiaryRepository;
 import global.govstack.mocksris.types.PaymentStatus;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 public class BeneficiaryService {
-    private final BeneficiaryRepository repository;
-    private final PaymentService paymentService;
-    private final CandidateService candidateService;
-    private final PaymentProperties properties;
-    private final PackageService packageService;
+  private final BeneficiaryRepository repository;
+  private final PaymentService paymentService;
+  private final CandidateService candidateService;
+  private final PaymentProperties properties;
+  private final PackageService packageService;
 
-    public BeneficiaryService(
-            BeneficiaryRepository repository,
-            PaymentService paymentService,
-            CandidateService candidateService,
-            PaymentProperties properties, PackageService packageService) {
-        this.repository = repository;
-        this.paymentService = paymentService;
-        this.candidateService = candidateService;
-        this.properties = properties;
-        this.packageService = packageService;
-    }
+  public BeneficiaryService(
+      BeneficiaryRepository repository,
+      PaymentService paymentService,
+      CandidateService candidateService,
+      PaymentProperties properties,
+      PackageService packageService) {
+    this.repository = repository;
+    this.paymentService = paymentService;
+    this.candidateService = candidateService;
+    this.properties = properties;
+    this.packageService = packageService;
+  }
 
-    public List<BeneficiaryDto> findAll() {
-        List<Beneficiary> beneficiaries = repository.findAll();
-        return beneficiaries.stream().map(beneficiary -> {
-            return new BeneficiaryDto(beneficiary, packageService.getById(beneficiary.getEnrolledPackageId()));
-        }).toList();
-    }
+  public List<BeneficiaryDto> findAll() {
+    List<Beneficiary> beneficiaries = repository.findAll();
+    return beneficiaries.stream()
+        .map(
+            beneficiary -> {
+              return new BeneficiaryDto(
+                  beneficiary, packageService.getById(beneficiary.getEnrolledPackageId()));
+            })
+        .toList();
+  }
 
-    public BeneficiaryDto findById(int id) {
-        var beneficiary = repository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("Beneficiary with id: " + id + " doesn't exist"));
-        return new BeneficiaryDto(beneficiary, packageService.getById(beneficiary.getEnrolledPackageId()));
-    }
+  public BeneficiaryDto findById(int id) {
+    var beneficiary =
+        repository
+            .findById(id)
+            .orElseThrow(
+                () -> new RuntimeException("Beneficiary with id: " + id + " doesn't exist"));
+    return new BeneficiaryDto(
+        beneficiary, packageService.getById(beneficiary.getEnrolledPackageId()));
+  }
 
-    @Transactional
-    public Beneficiary create(Candidate candidate, int enrolledPackageId) {
-        String functionalId =
-                candidate.getPerson().getPersonalIdCode()
-                        + properties.governmentIdentifier()
-                        + enrolledPackageId;
+  @Transactional
+  public Beneficiary create(Candidate candidate, int enrolledPackageId) {
+    String functionalId =
+        candidate.getPerson().getPersonalIdCode()
+            + properties.governmentIdentifier()
+            + enrolledPackageId;
 
-        Beneficiary beneficiary = new Beneficiary();
-        beneficiary.setPerson(candidate.getPerson());
-        beneficiary.setEnrolledPackageId(enrolledPackageId);
-        beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
-        beneficiary.setFunctionalId(functionalId);
-        Beneficiary savedBeneficiary = repository.save(beneficiary);
-        candidateService.deleteById(candidate.getId());
+    Beneficiary beneficiary = new Beneficiary();
+    beneficiary.setPerson(candidate.getPerson());
+    beneficiary.setEnrolledPackageId(enrolledPackageId);
+    beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
+    beneficiary.setFunctionalId(functionalId);
+    Beneficiary savedBeneficiary = repository.save(beneficiary);
+    candidateService.deleteById(candidate.getId());
 
-        paymentService.registerBeneficiary(List.of(savedBeneficiary));
+    paymentService.registerBeneficiary(List.of(savedBeneficiary));
 
-        return savedBeneficiary;
-    }
+    return savedBeneficiary;
+  }
 }

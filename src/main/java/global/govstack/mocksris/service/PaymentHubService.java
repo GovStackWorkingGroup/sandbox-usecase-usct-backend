@@ -17,10 +17,7 @@ import global.govstack.mocksris.util.RSAUtil;
 import global.govstack.mocksris.util.SHAUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -44,11 +41,12 @@ public class PaymentHubService implements PaymentService {
   private ObjectMapper objectMapper = new ObjectMapper();
 
   public PaymentHubService(
-          PaymentHubProperties paymentHubProperties,
-          PaymentHubBBInformationMediatorProperties paymentHubBBInformationMediatorProperties,
-          HttpComponentsClientHttpRequestFactory requestFactory,
-          BeneficiaryRepository beneficiaryRepository,
-          PaymentDisbursementRepository paymentDisbursementRepository, PackageService packageService) {
+      PaymentHubProperties paymentHubProperties,
+      PaymentHubBBInformationMediatorProperties paymentHubBBInformationMediatorProperties,
+      HttpComponentsClientHttpRequestFactory requestFactory,
+      BeneficiaryRepository beneficiaryRepository,
+      PaymentDisbursementRepository paymentDisbursementRepository,
+      PackageService packageService) {
     this.paymentHubProperties = paymentHubProperties;
     this.paymentHubBBInformationMediatorProperties = paymentHubBBInformationMediatorProperties;
     this.requestFactory = requestFactory;
@@ -257,8 +255,10 @@ public class PaymentHubService implements PaymentService {
             .map(
                 beneficiary -> {
                   PackageDto packageDto =
-                          packages.stream().filter(item -> item.getId() == beneficiary.getEnrolledPackageId()).findFirst()
-                                  .orElse(new PackageDto(1,"default","default package", 0));
+                      packages.stream()
+                          .filter(item -> item.getId() == beneficiary.getEnrolledPackageId())
+                          .findFirst()
+                          .orElse(new PackageDto(1, "default", "default package", 0));
                   return new PaymentHubOrderPaymentDTO(
                       UUID.randomUUID().toString(),
                       List.of(

@@ -1,8 +1,6 @@
 package global.govstack.mocksris.controller.dto;
 
 import global.govstack.mocksris.model.Candidate;
-import global.govstack.mocksris.service.PackageService;
-
 import java.util.List;
 
 public class CandidateDto {

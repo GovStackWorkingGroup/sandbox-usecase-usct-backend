@@ -1,6 +1,5 @@
 package global.govstack.mocksris.model;
 
-import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.types.PaymentOnboardingStatus;
 import global.govstack.mocksris.types.PaymentStatus;
 import jakarta.persistence.Column;
