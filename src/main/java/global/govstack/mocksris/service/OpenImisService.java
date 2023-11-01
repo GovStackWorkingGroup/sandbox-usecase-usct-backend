@@ -35,7 +35,8 @@ public class OpenImisService {
               .exchange(
                   openImisProperties.url(),
                   HttpMethod.GET,
-                  new HttpEntity<>(createHeaders(openImisProperties.user(), openImisProperties.password())),
+                  new HttpEntity<>(
+                      createHeaders(openImisProperties.user(), openImisProperties.password())),
                   OpenImisPackageSet.class)
               .getBody();
       return packagesSet.results().stream().map(PackageDto::new).toList();
