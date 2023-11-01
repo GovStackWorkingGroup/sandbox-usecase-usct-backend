@@ -5,7 +5,6 @@ import global.govstack.mocksris.controller.dto.OpenImisPackageSet;
 import global.govstack.mocksris.controller.dto.PackageDto;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.utils.Base64;
 import org.springframework.http.HttpEntity;
@@ -36,28 +35,10 @@ public class OpenImisService {
               .exchange(
                   openImisProperties.url(),
                   HttpMethod.GET,
-                  new HttpEntity<>(createHeaders("admin", "govstack")),
+                  new HttpEntity<>(createHeaders(openImisProperties.user(), openImisProperties.password())),
                   OpenImisPackageSet.class)
               .getBody();
       return packagesSet.results().stream().map(PackageDto::new).toList();
-    } catch (Exception ex) {
-      throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
-    }
-  }
-
-  public Optional<PackageDto> getById(int id) {
-    log.info("Get package from OpenIMIS");
-    try {
-      OpenImisPackageSet packagesSet =
-          restTemplate
-              .exchange(
-                  openImisProperties.url(),
-                  HttpMethod.GET,
-                  new HttpEntity<>(createHeaders("admin", "govstack")),
-                  OpenImisPackageSet.class)
-              .getBody();
-
-      return packagesSet.results().stream().map(PackageDto::new).findFirst();
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
