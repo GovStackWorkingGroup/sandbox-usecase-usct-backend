@@ -1,16 +1,10 @@
-# Mock-SRIS
+# Unconditional Social Cash Transfer
 
 This is a driver backend application for
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
 (USCT) use case.
 
 [Live Demo](https://usct.dev.sandbox-playground.com/driver-poc/)
-
-[//]: # (## Building block diagram need to update parts of the section)
-
-[//]: # ([![]&#40;./images/bb.png&#41;]&#40;&#41; Outdated)
-
-[//]: # ([![]&#40;./images/figma.png&#41;]&#40;https://www.figma.com/file/qVUaK5Z5FmgQV16C71RRCn/USCT---Vertical-Prototype?type=design&node-id=178-5054&#41; Outdated)
 
 ## Application logic
 
@@ -20,7 +14,6 @@ sequenceDiagram
     USCT-backend ->> Identity BB: User authentication
     participant im as Information mediator
 
-%%  Civil servant ->> eSignet: /v1/esignet/authorization/userinfo //GET no need for sign in step 
     Civil servant ->> USCT-backend: Get all candidates
     USCT-backend ->> OpenIMIS: Get packages
     Civil servant ->> USCT-backend: Create new beneficiary and remove beneficiary from candidates list
@@ -51,6 +44,11 @@ Endpoint: `/api/oauth2/authorization/esignet`
 OpenIMIS is package provider.
 USCT heavily uses packages. To improve performance USCT uses cache for package to avoid redundant requests. 
 
+### Adapter
+Originaly OpenIMIS base on [Fast Healthcare Interoperability Resources](https://en.wikipedia.org/wiki/Fast_Healthcare_Interoperability_Resources) (FHIR) standard.
+
+The [adapter](https://github.com/openimis/openimis-be-govstack_api_py) provides Govs OpenIMIS specification compliant.
+
 ### Example of request
 
 ![Get Packages OpenIMIS](images/getPackages.gif)
@@ -80,10 +78,10 @@ Environment variable is used to define which service to use:
 
 Environment variables for global configuration:
 
-| Name                  | Description                                               | Applicable values | Default Value  |
-|-----------------------|-----------------------------------------------------------|-------------------|----------------|
-| MOCK-SRIS-BB          | Identifier of the BB that is using the Payment BB         | Any Identifier    | "MOCK-SRIS-BB" |
-| GOVERNMENT_IDENTIFIER | Identifier of the GOVERNMENT that is using the Payment BB | Any Identifier    | "066283"       |
+| Name                  | Description                                               | Applicable values | Default Value |
+|-----------------------|-----------------------------------------------------------|-------------------|---------------|
+| USCT-BB               | Identifier of the BB that is using the Payment BB         | Any Identifier    | "USCT-BB"     |
+| GOVERNMENT_IDENTIFIER | Identifier of the GOVERNMENT that is using the Payment BB | Any Identifier    | "066283"      |
 
 
 ### Payment BB Emulator environment variables
@@ -98,7 +96,7 @@ Environment variables for global configuration:
 |------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
 | PAYMENTHUB_ACCOUNT_MAPPER_URL      | URL to account mapper API endpoints                                                                                                                                                         | http://ph-ee-identity-account-mapper.paymenthub.svc.cluster.local:8080                                                                |
 | PAYMENTHUB_BULK_CONNECTOR_URL      | URL to Transaction API endpoints                                                                                                                                                            | https://ph-ee-connector-bulk.paymenthub.svc.cluster.local:8443                                                                        |
-| PAYMENT_CALLBACK_BASE_URL          | BASE URL for webhooks that will be triggered by Payment BB                                                                                                                                  | http://backend.mock-sris.svc.cluster.local:8080                                                                                       |
+| PAYMENT_CALLBACK_BASE_URL          | BASE URL for webhooks that will be triggered by Payment BB                                                                                                                                  | http://backend.usct.svc.cluster.local:8080                                                                                            |
 | PAYMENT_REGISTERING_INSTITUTION_ID | More information in PaymentHub Documentation ( TBD )                                                                                                                                        | 123456                                                                                                                                |
 | PAYMENTHUB_TENANT                  | More information in PaymentHub Documentation ( TBD )                                                                                                                                        | rhino                                                                                                                                 |
 | PAYMENTHUB_PROGRAM_ID              | More information in PaymentHub Documentation ( TBD )                                                                                                                                        | 00                                                                                                                                    |
@@ -118,35 +116,34 @@ In order to protect by IP callback endpoints, whitelist of IP can be provided by
 
 Pipeline variables:
 
-* AWS_RESOURCE_NAME_PREFIX = mock-sris/dev-app
+* AWS_RESOURCE_NAME_PREFIX = usct/dev-app
 * AWS_CLUSTER_NAME = Kubernetes cluster name, e.g. "Govstack-sandbox-cluster-dev"
 * AWS_ACCOUNT = 463471358064 (Sandbox Dev)
 * AWS_ROLE = CircleCIRole
-* CHART_NAMESPACE = `mock-sris`
+* CHART_NAMESPACE = `usct`
 * AWS_DEFAULT_REGION = eu-central-1
 
 ### Useful commands
 
 ```shell
-helm install mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm install usct ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm upgrade --install mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm upgrade --install usct ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm install --debug --dry-run mock-sris ./helm/ --create-namespace --namespace mock-sris
+helm install --debug --dry-run usct ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm uninstall mock-sris --namespace mock-sris
+helm uninstall usct --namespace usct
 ```
 
 ## DB connection
 
-`spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/mock-sris;AUTO_SERVER=true`
-
+`spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/usct;AUTO_SERVER=true`
 
 ## Password/Secret
 
