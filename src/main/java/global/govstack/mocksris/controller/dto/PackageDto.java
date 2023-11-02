@@ -7,6 +7,9 @@ public class PackageDto {
   private float amount;
   private final String currency = "EURO";
 
+  public PackageDto() {
+  }
+
   public PackageDto(OpenImisPackageDto openImisPackageDto) {
     this.id = openImisPackageDto.ID();
     this.name = openImisPackageDto.LastName();
