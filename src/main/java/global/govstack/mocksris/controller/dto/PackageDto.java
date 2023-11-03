@@ -1,22 +1,26 @@
 package global.govstack.mocksris.controller.dto;
 
-import global.govstack.mocksris.model.Package;
-
 public class PackageDto {
   private int id;
   private String name;
   private String description;
   private float amount;
-  private String currency;
+  private final String currency = "EURO";
 
   public PackageDto() {}
 
-  public PackageDto(Package packageEntity) {
-    this.id = packageEntity.getId();
-    this.name = packageEntity.getName();
-    this.description = packageEntity.getDescription();
-    this.amount = packageEntity.getAmount();
-    this.currency = packageEntity.getCurrency();
+  public PackageDto(OpenImisPackageDto openImisPackageDto) {
+    this.id = openImisPackageDto.ID();
+    this.name = openImisPackageDto.LastName();
+    this.description = openImisPackageDto.FirstName();
+    this.amount = openImisPackageDto.CurrentAddress();
+  }
+
+  public PackageDto(int id, String name, String description, float amount) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.amount = amount;
   }
 
   public int getId() {
@@ -52,10 +56,6 @@ public class PackageDto {
   }
 
   public String getCurrency() {
-    return currency;
-  }
-
-  public void setCurrency(String currency) {
-    this.currency = currency;
+    return "EURO";
   }
 }

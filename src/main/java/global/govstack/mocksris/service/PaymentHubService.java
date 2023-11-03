@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import global.govstack.mocksris.configuration.PaymentHubBBInformationMediatorProperties;
 import global.govstack.mocksris.configuration.PaymentHubProperties;
+import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.PaymentDisbursement;
 import global.govstack.mocksris.repositories.BeneficiaryRepository;
@@ -35,6 +36,7 @@ public class PaymentHubService implements PaymentService {
   private final PaymentDisbursementRepository paymentDisbursementRepository;
   private final RestTemplate restTemplate;
   private final RestTemplate restTemplateSelfSigned;
+  private final PackageService packageService;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -43,12 +45,14 @@ public class PaymentHubService implements PaymentService {
       PaymentHubBBInformationMediatorProperties paymentHubBBInformationMediatorProperties,
       HttpComponentsClientHttpRequestFactory requestFactory,
       BeneficiaryRepository beneficiaryRepository,
-      PaymentDisbursementRepository paymentDisbursementRepository) {
+      PaymentDisbursementRepository paymentDisbursementRepository,
+      PackageService packageService) {
     this.paymentHubProperties = paymentHubProperties;
     this.paymentHubBBInformationMediatorProperties = paymentHubBBInformationMediatorProperties;
     this.requestFactory = requestFactory;
     this.beneficiaryRepository = beneficiaryRepository;
     this.paymentDisbursementRepository = paymentDisbursementRepository;
+    this.packageService = packageService;
     this.restTemplate = new RestTemplate();
     this.restTemplateSelfSigned = new RestTemplate(requestFactory);
   }
@@ -82,7 +86,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
         "X-CallbackURL",
-        paymentHubProperties.callbackBaseUrl() + "/api/v1/callback/payment/beneficiary-register");
+        paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/beneficiary-register-callback");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
@@ -112,7 +116,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
         "X-CallbackURL",
-        paymentHubProperties.callbackBaseUrl() + "/api/v1/callback/payment/beneficiary-update");
+        paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/beneficiary-update-callback");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
@@ -203,7 +207,7 @@ public class PaymentHubService implements PaymentService {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
         "X-CallbackURL",
-        paymentHubProperties.callbackBaseUrl() + "/api/v1/callback/payment/payment");
+        paymentHubProperties.callbackBaseUrl() + "/api/v1/payment/payment-callback");
     httpHeaders.add(
         "X-Registering-Institution-ID", paymentHubProperties.registeringInstitutionId());
     httpHeaders.add("Purpose", "USCT Payment");
@@ -245,19 +249,25 @@ public class PaymentHubService implements PaymentService {
   }
 
   private String constructOrderPaymentRequestBody(List<Beneficiary> beneficiaryList) {
+    List<PackageDto> packages = packageService.findAll();
     var rb =
         beneficiaryList.stream()
             .map(
                 beneficiary -> {
+                  PackageDto packageDto =
+                      packages.stream()
+                          .filter(item -> item.getId() == beneficiary.getEnrolledPackageId())
+                          .findFirst()
+                          .orElse(new PackageDto(1, "default", "default package", 0));
                   return new PaymentHubOrderPaymentDTO(
                       UUID.randomUUID().toString(),
                       List.of(
                           new PaymentHubOrderPaymentPartyDTO(
                               "functionalId", beneficiary.getFunctionalId())),
                       paymentHubProperties.paymentMode(),
-                      beneficiary.getEnrolledPackage().getAmount(),
-                      beneficiary.getEnrolledPackage().getCurrency(),
-                      "Payment for " + beneficiary.getEnrolledPackage().getName() + " package");
+                      packageDto.getAmount(),
+                      packageDto.getCurrency(),
+                      "Payment for " + packageDto.getName() + " package");
                 })
             .toList();
 

@@ -6,12 +6,6 @@ This is a driver backend application for
 
 [Live Demo](https://usct.dev.sandbox-playground.com/driver-poc/)
 
-[//]: # (## Building block diagram need to update parts of the section)
-
-[//]: # ([![]&#40;./images/bb.png&#41;]&#40;&#41; Outdated)
-
-[//]: # ([![]&#40;./images/figma.png&#41;]&#40;https://www.figma.com/file/qVUaK5Z5FmgQV16C71RRCn/USCT---Vertical-Prototype?type=design&node-id=178-5054&#41; Outdated)
-
 ## Application logic
 
 ```mermaid
@@ -20,8 +14,8 @@ sequenceDiagram
     USCT-backend ->> Identity BB: User authentication
     participant im as Information mediator
 
-%%  Civil servant ->> eSignet: /v1/esignet/authorization/userinfo //GET no need for sign in step 
     Civil servant ->> USCT-backend: Get all candidates
+    USCT-backend ->> OpenIMIS: Get packages
     Civil servant ->> USCT-backend: Create new beneficiary and remove beneficiary from candidates list
     USCT-backend ->> Payment BB: Automatically register beneficiary in payment system if not registered
     USCT-backend ->> Payment BB: Automatically update beneficiary in payment system if registered
@@ -44,6 +38,20 @@ sequenceDiagram
 | 2371487382     | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
 
 Endpoint: `/api/oauth2/authorization/esignet`
+
+## OpenIMIS
+
+OpenIMIS is package provider.
+USCT heavily uses packages. To improve performance USCT uses cache for package to avoid redundant requests. 
+
+### Adapter
+Originaly OpenIMIS base on [Fast Healthcare Interoperability Resources](https://en.wikipedia.org/wiki/Fast_Healthcare_Interoperability_Resources) (FHIR) standard.
+
+The [adapter](https://github.com/openimis/openimis-be-govstack_api_py) provides Govs OpenIMIS specification compliant.
+
+### Example of request
+
+![Get Packages OpenIMIS](images/getPackages.gif)
 
 
 ## Payment Building Block
@@ -136,3 +144,7 @@ helm uninstall usct --namespace usct
 ## DB connection
 
 `spring.datasource.url=jdbc:h2:file:./src/main/resources/db/data/usct;AUTO_SERVER=true`
+
+## Password/Secret
+
+https://govstack-global.atlassian.net/wiki/spaces/DEMO/pages/338690049/Passwords

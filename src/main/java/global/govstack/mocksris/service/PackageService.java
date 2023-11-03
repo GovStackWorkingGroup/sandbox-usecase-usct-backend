@@ -1,25 +1,36 @@
 package global.govstack.mocksris.service;
 
-import global.govstack.mocksris.model.Package;
-import global.govstack.mocksris.repositories.PackageRepository;
+import global.govstack.mocksris.controller.dto.PackageDto;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PackageService {
-  private final PackageRepository packageRepository;
+  private final OpenImisService openImisService;
+  private Map<Integer, PackageDto> packagesCache;
 
-  public PackageService(PackageRepository packageRepository) {
-    this.packageRepository = packageRepository;
+  public PackageService(OpenImisService openImisService) {
+    this.openImisService = openImisService;
+    this.packagesCache = new ConcurrentHashMap<>();
   }
 
-  public List<Package> findAll() {
-    return packageRepository.findAll();
+  public List<PackageDto> findAll() {
+    if (packagesCache.isEmpty()) {
+      List<PackageDto> allPackages = openImisService.getAll();
+      allPackages.forEach(item -> packagesCache.put(item.getId(), item));
+      return allPackages;
+    }
+    return new ArrayList<PackageDto>(packagesCache.values());
   }
 
-  public Package getById(int id) {
-    return packageRepository
-        .findById(id)
-        .orElseThrow(() -> new RuntimeException("Package with id: " + id + " doesn't exist"));
+  public PackageDto getById(int id) {
+    if (packagesCache.isEmpty()) {
+      List<PackageDto> allPackages = openImisService.getAll();
+      allPackages.forEach(item -> packagesCache.put(item.getId(), item));
+    }
+    return packagesCache.get(id);
   }
 }

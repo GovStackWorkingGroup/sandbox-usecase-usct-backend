@@ -11,11 +11,11 @@ public class BeneficiaryDto {
 
   public BeneficiaryDto() {}
 
-  public BeneficiaryDto(Beneficiary beneficiary) {
+  public BeneficiaryDto(Beneficiary beneficiary, PackageDto enrolledPackage) {
     this.id = beneficiary.getId();
     this.person = new PersonDto(beneficiary.getPerson());
     this.paymentStatus = beneficiary.getPaymentStatus();
-    this.enrolledPackage = new PackageDto(beneficiary.getEnrolledPackage());
+    this.enrolledPackage = enrolledPackage;
   }
 
   public int getId() {

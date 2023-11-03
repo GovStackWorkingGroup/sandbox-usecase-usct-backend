@@ -25,35 +25,14 @@ create table CANDIDATE
 (
     ID          INTEGER AUTO_INCREMENT NOT NULL,
     PERSON_ID   INTEGER,
+    PACKAGE_ID  INTEGER ARRAY,
     constraint CANDIDATE_PK
         primary key (ID),
     constraint "CANDIDATE_PERSON_ID_fk"
         foreign key (PERSON_ID) references PERSON
 );
 
-create table PACKAGE
-(
-    ID          INTEGER AUTO_INCREMENT,
-    NAME        CHARACTER VARYING(255),
-    DESCRIPTION CHARACTER VARYING(255),
-    AMOUNT      FLOAT,
-    CURRENCY    CHARACTER VARYING(255),
-    constraint PK
-        primary key (ID)
-);
 
-create table CANDIDATE_PACKAGE
-(
-    ID           INTEGER AUTO_INCREMENT,
-    CANDIDATE_ID INTEGER NOT NULL,
-    PACKAGE_ID   INTEGER NOT NULL,
-    constraint CANDIDATE_PACKAGE_PK
-        primary key (ID),
-    constraint "CANDIDATE_PACKAGE_CANDIDATE_ID_fk"
-        foreign key (CANDIDATE_ID) references CANDIDATE,
-    constraint "CANDIDATE_PACKAGE_PACKAGE_ID_fk"
-        foreign key (PACKAGE_ID) references PACKAGE
-);
 
 create table BENEFICIARY
 (
@@ -66,8 +45,6 @@ create table BENEFICIARY
     PAYMENT_ONBOARDING_REQUEST_ID           CHARACTER VARYING(255),
     constraint BENEFICIARY_PK
         primary key (ID),
-    constraint "beneficiary_PACKAGE_id_fk"
-        foreign key (PACKAGE_ID) references PACKAGE,
     constraint "beneficiary_CANDIDATE_ID_fk"
         foreign key (PERSON_ID) references PERSON
 
@@ -109,48 +86,14 @@ values ('9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Smith', 'john.smith@exa
         '8837461001', 'MOBILE_MONEY', '', '');
 
 
-INSERT INTO CANDIDATE(PERSON_ID) values
-                                     ( 1 ),
-                                     ( 2 ),
-                                     ( 3 ),
-                                     ( 4 ),
-                                     ( 5 ),
-                                     ( 6 ),
-                                     ( 7 ),
-                                     ( 8 ),
-                                     ( 9 ),
-                                     ( 10 );
-
-INSERT INTO PACKAGE (NAME, DESCRIPTION, AMOUNT, CURRENCY)
-VALUES ('UBI', 'Universal basic income', 1234.5, 'EURO'),
-       ('TPA', 'Targeted Poverty Alleviation', 900, 'EURO'),
-       ('SP', 'Social pension', 750, 'EURO'),
-       ('CFS', 'Child and Family support', 500, 'EURO');
-
-INSERT INTO CANDIDATE_PACKAGE (candidate_id, package_id)
-VALUES (1, 1),
-       (1, 2),
-       (1, 3),
-       (2, 1),
-       (2, 3),
-       (3, 1),
-       (3, 2),
-       (3, 3),
-       (3, 4),
-       (4, 1),
-       (5, 1),
-       (5, 2),
-       (5, 3),
-       (6, 1),
-       (6, 2),
-       (6, 3),
-       (6, 4),
-       (7, 1),
-       (7, 2),
-       (7, 3),
-       (8, 1),
-       (8, 2),
-       (8, 3),
-       (9, 1),
-       (9, 2),
-       (9, 3);
+INSERT INTO CANDIDATE(PERSON_ID, PACKAGE_ID) values
+                                     (1, ARRAY [147, 148, 149]),
+                                     (2, ARRAY [147, 149]),
+                                     (3, ARRAY [147, 148, 149, 150]),
+                                     (4, ARRAY [147]),
+                                     (5, ARRAY [147, 148, 149]),
+                                     (6, ARRAY [147, 148, 149, 150]),
+                                     (7, ARRAY [147, 148, 149]),
+                                     (8, ARRAY [147, 148, 149]),
+                                     (9, ARRAY [147, 148, 149]),
+                                     (10, ARRAY []);

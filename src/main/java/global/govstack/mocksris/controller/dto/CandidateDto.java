@@ -10,10 +10,10 @@ public class CandidateDto {
 
   public CandidateDto() {}
 
-  public CandidateDto(Candidate candidate) {
+  public CandidateDto(Candidate candidate, List<PackageDto> packages) {
     this.id = candidate.getId();
     this.person = new PersonDto(candidate.getPerson());
-    this.packages = candidate.getPackages().stream().map(PackageDto::new).toList();
+    this.packages = packages;
   }
 
   public int getId() {

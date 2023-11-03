@@ -3,10 +3,8 @@ package global.govstack.mocksris.controller;
 import global.govstack.mocksris.controller.dto.BeneficiaryDto;
 import global.govstack.mocksris.controller.dto.CandidateDto;
 import global.govstack.mocksris.controller.dto.CreateBeneficiaryDto;
-import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.Candidate;
-import global.govstack.mocksris.model.Package;
 import global.govstack.mocksris.service.BeneficiaryService;
 import java.util.List;
 import org.modelmapper.ModelMapper;
@@ -38,14 +36,13 @@ public class BeneficiaryController {
   @PreAuthorize("hasRole('PAYMENT_OFFICER')")
   @GetMapping("/beneficiaries")
   public List<BeneficiaryDto> getAll() {
-    return service.findAll().stream().map(BeneficiaryDto::new).toList();
+    return service.findAll();
   }
 
   @PreAuthorize("hasRole('PAYMENT_OFFICER')")
   @GetMapping("/beneficiaries/{id}")
   public BeneficiaryDto getBeneficiary(@PathVariable("id") int id) {
-    Beneficiary beneficiary = service.findById(id);
-    return new BeneficiaryDto(beneficiary);
+    return service.findById(id);
   }
 
   @PreAuthorize("hasRole('ENROLLMENT_OFFICER')")
@@ -53,17 +50,13 @@ public class BeneficiaryController {
   @ResponseStatus(HttpStatus.CREATED)
   public BeneficiaryDto create(@RequestBody final CreateBeneficiaryDto createBeneficiaryDto) {
     Candidate candidate = convertToEntity(createBeneficiaryDto.getCandidateDto());
-    Package enroledPackage = convertToEntity(createBeneficiaryDto.getEnrolledPackage());
-    Beneficiary beneficiary = service.create(candidate, enroledPackage);
+    int enrolledPackageId = createBeneficiaryDto.getEnrolledPackage().getId();
+    Beneficiary beneficiary = service.create(candidate, enrolledPackageId);
     return convertToDto(beneficiary);
   }
 
   private Candidate convertToEntity(CandidateDto candidateDto) {
     return modelMapper.map(candidateDto, Candidate.class);
-  }
-
-  private Package convertToEntity(PackageDto packageDto) {
-    return modelMapper.map(packageDto, Package.class);
   }
 
   private BeneficiaryDto convertToDto(Beneficiary beneficiary) {

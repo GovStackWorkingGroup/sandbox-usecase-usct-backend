@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import global.govstack.mocksris.configuration.PaymentBBInformationMediatorProperties;
 import global.govstack.mocksris.configuration.PaymentProperties;
+import global.govstack.mocksris.controller.dto.PackageDto;
 import global.govstack.mocksris.model.Beneficiary;
 import global.govstack.mocksris.model.PaymentDisbursement;
 import global.govstack.mocksris.repositories.BeneficiaryRepository;
@@ -31,6 +32,7 @@ public class PaymentEmulatorService implements PaymentService {
   private final BeneficiaryRepository beneficiaryRepository;
   private final PaymentDisbursementRepository paymentDisbursementRepository;
   private final RestTemplate restTemplate;
+  private final PackageService packageService;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -38,11 +40,13 @@ public class PaymentEmulatorService implements PaymentService {
       PaymentBBInformationMediatorProperties paymentBBInformationMediatorproperties,
       PaymentProperties paymentProperties,
       BeneficiaryRepository beneficiaryRepository,
-      PaymentDisbursementRepository paymentDisbursementRepository) {
+      PaymentDisbursementRepository paymentDisbursementRepository,
+      PackageService packageService) {
     this.paymentBBInformationMediatorproperties = paymentBBInformationMediatorproperties;
     this.paymentProperties = paymentProperties;
     this.beneficiaryRepository = beneficiaryRepository;
     this.paymentDisbursementRepository = paymentDisbursementRepository;
+    this.packageService = packageService;
     httpHeaders = new HttpHeaders();
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
     httpHeaders.add("X-Road-Client", paymentBBInformationMediatorproperties.header());
@@ -58,19 +62,25 @@ public class PaymentEmulatorService implements PaymentService {
 
     String requestId = UUID.randomUUID().toString();
     String batchId = UUID.randomUUID().toString();
+    List<PackageDto> packages = packageService.findAll();
+
     var creditInstructionsDTO =
         beneficiaryList.stream()
             .map(
                 beneficiary -> {
+                  PackageDto packageDto =
+                      packages.stream()
+                          .filter(item -> item.getId() == beneficiary.getEnrolledPackageId())
+                          .findFirst()
+                          .orElse(new PackageDto(1, "default", "default package", 0));
                   String instructionId = UUID.randomUUID().toString();
                   var payeeFunctionalId =
                       beneficiary.getPerson().getPersonalIdCode()
                           + paymentProperties.governmentIdentifier()
-                          + beneficiary.getEnrolledPackage().getId().toString();
-                  var amount = beneficiary.getEnrolledPackage().getAmount();
-                  var currency = beneficiary.getEnrolledPackage().getCurrency();
-                  var narration =
-                      "Payment for " + beneficiary.getEnrolledPackage().getName() + " package";
+                          + packageDto.getId();
+                  var amount = packageDto.getAmount();
+                  var currency = packageDto.getCurrency();
+                  var narration = "Payment for " + packageDto.getName() + " package";
                   return new PaymentCreditInstructionsDTO(
                       instructionId, payeeFunctionalId, amount, currency, narration);
                 })
