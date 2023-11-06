@@ -7,13 +7,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity(name = "Candidate")
 public class Candidate {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +22,15 @@ public class Candidate {
   @JoinColumn(name = "person_id", nullable = false)
   private Person person;
 
-  @ManyToMany
-  @JoinTable(
-      name = "Candidate_Package",
-      joinColumns = {@JoinColumn(name = "candidate_id")},
-      inverseJoinColumns = {@JoinColumn(name = "package_id")})
-  private Set<Package> packages = new HashSet<>();
+  @Column(name = "package_id")
+  private Set<Integer> packageIds = new HashSet<Integer>();
 
-  public Set<Package> getPackages() {
-    return packages;
+  public Set<Integer> getPackageIds() {
+    return packageIds;
   }
 
-  public void setPackages(Set<Package> packages) {
-    this.packages = packages;
+  public void setPackageIds(Set<Integer> packages) {
+    this.packageIds = packages;
   }
 
   public int getId() {

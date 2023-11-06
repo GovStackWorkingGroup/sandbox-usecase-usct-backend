@@ -37,13 +37,12 @@ public class CandidateController {
 
   @GetMapping("/candidates")
   public List<CandidateDto> getAll() {
-    return candidateService.findAll().stream().map(CandidateDto::new).toList();
+    return candidateService.findAll();
   }
 
   @GetMapping("/candidates/{id}")
   public CandidateDto getCandidate(@PathVariable("id") int id) {
-    Candidate candidate = candidateService.findById(id);
-    return new CandidateDto(candidate);
+    return candidateService.findById(id);
   }
 
   @PostMapping("/candidates")

@@ -2,12 +2,13 @@ deployment:
   name: usct
   containers:
     name: usct-backend
-    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/dev-backend:0.0.11
+    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/dev-backend:imis-4
     imagePullPolicy: "Always"
 
 service:
   name: backend
   port: 8080
+  logLevel: "DEBUG"
 
 oidcKeystorePassword: ""
 
@@ -37,4 +38,7 @@ paymenthub:
 
 callback:
   cidr: "0.0.0.0/0,::/0"
+
+openImis:
+  url: "http://backend.open-imis.svc.cluster.local:8000/data/registryname/111?search=package&filter=phone"
 
