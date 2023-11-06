@@ -1,14 +1,14 @@
 deployment:
-  name: mock-sris
+  name: usct
   containers:
-    name: mock-sris-backend
+    name: usct-backend
     image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/dev-backend:imis-4
     imagePullPolicy: "Always"
 
 service:
   name: backend
   port: 8080
-  logLevel: "DEBUG"
+  logLevel: "INFO"
 
 oidcKeystorePassword: ""
 
@@ -16,7 +16,7 @@ payment:
   config:
     mode: "emulator"
   variables:
-    source_bb_id: "MOCK-SRIS-BB"
+    source_bb_id: "USCT-BB"
     government_identifier: "066283"
   bb:
     im:
