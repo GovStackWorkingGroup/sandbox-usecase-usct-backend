@@ -44,6 +44,8 @@ Endpoint: `/api/oauth2/authorization/esignet`
 OpenIMIS is package provider.
 USCT heavily uses packages. To improve performance USCT uses cache for package to avoid redundant requests. 
 
+[Packages](packages.md) pages has more technical details. 
+
 ### Adapter
 Originaly OpenIMIS base on [Fast Healthcare Interoperability Resources](https://en.wikipedia.org/wiki/Fast_Healthcare_Interoperability_Resources) (FHIR) standard.
 
