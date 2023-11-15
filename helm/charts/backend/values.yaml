@@ -2,7 +2,7 @@ deployment:
   name: usct
   containers:
     name: usct-backend
-    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/dev-backend:latest
+    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/dev-backend:0.0.2
     imagePullPolicy: "Always"
 
 service:
