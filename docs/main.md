@@ -124,6 +124,7 @@ Pipeline variables:
 * AWS_ROLE = CircleCIRole
 * CHART_NAMESPACE = `usct`
 * AWS_DEFAULT_REGION = eu-central-1
+* OIDC_KEYSTORE_PASSWORD = [link](main.md#passwordsecret)
 
 ### Useful commands
 
