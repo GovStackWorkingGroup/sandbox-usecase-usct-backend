@@ -115,7 +115,7 @@ jobs:
           name: Update usct
           command: |
             helm dependency update ./helm
-            helm upgrade --install usct ./helm --create-namespace --namespace ${CHART_NAMESPACE}
+            helm upgrade --install usct ./helm --create-namespace --namespace ${CHART_NAMESPACE} --set-string backend.service.authmode=mosip
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows

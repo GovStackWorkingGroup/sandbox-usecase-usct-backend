@@ -9,6 +9,7 @@ service:
   name: backend
   port: 8080
   logLevel: "INFO"
+  authmode: local
 
 oidcKeystorePassword: ""
 
