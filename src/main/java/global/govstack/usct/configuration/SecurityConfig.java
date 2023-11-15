@@ -4,7 +4,6 @@ import static global.govstack.usct.configuration.AuthoritiesConstants.ENROLLMENT
 import static global.govstack.usct.configuration.AuthoritiesConstants.PAYMENT_OFFICER;
 import static global.govstack.usct.configuration.AuthoritiesConstants.REGISTRY_OFFICER;
 import static org.springframework.security.config.Customizer.withDefaults;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -31,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -43,6 +43,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.NimbusJwtClientAuthenticationParametersConverter;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequestEntityConverter;
@@ -61,6 +62,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoderFactory;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -77,15 +79,15 @@ public class SecurityConfig {
   public static final String CLAIMS =
       """
       {"userinfo":{
-        "name":{"essential":true},
-        "phone_number":{"essential":false},
-        "email":{"essential":true},
-        "picture":{"essential":false},
-        "gender":{"essential":false},
-        "birthdate":{"essential":false},
-        "address":{"essential":false}},
-        "id_token":{}
-      }
+       "name":{"essential":true},
+       "phone_number":{"essential":false},
+       "email":{"essential":true},
+       "picture":{"essential":false},
+       "gender":{"essential":false},
+       "birthdate":{"essential":false},
+       "address":{"essential":false}},
+       "id_token":{}
+       }
       """;
 
   private final RsaKeyProperties jwtConfigProperties;
@@ -97,7 +99,12 @@ public class SecurityConfig {
   @Order(1)
   @Bean
   SecurityFilterChain swaggerSecurityFilterChain(HttpSecurity http) throws Exception {
-    return http.securityMatcher("/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**")
+    return http.securityMatcher(
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/api-docs/**",
+            "/api/v1/callback/**",
+            "/api/authmode")
         .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
         .build();
   }
@@ -129,6 +136,7 @@ public class SecurityConfig {
 
   @Bean
   @Order(2)
+  @ConditionalOnProperty(name = "usct.authentication", havingValue = "mosip")
   SecurityFilterChain tokenSecurityFilterChain(
       HttpSecurity http, ClientRegistrationRepository clientRegistrationRepository, Environment env)
       throws Exception {
@@ -136,13 +144,7 @@ public class SecurityConfig {
     var jwkResolver = jwkResolver(env);
 
     return http.securityMatcher("/api/**")
-        .authorizeHttpRequests(
-            authorize ->
-                authorize
-                    .requestMatchers(antMatcher("/api/v1/callback/**"))
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
+        .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
         .cors(withDefaults())
         .csrf(AbstractHttpConfigurer::disable)
         .logout(
@@ -186,6 +188,54 @@ public class SecurityConfig {
                     tokenResponseClient.setRequestEntityConverter(requestEntityConverter);
                     te.accessTokenResponseClient(tokenResponseClient);
                   });
+            })
+        .exceptionHandling(
+            ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+        .build();
+  }
+
+  @Bean
+  @Order(2)
+  @ConditionalOnProperty(name = "usct.authentication", havingValue = "local")
+  SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
+
+    return http.securityMatcher("/api/**")
+        .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+        .cors(withDefaults())
+        .csrf(AbstractHttpConfigurer::disable)
+        .logout(
+            customizer ->
+                customizer
+                    .logoutUrl("/api/logout")
+                    .logoutSuccessHandler(
+                        new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
+                    .deleteCookies("MOCK_SRIS_SESSION"))
+        .userDetailsService(
+            new InMemoryUserDetailsManager(
+                User.withUsername("enrollment-officer")
+                    .password("{noop}password")
+                    .roles(ENROLLMENT_OFFICER)
+                    .build(),
+                User.withUsername("payment-officer")
+                    .password("{noop}password")
+                    .roles(PAYMENT_OFFICER)
+                    .build(),
+                User.withUsername("registry-administration")
+                    .password("{noop}password")
+                    .roles(REGISTRY_OFFICER)
+                    .build()))
+        .formLogin(
+            customizer -> {
+              customizer.loginProcessingUrl("/api/login");
+              customizer.successHandler(
+                  ((request, response, authentication) -> {
+                    response.setStatus(200);
+                  }));
+              customizer.failureHandler(
+                  ((request, response, exception) -> {
+                    response.sendError(
+                        HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+                  }));
             })
         .exceptionHandling(
             ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
