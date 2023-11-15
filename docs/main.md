@@ -29,8 +29,8 @@ sequenceDiagram
 
 Application has configurable authentication logic:
 
-* Basic Authentication _default_
-* Identity BB
+* Basic Authentication 
+* Identity BB _default_
 
 To changes mode use [service.authmode](https://github.com/GovStackWorkingGroup/sandbox-usecase-usct-backend/blob/f61271e398310ec9894ead2b325ef2e91df6c415/helm/charts/backend/values.yaml#L12) application property. Available two options **local** OR **mosip**.
 
@@ -43,7 +43,7 @@ Project uses [In-Memory Authentication](https://docs.spring.io/spring-security/r
 
 [Identity Building Block documentation](https://govstack.gitbook.io/bb-identity/2-description).
 
-[MOSIP e-Signt](https://docs.mosip.io/1.2.0/integrations/e-signet) is an implementation of Identity BB based on OpenID Connect.
+[MOSIP e-Signet](https://docs.mosip.io/1.2.0/integrations/e-signet) is an implementation of Identity BB based on OpenID Connect.
 
 ### Roles and permissions
 Basic Authentication uses username/password 
