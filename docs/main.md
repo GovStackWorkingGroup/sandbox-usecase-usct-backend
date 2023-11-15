@@ -25,17 +25,38 @@ sequenceDiagram
     USCT-backend -->> Civil servant: Return result
 ```
 
-## Identity BB
+## Authentication / Authorization
 
-[MOSIP e-Signt](https://docs.mosip.io/1.2.0/integrations/e-signet) uses as OpenID Connect.
+Application has configurable authentication logic:
+
+* Basic Authentication 
+* Identity BB _default_
+
+To changes mode use [service.authmode](https://github.com/GovStackWorkingGroup/sandbox-usecase-usct-backend/blob/f61271e398310ec9894ead2b325ef2e91df6c415/helm/charts/backend/values.yaml#L12) application property. Available two options **local** OR **mosip**.
+
+### Basic Authentication
+Project uses OAuth 2.0 Resource Server. For a details please take a look [documentation](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).
+
+Project uses [In-Memory Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html) to provide support for username/password based authentication that is stored in memory.
+
+### Identity BB
+
+[Identity Building Block documentation](https://govstack.gitbook.io/bb-identity/2-description).
+
+[MOSIP e-Signet](https://docs.mosip.io/1.2.0/integrations/e-signet) is an implementation of Identity BB based on OpenID Connect.
 
 ### Roles and permissions
+Basic Authentication uses username/password 
 
-| FoundationalId | Role               | subject                              | Description                                         |
-|----------------|--------------------|--------------------------------------|-----------------------------------------------------|
-| 5649650687     | ENROLLMENT_OFFICER | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
-| 4893724702     | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
-| 2371487382     | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
+Mosip uses FoundationalId
+
+| FoundationalId OR username           | Role               | subject                              | Description                                         |
+|--------------------------------------|--------------------|--------------------------------------|-----------------------------------------------------|
+| 5649650687 / registry-administration | ENROLLMENT_OFFICER | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
+| 4893724702 / enrollment-officer      | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
+| 2371487382 / payment-officer         | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
+
+All users use `password` word as password.
 
 Endpoint: `/api/oauth2/authorization/esignet`
 
