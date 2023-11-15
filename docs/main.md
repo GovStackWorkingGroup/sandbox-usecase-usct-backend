@@ -46,6 +46,9 @@ Project uses [In-Memory Authentication](https://docs.spring.io/spring-security/r
 [MOSIP e-Signt](https://docs.mosip.io/1.2.0/integrations/e-signet) is an implementation of Identity BB based on OpenID Connect.
 
 ### Roles and permissions
+Basic Authentication uses username/password 
+
+Mosip uses FoundationalId
 
 | FoundationalId OR username           | Role               | subject                              | Description                                         |
 |--------------------------------------|--------------------|--------------------------------------|-----------------------------------------------------|
