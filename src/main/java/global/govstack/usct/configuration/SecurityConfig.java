@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -140,6 +141,7 @@ public class SecurityConfig {
   SecurityFilterChain tokenSecurityFilterChain(
       HttpSecurity http, ClientRegistrationRepository clientRegistrationRepository, Environment env)
       throws Exception {
+    log.info("Using OIDC authentication");
 
     var jwkResolver = jwkResolver(env);
 
@@ -196,8 +198,9 @@ public class SecurityConfig {
 
   @Bean
   @Order(2)
-  @ConditionalOnProperty(name = "usct.authentication", havingValue = "local")
+  @ConditionalOnExpression("'${usct.authentication:local}' ne 'mosip'")
   SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
+    log.info("Using local authentication");
 
     return http.securityMatcher("/api/**")
         .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
