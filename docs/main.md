@@ -27,38 +27,39 @@ sequenceDiagram
 
 ## Authentication / Authorization
 
-Application has configurable authentication logic:
+Application has configurable authentication logic with cookie-based session management:
 
-* Basic Authentication 
 * Identity BB _default_
+* Stand-alone username/password authentication with hard-coded credentials.
 
-To changes mode use [service.authmode](https://github.com/GovStackWorkingGroup/sandbox-usecase-usct-backend/blob/f61271e398310ec9894ead2b325ef2e91df6c415/helm/charts/backend/values.yaml#L12) application property. Available two options **local** OR **mosip**.
+The authentication mode is controlled by the application property `usct.authentication` which can be set by the [service.authmode](../helm/charts/backend/values.yaml) Helm value. 
+Available options are **local** and **mosip**.
 
-### Basic Authentication
-Project uses OAuth 2.0 Resource Server. For a details please take a look [documentation](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).
+### Stand-alone authentication
 
-Project uses [In-Memory Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html) to provide support for username/password based authentication that is stored in memory.
+The authentication endpoint `/api/login` uses "form login" and expects the credentials in fields `username` and `password`.
+See [Spring Security documentation](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/index.html) for details.
+
+When using the stand-alone authentication, the password for all users is `password`.
 
 ### Identity BB
 
-[Identity Building Block documentation](https://govstack.gitbook.io/bb-identity/2-description).
+To trigger the OIDC authentication flow, a client should issue a GET request to `/api/oauth2/authorization/esignet`
 
-[MOSIP e-Signet](https://docs.mosip.io/1.2.0/integrations/e-signet) is an implementation of Identity BB based on OpenID Connect.
+* [Identity Building Block documentation](https://govstack.gitbook.io/bb-identity/2-description).
+* [MOSIP e-Signet](https://docs.mosip.io/1.2.0/integrations/e-signet) is an implementation of Identity BB based on OpenID Connect.
+* [OpenID Connect](https://openid.net/developers/how-connect-works/)
 
 ### Roles and permissions
-Basic Authentication uses username/password 
 
-Mosip uses FoundationalId
+Local authentication uses username/password 
+Mosip uses Foundational ID (VID)
 
-| FoundationalId OR username           | Role               | subject                              | Description                                         |
+| VID / username                       | Role               | subject                              | Description                                         |
 |--------------------------------------|--------------------|--------------------------------------|-----------------------------------------------------|
 | 5649650687 / registry-administration | ENROLLMENT_OFFICER | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
 | 4893724702 / enrollment-officer      | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
 | 2371487382 / payment-officer         | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
-
-All users use `password` word as password.
-
-Endpoint: `/api/oauth2/authorization/esignet`
 
 ## OpenIMIS
 
