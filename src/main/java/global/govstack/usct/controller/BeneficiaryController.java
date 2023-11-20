@@ -1,4 +1,4 @@
-package global.govstack.mocksris.controller;
+package global.govstack.usct.controller;
 
 import global.govstack.usct.controller.dto.BeneficiaryDto;
 import global.govstack.usct.controller.dto.CandidateDto;
