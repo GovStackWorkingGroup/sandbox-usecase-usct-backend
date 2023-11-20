@@ -55,11 +55,11 @@ To trigger the OIDC authentication flow, a client should issue a GET request to 
 Local authentication uses username/password 
 Mosip uses Foundational ID (VID)
 
-| VID / username                  | Role               | subject                              | Description                                         |
-|---------------------------------|--------------------|--------------------------------------|-----------------------------------------------------|
-| 5649650687 / registry-officer   | REGISTRY_OFFICER   | 299950323465436931629862208523254959 | Officer responsible for creating/editing candidates |
-| 4893724702 / enrollment-officer | ENROLLMENT_OFFICER | 294629625538148508290996199782510910 | Officer responsible for enrollment                  |
-| 2371487382 / payment-officer    | PAYMENT_OFFICER    | 268505314334796284434550524121540566 | Officer responsible for payment                     |
+| VID / username                 | Role               | subject                              | Description                                         |
+|--------------------------------|--------------------|--------------------------------------|-----------------------------------------------------|
+| 2371487382 / registry-officer  | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
+| 5649650687 / enrollment-officer | ENROLLMENT_OFFICER | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
+| 4893724702 / payment-officer   | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
 
 ## OpenIMIS
 
