@@ -25,6 +25,14 @@ sequenceDiagram
     USCT-backend -->> Civil servant: Return result
 ```
 
+## Local development
+
+The purpose of the application is to bring together independent solutions and organize them in such a way as to obtain a demo use case of USCT.
+This means that the application has many external dependencies, making local development difficult.
+To have a local live application, you need to replace the real application with emulators.
+
+To do this set emulators in the [application properties](/src/main/resources/application.properties).
+
 ## Authentication / Authorization
 
 Application has configurable authentication logic with cookie-based session management:
