@@ -155,7 +155,7 @@ public class SecurityConfig {
                     .logoutUrl("/api/logout")
                     .logoutSuccessHandler(
                         new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-                    .deleteCookies("MOCK_SRIS_SESSION"))
+                    .deleteCookies("USCT_SESSION"))
         .oauth2Login(
             customizer -> {
               customizer.loginProcessingUrl("/api/login/oauth2/code/*");
@@ -212,7 +212,7 @@ public class SecurityConfig {
                     .logoutUrl("/api/logout")
                     .logoutSuccessHandler(
                         new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-                    .deleteCookies("MOCK_SRIS_SESSION"))
+                    .deleteCookies("USCT_SESSION"))
         .userDetailsService(
             new InMemoryUserDetailsManager(
                 User.withUsername("enrollment-officer")
@@ -223,7 +223,7 @@ public class SecurityConfig {
                     .password("{noop}password")
                     .roles(PAYMENT_OFFICER)
                     .build(),
-                User.withUsername("registry-administration")
+                User.withUsername("registry-officer")
                     .password("{noop}password")
                     .roles(REGISTRY_OFFICER)
                     .build()))
@@ -253,10 +253,10 @@ public class SecurityConfig {
         log.info("Logging in user {}", subject);
         return switch (subject) {
           case "299950323465436931629862208523254959" -> Set.of(
-              new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
-          case "268505314334796284434550524121540566" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + REGISTRY_OFFICER));
           case "294629625538148508290996199782510910" -> Set.of(
+              new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
+          case "268505314334796284434550524121540566" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
           default -> Set.of();
         };
