@@ -252,11 +252,11 @@ public class SecurityConfig {
         var subject = oidc.getIdToken().getSubject();
         log.info("Logging in user {}", subject);
         return switch (subject) {
-          case "299950323465436931629862208523254959" -> Set.of(
-              new SimpleGrantedAuthority("ROLE_" + REGISTRY_OFFICER));
-          case "294629625538148508290996199782510910" -> Set.of(
-              new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
           case "268505314334796284434550524121540566" -> Set.of(
+              new SimpleGrantedAuthority("ROLE_" + REGISTRY_OFFICER));
+          case "299950323465436931629862208523254959" -> Set.of(
+              new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
+          case "294629625538148508290996199782510910" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
           default -> Set.of();
         };
