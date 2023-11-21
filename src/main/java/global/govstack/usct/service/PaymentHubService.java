@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import global.govstack.usct.configuration.PaymentHubBBInformationMediatorProperties;
 import global.govstack.usct.configuration.PaymentHubProperties;
-import global.govstack.usct.controller.dto.PackageDto;
+import global.govstack.usct.controller.dto.digital.registries.PackageDto;
 import global.govstack.usct.model.Beneficiary;
 import global.govstack.usct.model.PaymentDisbursement;
 import global.govstack.usct.repositories.BeneficiaryRepository;

@@ -66,7 +66,6 @@ public class BeneficiaryService {
     beneficiary.setFunctionalId(functionalId);
     Beneficiary savedBeneficiary = repository.save(beneficiary);
     candidateService.deleteById(candidate.getId());
-
     paymentService.registerBeneficiary(List.of(savedBeneficiary));
 
     return savedBeneficiary;

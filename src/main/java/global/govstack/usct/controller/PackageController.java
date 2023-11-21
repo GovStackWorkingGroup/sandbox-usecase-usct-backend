@@ -1,6 +1,6 @@
 package global.govstack.usct.controller;
 
-import global.govstack.usct.controller.dto.PackageDto;
+import global.govstack.usct.controller.dto.digital.registries.PackageDto;
 import global.govstack.usct.service.PackageService;
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;

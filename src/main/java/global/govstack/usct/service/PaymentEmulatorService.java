@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import global.govstack.usct.configuration.PaymentBBInformationMediatorProperties;
 import global.govstack.usct.configuration.PaymentProperties;
-import global.govstack.usct.controller.dto.PackageDto;
+import global.govstack.usct.controller.dto.digital.registries.PackageDto;
 import global.govstack.usct.model.Beneficiary;
 import global.govstack.usct.model.PaymentDisbursement;
 import global.govstack.usct.repositories.BeneficiaryRepository;

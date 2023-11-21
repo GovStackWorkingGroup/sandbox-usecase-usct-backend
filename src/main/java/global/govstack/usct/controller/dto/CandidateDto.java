@@ -1,5 +1,6 @@
 package global.govstack.usct.controller.dto;
 
+import global.govstack.usct.controller.dto.digital.registries.PackageDto;
 import global.govstack.usct.model.Candidate;
 import java.util.List;
 

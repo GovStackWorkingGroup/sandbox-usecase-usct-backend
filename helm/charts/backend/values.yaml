@@ -42,4 +42,8 @@ callback:
 
 openImis:
   url: "http://backend.open-imis.svc.cluster.local:8000/data/registryname/111?search=package&filter=phone"
+  user: "admin"
+  password: "govstack"
+  mode: "open-imis"
+  header: "SANDBOX/ORG/CLIENT/TEST"
 

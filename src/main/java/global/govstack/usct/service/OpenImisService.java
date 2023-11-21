@@ -2,11 +2,12 @@ package global.govstack.usct.service;
 
 import global.govstack.usct.configuration.OpenImisProperties;
 import global.govstack.usct.controller.dto.OpenImisPackageSet;
-import global.govstack.usct.controller.dto.PackageDto;
+import global.govstack.usct.controller.dto.digital.registries.PackageDto;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.utils.Base64;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,7 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Service
-public class OpenImisService {
+@ConditionalOnProperty(name = "open-imis.mode", havingValue = "open-imis")
+public class OpenImisService implements DigitalRegistriesService {
 
   private final RestTemplate restTemplate;
   private final OpenImisProperties openImisProperties;
