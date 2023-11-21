@@ -36,14 +36,14 @@ public class CandidateService {
     return candidates.stream()
         .map(
             candidate -> {
-              List<PackageDto> packagesDto = List.of();
+              List<PackageDto> packages = List.of();
               if (openImisProperties.mode().equals("emulator")) {
-                packagesDto = getPackageDtos(candidate.getEmulatorPackageIds());
+                packages = getPackageDtos(candidate.getEmulatorPackageIds());
               }
               if (openImisProperties.mode().equals("open-imis")) {
-                packagesDto = getPackageDtos(candidate.getOpenImisPackageIds());
+                packages = getPackageDtos(candidate.getOpenImisPackageIds());
               }
-              return new CandidateDto(candidate, packagesDto);
+              return new CandidateDto(candidate, packages);
             })
         .toList();
   }
@@ -57,14 +57,14 @@ public class CandidateService {
         candidateRepository
             .findById(id)
             .orElseThrow(() -> new RuntimeException("Candidate with id: " + id + " doesn't exist"));
-    List<PackageDto> packageDtoList = List.of();
+    List<PackageDto> packages = List.of();
     if (openImisProperties.mode().equals("open-imis")) {
-      packageDtoList = getPackageDtos(candidate.getOpenImisPackageIds());
+      packages = getPackageDtos(candidate.getOpenImisPackageIds());
     }
     if (openImisProperties.mode().equals("emulator")) {
-      packageDtoList = getPackageDtos(candidate.getEmulatorPackageIds());
+      packages = getPackageDtos(candidate.getEmulatorPackageIds());
     }
-    return new CandidateDto(candidate, packageDtoList);
+    return new CandidateDto(candidate, packages);
   }
 
   public void deleteById(Integer id) {
