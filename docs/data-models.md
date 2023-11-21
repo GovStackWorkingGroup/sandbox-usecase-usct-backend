@@ -22,12 +22,12 @@ The data model is described in the diagram.
 
 ## Candidates
 
-| Name                |     Type      | Modifiers |          Description           |
-|:--------------------|:-------------:|:----------|:------------------------------:|
-| id [PK]             |    integer    | NOT NULL  |          Primary key           |
-| person_id   [FK]    |    integer    |           |                                |
-| openimis_package_id | integer array |           | Ids of packages from OpenIMIS  |
-| emulator_package_id | integer array |           | Ids of packages from emulator  |
+| Name                |     Type      | Modifiers |                 Description                  |
+|:--------------------|:-------------:|:----------|:--------------------------------------------:|
+| id [PK]             |    integer    | NOT NULL  |                 Primary key                  |
+| person_id   [FK]    |    integer    |           |                                              |
+| openimis_package_id | integer array |           | Ids of [packages](packages.md) from OpenIMIS |
+| emulator_package_id | integer array |           | Ids of [packages](packages.md) from emulator |
 
 
 ## Payment Disbursement
