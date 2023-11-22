@@ -22,28 +22,12 @@ The data model is described in the diagram.
 
 ## Candidates
 
-| Name             |  Type   | Modifiers | Description |
-|:-----------------|:-------:|:----------|:-----------:|
-| id [PK]          | integer | NOT NULL  | Primary key |
-| person_id   [FK] | integer |           |             |
-
-
-## Candidate_package
-| Name              |  Type   | Modifiers |       Description       |
-|:------------------|:-------:|:----------|:-----------------------:|
-| id [PK]           | integer | NOT NULL  |       Primary key       |
-| candidate_id [FK] | integer | NOT NULL  | Candidate id forign key |
-| package_id [FK]   | integer | NOT NULL  |  Package id forign key  |
-
-
-## Packages
-| Name        |          Type          | Modifiers                                                  | Description |
-|:------------|:----------------------:|:-----------------------------------------------------------|:-----------:|
-| id [PK]     |        integer         | NOT NULL                                                   | Primary key |
-| name        | character varying(255) | Name of the package                                        |
-| description |          text          | Description of the package can be taken fom OpenIMIS       |
-| amount      |         float          | The amount of money that should be paid to the beneficiary |
-| currency    | character varying(255) | The currency of the amount                                 |
+| Name                |     Type      | Modifiers |                 Description                  |
+|:--------------------|:-------------:|:----------|:--------------------------------------------:|
+| id [PK]             |    integer    | NOT NULL  |                 Primary key                  |
+| person_id   [FK]    |    integer    |           |                                              |
+| openimis_package_id | integer array |           | Ids of [packages](packages.md) from OpenIMIS |
+| emulator_package_id | integer array |           | Ids of [packages](packages.md) from emulator |
 
 
 ## Payment Disbursement

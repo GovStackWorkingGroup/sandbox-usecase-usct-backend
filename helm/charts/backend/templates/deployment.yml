@@ -72,3 +72,5 @@ spec:
               value: "{{ .Values.service.logLevel }}"
             - name: USCT_AUTHENTICATION
               value: "{{ .Values.service.authmode }}"
+            - name: OPEN-IMIS_MODE
+              value: "{{.Values.openImis.mode}}"

@@ -22,15 +22,26 @@ public class Candidate {
   @JoinColumn(name = "person_id", nullable = false)
   private Person person;
 
-  @Column(name = "package_id")
-  private Set<Integer> packageIds = new HashSet<Integer>();
+  @Column(name = "openimis_package_id")
+  private Set<Integer> openImisPackageIds = new HashSet<Integer>();
 
-  public Set<Integer> getPackageIds() {
-    return packageIds;
+  @Column(name = "emulator_package_id")
+  private Set<Integer> emulatorPackageIds = new HashSet<Integer>();
+
+  public Set<Integer> getOpenImisPackageIds() {
+    return openImisPackageIds;
   }
 
-  public void setPackageIds(Set<Integer> packages) {
-    this.packageIds = packages;
+  public void setOpenImisPackageIds(Set<Integer> packages) {
+    this.openImisPackageIds = packages;
+  }
+
+  public Set<Integer> getEmulatorPackageIds() {
+    return emulatorPackageIds;
+  }
+
+  public void setEmulatorPackageIds(Set<Integer> emulatorPackageIds) {
+    this.emulatorPackageIds = emulatorPackageIds;
   }
 
   public int getId() {

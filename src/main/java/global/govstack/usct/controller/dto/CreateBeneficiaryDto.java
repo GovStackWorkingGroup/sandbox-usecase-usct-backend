@@ -1,5 +1,7 @@
 package global.govstack.usct.controller.dto;
 
+import global.govstack.usct.controller.dto.digital.registries.PackageDto;
+
 public class CreateBeneficiaryDto {
   private CandidateDto candidateDto;
   private PackageDto enrolledPackage;

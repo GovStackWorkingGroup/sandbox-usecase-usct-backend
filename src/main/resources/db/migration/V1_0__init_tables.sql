@@ -25,7 +25,8 @@ create table CANDIDATE
 (
     ID          INTEGER AUTO_INCREMENT NOT NULL,
     PERSON_ID   INTEGER,
-    PACKAGE_ID  INTEGER ARRAY,
+    OPENIMIS_PACKAGE_ID  INTEGER ARRAY,
+    EMULATOR_PACKAGE_ID  INTEGER ARRAY,
     constraint CANDIDATE_PK
         primary key (ID),
     constraint "CANDIDATE_PERSON_ID_fk"
@@ -33,12 +34,11 @@ create table CANDIDATE
 );
 
 
-
 create table BENEFICIARY
 (
-    ID              INTEGER AUTO_INCREMENT,
-    PERSON_ID    INTEGER,
-    PACKAGE_ID      INTEGER,
+    ID                      INTEGER AUTO_INCREMENT,
+    PERSON_ID               INTEGER,
+    PACKAGE_ID              INTEGER,
     PAYMENT_STATUS          CHARACTER VARYING(255),
     FUNCTIONAL_ID                           CHARACTER VARYING(255),
     PAYMENT_ONBOARDING_STATUS               CHARACTER VARYING(255),
@@ -86,14 +86,14 @@ values ('9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Smith', 'john.smith@exa
         '8837461001', 'MOBILE_MONEY', '', '');
 
 
-INSERT INTO CANDIDATE(PERSON_ID, PACKAGE_ID) values
-                                     (1, ARRAY [147, 148, 149]),
-                                     (2, ARRAY [147, 149]),
-                                     (3, ARRAY [147, 148, 149, 150]),
-                                     (4, ARRAY [147]),
-                                     (5, ARRAY [147, 148, 149]),
-                                     (6, ARRAY [147, 148, 149, 150]),
-                                     (7, ARRAY [147, 148, 149]),
-                                     (8, ARRAY [147, 148, 149]),
-                                     (9, ARRAY [147, 148, 149]),
-                                     (10, ARRAY []);
+INSERT INTO CANDIDATE(PERSON_ID, OPENIMIS_PACKAGE_ID, EMULATOR_PACKAGE_ID)
+values (1, ARRAY[147, 148, 149], ARRAY[1, 2, 3]),
+       (2, ARRAY[147, 149], ARRAY[1, 3]),
+       (3, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4]),
+       (4, ARRAY[147], ARRAY[1]),
+       (5, ARRAY[147, 148, 149], ARRAY[1, 2, 3]),
+       (6, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4]),
+       (7, ARRAY[147, 148, 149], ARRAY[1, 2, 3]),
+       (8, ARRAY[147, 148, 149], ARRAY[1, 2, 3]),
+       (9, ARRAY[147, 148, 149], ARRAY[1, 2, 3]),
+       (10, ARRAY[], ARRAY[]);

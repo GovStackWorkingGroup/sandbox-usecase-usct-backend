@@ -1,4 +1,6 @@
-package global.govstack.usct.controller.dto;
+package global.govstack.usct.controller.dto.digital.registries;
+
+import global.govstack.usct.controller.dto.OpenImisPackageDto;
 
 public class PackageDto {
   private int id;
