@@ -17,18 +17,21 @@ public class BeneficiaryService {
   private final CandidateService candidateService;
   private final PaymentProperties properties;
   private final PackageService packageService;
+  private final ConsentService consentService;
 
   public BeneficiaryService(
       BeneficiaryRepository repository,
       PaymentService paymentService,
       CandidateService candidateService,
       PaymentProperties properties,
-      PackageService packageService) {
+      PackageService packageService,
+      ConsentService consentService) {
     this.repository = repository;
     this.paymentService = paymentService;
     this.candidateService = candidateService;
     this.properties = properties;
     this.packageService = packageService;
+    this.consentService = consentService;
   }
 
   public List<BeneficiaryDto> findAll() {
@@ -65,6 +68,7 @@ public class BeneficiaryService {
     beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
     beneficiary.setFunctionalId(functionalId);
     Beneficiary savedBeneficiary = repository.save(beneficiary);
+    consentService.deleteByCandidateId(candidate);
     candidateService.deleteById(candidate.getId());
     paymentService.registerBeneficiary(List.of(savedBeneficiary));
 

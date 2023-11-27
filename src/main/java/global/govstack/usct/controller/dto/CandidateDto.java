@@ -8,13 +8,15 @@ public class CandidateDto {
   private int id;
   private PersonDto person;
   private List<PackageDto> packages;
+  private ConsentDto consent;
 
   public CandidateDto() {}
 
-  public CandidateDto(Candidate candidate, List<PackageDto> packages) {
+  public CandidateDto(Candidate candidate, List<PackageDto> packages, ConsentDto consentDto) {
     this.id = candidate.getId();
     this.person = new PersonDto(candidate.getPerson());
     this.packages = packages;
+    this.consent = consentDto;
   }
 
   public int getId() {
@@ -39,5 +41,13 @@ public class CandidateDto {
 
   public void setPackages(List<PackageDto> packages) {
     this.packages = packages;
+  }
+
+  public ConsentDto getConsent() {
+    return consent;
+  }
+
+  public void setConsent(ConsentDto consent) {
+    this.consent = consent;
   }
 }

@@ -16,7 +16,11 @@ sequenceDiagram
 
     Civil servant ->> USCT-backend: Get all candidates
     USCT-backend ->> OpenIMIS: Get packages
-    Civil servant ->> USCT-backend: Create new beneficiary and remove beneficiary from candidates list
+    USCT-backend ->> Consent BB: Check candidate consent record exists
+    loop If no consent record
+      USCT-backend ->>Consent BB: Consent request
+    end
+  Civil servant ->> USCT-backend: When consent record is in place, create new beneficiary and remove beneficiary from candidates list
     USCT-backend ->> Payment BB: Automatically register beneficiary in payment system if not registered
     USCT-backend ->> Payment BB: Automatically update beneficiary in payment system if registered
     Civil servant ->> USCT-backend: Order payment
@@ -77,6 +81,8 @@ The [adapter](https://github.com/openimis/openimis-be-govstack_api_py) provides 
 
 ![Get Packages OpenIMIS](images/getPackages.gif)
 
+## Consent BB
+**GovStack Consent BB API** is an implementation of the building bloc. Details in the [repository](https://github.com/decentralised-dataexchange/bb-consent-api).
 
 ## Payment Building Block
 

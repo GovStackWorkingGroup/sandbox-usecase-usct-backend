@@ -28,6 +28,9 @@ public class Candidate {
   @Column(name = "emulator_package_id")
   private Set<Integer> emulatorPackageIds = new HashSet<Integer>();
 
+  @Column(name = "igrant_id")
+  private String IGrantId;
+
   public Set<Integer> getOpenImisPackageIds() {
     return openImisPackageIds;
   }
@@ -58,5 +61,13 @@ public class Candidate {
 
   public void setPerson(Person person) {
     this.person = person;
+  }
+
+  public String getIGrantId() {
+    return IGrantId;
+  }
+
+  public void setIGrantId(String IGrantId) {
+    this.IGrantId = IGrantId;
   }
 }
