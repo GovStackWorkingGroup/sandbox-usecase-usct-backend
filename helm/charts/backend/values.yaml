@@ -47,3 +47,8 @@ openImis:
   mode: "open-imis"
   header: "SANDBOX/ORG/CLIENT/TEST"
 
+igrant:
+  url: "https://api.bb-consent.dev/v2/service/individual/record/"
+  token: ""
+  dataAgreementId: ""
+  mode: "local"

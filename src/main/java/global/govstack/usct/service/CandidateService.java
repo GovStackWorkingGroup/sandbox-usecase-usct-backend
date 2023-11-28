@@ -3,7 +3,6 @@ package global.govstack.usct.service;
 import global.govstack.usct.configuration.IGrantProperties;
 import global.govstack.usct.configuration.OpenImisProperties;
 import global.govstack.usct.controller.dto.CandidateDto;
-import global.govstack.usct.controller.dto.ConsentDto;
 import global.govstack.usct.controller.dto.CreateCandidateDto;
 import global.govstack.usct.controller.dto.CreatePersonDto;
 import global.govstack.usct.controller.dto.digital.registries.PackageDto;
@@ -54,8 +53,8 @@ public class CandidateService {
               if (openImisProperties.mode().equals("open-imis")) {
                 packages = getPackageDtos(candidate.getOpenImisPackageIds());
               }
-              ConsentDto consent = consentService.getConsent(candidate);
-              return new CandidateDto(candidate, packages, consent);
+              var consent = consentService.getConsent(candidate);
+              return new CandidateDto(candidate, packages, consent.orElse(null));
             })
         .toList();
   }
@@ -76,8 +75,8 @@ public class CandidateService {
     if (openImisProperties.mode().equals("emulator")) {
       packages = getPackageDtos(candidate.getEmulatorPackageIds());
     }
-    ConsentDto consent = consentService.getConsent(candidate);
-    return new CandidateDto(candidate, packages, consent);
+    var consent = consentService.getConsent(candidate);
+    return new CandidateDto(candidate, packages, consent.orElse(null));
   }
 
   public void deleteById(Integer id) {

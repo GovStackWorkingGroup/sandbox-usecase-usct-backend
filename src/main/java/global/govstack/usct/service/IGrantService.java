@@ -38,7 +38,7 @@ public class IGrantService implements ConsentService {
     httpHeaders.add("Authorization", properties.token());
   }
 
-  public ConsentDto getConsent(Candidate candidate) {
+  public Optional<ConsentDto> getConsent(Candidate candidate) {
     log.info("Get consent from IGrant URL: {}", properties.url());
     httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIGrantId());
     try {
@@ -54,9 +54,9 @@ public class IGrantService implements ConsentService {
       if (recordDto.get().optIn) {
         // todo it is necessary to extend the logic by obtaining a timestamp
         // https://consent-bb-swagger.igrant.io/v2023.11.1/index.html#get-/service/verification/consent-record/-consentRecordId-
-        return new ConsentDto(ConsentStatus.GRANTED, null);
+        return Optional.of(new ConsentDto(ConsentStatus.GRANTED, null));
       } else {
-        return new ConsentDto(ConsentStatus.NOT_GRANTED, null);
+        return Optional.of(new ConsentDto(ConsentStatus.NOT_GRANTED, null));
       }
     } catch (Exception ex) {
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());

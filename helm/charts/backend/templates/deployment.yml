@@ -74,3 +74,11 @@ spec:
               value: "{{ .Values.service.authmode }}"
             - name: OPEN-IMIS_MODE
               value: "{{.Values.openImis.mode}}"
+            - name: IGRANT_URL
+              value: "{{.Values.igrant.url}}"
+            - name: IGRANT_TOKEN
+              value: "{{.Values.igrant.token}}"
+            - name: IGRANT_DATA_AGREEMENT_ID
+              value: "{{.Values.igrant.dataAgreementId}}"
+            - name: IGRANT_MODE
+              value: "{{.Values.igrant.mode}}"

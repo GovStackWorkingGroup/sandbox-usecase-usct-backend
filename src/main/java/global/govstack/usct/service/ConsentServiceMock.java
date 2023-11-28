@@ -6,6 +6,7 @@ import global.govstack.usct.model.Consent;
 import global.govstack.usct.repositories.ConsentRepository;
 import global.govstack.usct.types.ConsentStatus;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class ConsentServiceMock implements ConsentService {
 
   private final ConsentRepository consentRepository;
 
-  public ConsentDto getConsent(Candidate candidate) {
-    return new ConsentDto(consentRepository.findConsentByCandidateId(candidate));
+  public Optional<ConsentDto> getConsent(Candidate candidate) {
+    return consentRepository.findConsentByCandidateId(candidate).map(ConsentDto::new);
   }
 
   public ConsentServiceMock(ConsentRepository consentRepository) {
