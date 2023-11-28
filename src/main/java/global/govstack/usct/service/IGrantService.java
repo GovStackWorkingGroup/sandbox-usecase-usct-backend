@@ -79,7 +79,7 @@ public class IGrantService implements ConsentService {
   }
 
   public void deleteByCandidateId(Candidate candidate) {
-//    No need to implement
-//    Only local implementation of consent logic need this functionality.
+    //    No need to implement
+    //    Only local implementation of consent logic need this functionality.
   }
 }
