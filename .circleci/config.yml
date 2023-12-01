@@ -64,11 +64,11 @@ commands:
                 name: Deploy project
                 command: |
                   helm dependency update ./helm
-                  helm upgrade --install usct ./helm --create-namespace \
+                  helm upgrade --install --create-namespace \
                     --namespace << pipeline.parameters.namespace >> \
-                    --set-string "backend.deployment.containers.image=${IMAGE}"
                     --set-string "backend.service.authmode=<< pipeline.parameters.authmode >>" \
-                    --set-string "backend.oidcKeystorePassword=${OIDC_KEYSTORE_PASSWORD}"
+                    --set-string "backend.oidcKeystorePassword=${OIDC_KEYSTORE_PASSWORD}" \
+                    usct ./helm
 
 jobs:
   build:
