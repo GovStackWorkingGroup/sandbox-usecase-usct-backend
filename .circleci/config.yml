@@ -89,32 +89,32 @@ jobs:
 workflows:
   # build every commit
   "Build":
+    when:
+      and:
+        - not: << pipeline.parameters.playground >>
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - build:
-          when:
-            and:
-              - not: << pipeline.parameters.playground >>
-              - not:
-                  equal: [ main, << pipeline.git.branch >> ]
           context: sandbox-dev
 
   # build and deploy to dev commits to main
   "Build and Deploy":
+    when:
+      and:
+        - not: << pipeline.parameters.playground >>
+        - equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - build:
-          when:
-            and:
-              - not: << pipeline.parameters.playground >>
-              - not:
-                  equal: [ main, << pipeline.git.branch >> ]
           context: sandbox-dev
 
   # build and deploy to playground depending on parameter
   "Build and Deploy to Playground":
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.playground >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+
     jobs:
       - build:
-          when:
-            and:
-              - equal: [ true, << pipeline.parameters.playground >> ]
-              - equal: [ main, << pipeline.git.branch >> ]
           context: playground
