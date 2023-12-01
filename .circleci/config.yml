@@ -12,7 +12,7 @@ parameters:
     default: mosip
   image:
     type: string
-    default: "app/usct/dev-backend"
+    default: "app/usct/backend"
 
 orbs:
   aws-cli: circleci/aws-cli@4.1.2
@@ -63,8 +63,7 @@ commands:
             - run:
                 name: Deploy project
                 command: |
-                  helm dependency update ./helm
-                  helm upgrade --install --create-namespace \
+                  helm upgrade --install --dependency-update --create-namespace \
                     --namespace << pipeline.parameters.namespace >> \
                     --set-string "backend.service.authmode=<< pipeline.parameters.authmode >>" \
                     --set-string "backend.oidcKeystorePassword=${OIDC_KEYSTORE_PASSWORD}" \
@@ -78,7 +77,7 @@ jobs:
       - build_and_deploy:
           deploy: false
 
-  build_and_deploy:
+  build-and-deploy:
     docker:
       - image: cimg/openjdk:17.0
     steps:
@@ -104,7 +103,7 @@ workflows:
         - equal: [ false, << pipeline.parameters.playground >> ]
         - equal: [ 'main', << pipeline.git.branch >> ]
     jobs:
-      - build_and_deploy:
+      - build-and-deploy:
           context: sandbox-dev
 
   # build and deploy to playground depending on parameter
@@ -114,5 +113,5 @@ workflows:
         - equal: [ true, << pipeline.parameters.playground >> ]
         - equal: [ 'main', << pipeline.git.branch >> ]
     jobs:
-      - build_and_deploy:
+      - build-and-deploy:
           context: playground
