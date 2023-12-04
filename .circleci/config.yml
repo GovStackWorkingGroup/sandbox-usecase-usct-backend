@@ -28,17 +28,16 @@ commands:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 20.10.14
       - helm/install_helm_client:
           version: v3.13.0
       - run:
           name: Setup env
           command: |
-              echo "export IMAGE=${CONTAINER_REGISTRY}/<< pipeline.parameters.image >>:<< pipeline.git.revision >>" >> "$BASH_ENV"
+              echo "export IMAGE=${CONTAINER_REGISTRY}/<< pipeline.parameters.image >>" >> "$BASH_ENV"
       - run:
           name: Build docker image
           command: |
-            ./gradlew build bootBuildImage "--imageName=$IMAGE"
+            ./gradlew build bootBuildImage "--imageName=$IMAGE:latest"
       - run:
           name: Check Helm Chart
           command: |
@@ -55,7 +54,7 @@ commands:
                 name: Push image
                 command: |
                   aws ecr get-login-password | docker login --username AWS --password-stdin "${CONTAINER_REGISTRY}"
-                  docker push "$IMAGE"
+                  docker push "$IMAGE:latest"
             - run:
                 name: Update kubeconfig
                 command: |
@@ -63,11 +62,14 @@ commands:
             - run:
                 name: Deploy project
                 command: |
-                  helm upgrade --install --dependency-update --create-namespace \
+                  DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $IMAGE:latest)
+                  DIGEST="${DIGEST#*@}"
+                  helm upgrade --wait --install --dependency-update --create-namespace \
                     --namespace << pipeline.parameters.namespace >> \
-                    --set-string "backend.service.authmode=<< pipeline.parameters.authmode >>" \
-                    --set-string "backend.oidcKeystorePassword=${OIDC_KEYSTORE_PASSWORD}" \
-                    usct ./helm
+                    --set-string "service.authmode=<< pipeline.parameters.authmode >>" \
+                    --set-string "oidcKeystorePassword=${OIDC_KEYSTORE_PASSWORD}" \
+                    --set-string "deployment.containers.image=${IMAGE}@${DIGEST}" \
+                    usct-backend ./helm
 
 jobs:
   build:
