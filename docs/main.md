@@ -151,19 +151,19 @@ Pipeline variables:
 ### Useful commands
 
 ```shell
-helm install usct ./helm/ --create-namespace --namespace usct
+helm install usct-backend ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm upgrade --install usct ./helm/ --create-namespace --namespace usct
+helm upgrade --install usct-backend ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm install --debug --dry-run usct ./helm/ --create-namespace --namespace usct
+helm install --debug --dry-run usct-backend ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm uninstall usct --namespace usct
+helm uninstall usct-backend --namespace usct
 ```
 
 ## DB connection
