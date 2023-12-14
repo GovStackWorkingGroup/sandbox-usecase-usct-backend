@@ -41,8 +41,8 @@ callback:
   cidr: "0.0.0.0/0,::/0"
 
 openImis:
-  url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8000/r1/SANDBOX/GOV/PROVIDER/DIGITAL-REGISTRIES/data/registryname/111?search=package&filter=phone"
+  emulator_url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/DIGITALREGISTRIES/emulator/api/v1/data/bpkg/1.0"
   user: "admin"
   password: "govstack"
-  mode: "open-imis"
+  mode: "emulator"
   header: "SANDBOX/ORG/CLIENT/TEST"
