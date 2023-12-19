@@ -249,14 +249,14 @@ public class SecurityConfig {
       Collection<? extends GrantedAuthority> authorities) {
     for (var authority : authorities) {
       if (authority instanceof OidcUserAuthority oidc) {
-        var subject = oidc.getIdToken().getSubject();
-        log.info("Logging in user {}", subject);
-        return switch (subject) {
-          case "268505314334796284434550524121540566" -> Set.of(
+        var username = oidc.getUserInfo().getEmail();
+        log.info("Logging in user {}", username);
+        return switch (username) {
+          case "jason.hans@govstack.example.org" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + REGISTRY_OFFICER));
-          case "299950323465436931629862208523254959" -> Set.of(
+          case "max.bob@govstack.example.org" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + ENROLLMENT_OFFICER));
-          case "294629625538148508290996199782510910" -> Set.of(
+          case "susie.may@govstack.example.org" -> Set.of(
               new SimpleGrantedAuthority("ROLE_" + PAYMENT_OFFICER));
           default -> Set.of();
         };
