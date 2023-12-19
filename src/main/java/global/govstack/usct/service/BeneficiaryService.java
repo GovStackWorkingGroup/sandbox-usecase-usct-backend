@@ -7,9 +7,12 @@ import global.govstack.usct.model.Candidate;
 import global.govstack.usct.repositories.BeneficiaryRepository;
 import global.govstack.usct.types.PaymentStatus;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 public class BeneficiaryService {
   private final BeneficiaryRepository repository;
@@ -57,6 +60,7 @@ public class BeneficiaryService {
 
   @Transactional
   public Beneficiary create(Candidate candidate, int enrolledPackageId) {
+    log.info("Create beneficiary, firstName: {}", candidate.getPerson().getFirstName());
     String functionalId =
         candidate.getPerson().getPersonalIdCode()
             + properties.governmentIdentifier()
