@@ -55,7 +55,7 @@ public class JwtHttpMessageConverter
     try {
       return decoder.decode(token).getClaims();
     } catch (BadJwtException e) {
-      log.warn("Validation failed for token {}", token, e);
+      log.warn("Validation failed for token {} : {}", token, e.getMessage());
       try {
         return JWTParser.parse(token).getJWTClaimsSet().getClaims();
       } catch (ParseException ex) {

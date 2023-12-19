@@ -21,13 +21,14 @@ public class AuthController {
   public RolesDto getRoles(Authentication authentication) {
 
     var email = authentication.getName();
+    var name = authentication.getName();
+
     if (authentication instanceof OAuth2AuthenticationToken t) {
       email = t.getPrincipal().getAttribute("email");
+      name = t.getPrincipal().getAttribute("name");
     }
 
     return new RolesDto(
-        email,
-        authentication.getName(),
-        authentication.getAuthorities().stream().map(Object::toString).toList());
+        email, name, authentication.getAuthorities().stream().map(Object::toString).toList());
   }
 }
