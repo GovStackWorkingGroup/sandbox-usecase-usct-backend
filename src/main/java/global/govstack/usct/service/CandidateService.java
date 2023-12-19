@@ -64,6 +64,7 @@ public class CandidateService {
   }
 
   public CandidateDto findById(int id) {
+    log.info("Find candidate by id: {}", id);
     Candidate candidate =
         candidateRepository
             .findById(id)
@@ -85,6 +86,7 @@ public class CandidateService {
 
   @Transactional
   public Candidate save(CreateCandidateDto createCandidateDto) {
+    log.info("Create candidate, firstName: {}", createCandidateDto.person().firstName());
     CreatePersonDto createPersonDto = createCandidateDto.person();
     Person person = personService.save(createPersonDto);
     Candidate candidate = new Candidate();
@@ -95,6 +97,7 @@ public class CandidateService {
 
   @Transactional
   public Candidate save(Candidate candidate) {
+    log.info("Create candidate, firstName: {}", candidate.getPerson().getFirstName());
     personService.save(candidate.getPerson());
     return candidateRepository.save(candidate);
   }
