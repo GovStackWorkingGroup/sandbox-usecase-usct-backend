@@ -58,7 +58,7 @@ public class BeneficiaryService {
         beneficiary, packageService.getById(beneficiary.getEnrolledPackageId()));
   }
 
-  @Transactional
+
   public Beneficiary create(Candidate candidate, int enrolledPackageId) {
     log.info("Create beneficiary, firstName: {}", candidate.getPerson().getFirstName());
     String functionalId =

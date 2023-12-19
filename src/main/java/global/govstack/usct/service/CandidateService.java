@@ -81,6 +81,7 @@ public class CandidateService {
   }
 
   public void deleteById(Integer id) {
+    log.info("Delete candidate by id: {}", id);
     candidateRepository.deleteById(id);
   }
 

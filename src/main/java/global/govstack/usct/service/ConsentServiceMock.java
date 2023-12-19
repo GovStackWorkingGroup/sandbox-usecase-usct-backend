@@ -36,6 +36,7 @@ public class ConsentServiceMock implements ConsentService {
   }
 
   public void deleteByCandidateId(Candidate candidate) {
+    log.info("Delete consent by CandidateId: {}", candidate.getPerson().getId());
     consentRepository.deleteByCandidateId(candidate);
   }
 }
