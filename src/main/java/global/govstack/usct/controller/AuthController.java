@@ -29,8 +29,6 @@ public class AuthController {
     }
 
     return new RolesDto(
-        email,
-        name,
-        authentication.getAuthorities().stream().map(Object::toString).toList());
+        email, name, authentication.getAuthorities().stream().map(Object::toString).toList());
   }
 }
