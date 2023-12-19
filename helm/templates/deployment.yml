@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: "{{ .Values.deployment.containers.name }}"
-          image: "{{ .Values.deployment.containers.image }}"
+          image: "{{ .Values.deployment.containers.image }}:{{ .Values.deployment.containers.imageTag }}"
           imagePullPolicy: {{ .Values.deployment.containers.imagePullPolicy }}
           env:
             - name: OIDC_JWK_KEYSTORE_PASSWORD
@@ -74,7 +74,7 @@ spec:
               value: "{{.Values.openImis.mode}}"
             - name: OPEN-IMIS_URL
               value: "{{ .Values.openImis.url}}"
-            - name: OPEN-IMIS_EMULATOR_URL
+            - name: OPEN-IMIS_EMULATOR-URL
               value: "{{ .Values.openImis.emulator_url}}"
             - name: OPEN-IMIS_USER
               value: "{{ .Values.openImis.user}}"

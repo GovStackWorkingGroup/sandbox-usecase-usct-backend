@@ -2,13 +2,14 @@ deployment:
   name: usct-backend
   containers:
     name: usct-backend
-    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/backend:latest
+    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/backend
+    imageTag: latest
     imagePullPolicy: "Always"
 
 service:
   name: backend
   port: 8080
-  logLevel: "INFO"
+  logLevel: "DEBUG"
   authmode: local
 
 oidcKeystorePassword: ""
@@ -45,7 +46,7 @@ openImis:
   emulator_url: "http://digital-registries-bb-emulator.digital-registries-bb-emulator-0.svc.cluster.local:8080/api/v1/data/bpkg/1.0"
   user: "admin"
   password: "govstack"
-  mode: "emulator"
+  mode: "open-imis"
   header: "SANDBOX/ORG/CLIENT/TEST"
 
 igrant:
