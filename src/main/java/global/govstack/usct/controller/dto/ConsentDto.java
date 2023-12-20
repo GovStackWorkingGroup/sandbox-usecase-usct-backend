@@ -8,6 +8,7 @@ import lombok.Getter;
 public class ConsentDto {
 
   private Integer id;
+  private String originalId;
   private Integer candidateId;
 
   @Getter private ConsentStatus status;
@@ -18,7 +19,7 @@ public class ConsentDto {
 
   public ConsentDto(Consent consent) {
     this.id = consent.getId();
-    this.candidateId = consent.getCandidateId().getId();
+    this.candidateId = consent.getCandidate().getId();
     this.status = consent.getStatus();
     this.date = consent.getDate();
   }

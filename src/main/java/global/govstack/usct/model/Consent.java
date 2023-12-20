@@ -11,9 +11,11 @@ public class Consent {
   @Column
   private int id;
 
-  @OneToOne
-  @JoinColumn(name = "candidate_id", nullable = false)
-  private Candidate candidateId;
+  @Column(name = "original_id")
+  private String originalId;
+
+  @OneToOne(mappedBy = "consent")
+  private Candidate candidate;
 
   @Column
   @Enumerated(EnumType.STRING)
@@ -29,27 +31,35 @@ public class Consent {
     this.id = id;
   }
 
-  public Candidate getCandidateId() {
-    return candidateId;
+  public String getOriginalId() {
+    return originalId;
   }
 
-  public void setCandidateId(Candidate candidate) {
-    this.candidateId = candidate;
+  public void setOriginalId(String originalId) {
+    this.originalId = originalId;
+  }
+
+  public Candidate getCandidate() {
+    return candidate;
+  }
+
+  public void setCandidate(Candidate candidate) {
+    this.candidate = candidate;
   }
 
   public ConsentStatus getStatus() {
     return status;
   }
 
-  public void setStatus(ConsentStatus consentStatus) {
-    this.status = consentStatus;
+  public void setStatus(ConsentStatus status) {
+    this.status = status;
   }
 
   public LocalDateTime getDate() {
     return date;
   }
 
-  public void setDate(LocalDateTime dateTime) {
-    this.date = dateTime;
+  public void setDate(LocalDateTime date) {
+    this.date = date;
   }
 }

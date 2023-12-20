@@ -19,7 +19,9 @@ public class ConsentServiceMock implements ConsentService {
   private final ConsentRepository consentRepository;
 
   public Optional<ConsentDto> getConsent(Candidate candidate) {
-    return consentRepository.findConsentByCandidateId(candidate).map(ConsentDto::new);
+    if (candidate.getConsent() != null) {
+      return Optional.of(new ConsentDto(candidate.getConsent()));
+    } else return Optional.empty();
   }
 
   public ConsentServiceMock(ConsentRepository consentRepository) {
@@ -28,7 +30,7 @@ public class ConsentServiceMock implements ConsentService {
 
   public String save(Candidate candidate) {
     Consent consent = new Consent();
-    consent.setCandidateId(candidate);
+    consent.setCandidate(candidate);
     consent.setStatus(ConsentStatus.GRANTED);
     consent.setDate(LocalDateTime.now());
     consentRepository.save(consent);
@@ -37,6 +39,6 @@ public class ConsentServiceMock implements ConsentService {
 
   public void deleteByCandidateId(Candidate candidate) {
     log.info("Delete consent by CandidateId: {}", candidate.getPerson().getId());
-    consentRepository.deleteByCandidateId(candidate);
+    consentRepository.delete(candidate.getConsent());
   }
 }

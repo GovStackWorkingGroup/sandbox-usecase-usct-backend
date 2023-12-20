@@ -40,7 +40,7 @@ public class IGrantService implements ConsentService {
 
   public Optional<ConsentDto> getConsent(Candidate candidate) {
     log.info("Get consent from IGrant URL: {}", properties.url());
-    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIGrantId());
+    httpHeaders.add("X-ConsentBB-IndividualId", String.valueOf(candidate.getConsent().getId()));
     try {
       ConsentRecordsDto response =
           restTemplateSelfSigned
@@ -65,7 +65,7 @@ public class IGrantService implements ConsentService {
 
   public String save(Candidate candidate) {
     log.info("Create consent for candidateId: {}", candidate.getId());
-    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIGrantId());
+    httpHeaders.add("X-ConsentBB-IndividualId", String.valueOf(candidate.getConsent().getId()));
     try {
       restTemplateSelfSigned.exchange(
           properties.url() + "data-agreement/" + properties.dataAgreementId(),

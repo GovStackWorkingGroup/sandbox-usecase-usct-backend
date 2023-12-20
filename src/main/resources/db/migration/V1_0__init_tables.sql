@@ -27,7 +27,7 @@ create table CANDIDATE
     PERSON_ID   INTEGER,
     OPENIMIS_PACKAGE_ID  INTEGER ARRAY,
     EMULATOR_PACKAGE_ID  INTEGER ARRAY,
-    IGRANT_ID  CHARACTER VARYING(255),
+    IGRANT_ID  INT,
     constraint CANDIDATE_PK
         primary key (ID),
     constraint "CANDIDATE_PERSON_ID_fk"
@@ -37,13 +37,11 @@ create table CANDIDATE
 create table CONSENT
 (
     ID             INTEGER AUTO_INCREMENT NOT NULL,
-    CANDIDATE_ID   INTEGER,
+    ORIGINAL_ID    CHARACTER VARYING(255),
     STATUS         CHARACTER VARYING(255),
     DATE           CHARACTER VARYING(255),
     constraint CONSENT_PK
-        primary key (ID),
-    constraint "CONSENT_CANDIDATE_ID_fk"
-        foreign key (CANDIDATE_ID) references CANDIDATE
+        primary key (ID)
 );
 
 create table BENEFICIARY
@@ -97,18 +95,17 @@ values ('9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Doe', 'john.doe@example
         '1234 Elm Street, Apartment 567', '18011234567', 'Archaeologist', 'Willow Creek', '90210', 'Bob Smith',
         '8837461001', 'MOBILE_MONEY', '', '');
 
+INSERT INTO CONSENT(ID, ORIGINAL_ID, STATUS, DATE)
+values (1,'656076ba38353b59485cf625','GRANTED', '2023-11-20T12:30:00');
 
 INSERT INTO CANDIDATE(PERSON_ID, OPENIMIS_PACKAGE_ID, EMULATOR_PACKAGE_ID, IGRANT_ID)
-values (1, ARRAY[147, 148, 149], ARRAY[1, 2, 3], '656076ba38353b59485cf625'),
-       (2, ARRAY[147, 149], ARRAY[1, 3], '656076ba38353b59485cf625'),
-       (3, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], '656076ba38353b59485cf625'),
-       (4, ARRAY[147], ARRAY[1], '656076ba38353b59485cf625'),
-       (5, ARRAY[147, 148, 149], ARRAY[1, 2, 3], '656076ba38353b59485cf625'),
-       (6, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], '656076ba38353b59485cf625'),
-       (7, ARRAY[147, 148, 149], ARRAY[1, 2, 3], '656076ba38353b59485cf625'),
-       (8, ARRAY[147, 148, 149], ARRAY[1, 2, 3], '656076ba38353b59485cf625'),
-       (9, ARRAY[147, 148, 149], ARRAY[1, 2, 3], '656076ba38353b59485cf625'),
-       (10, ARRAY[], ARRAY[], '656076ba38353b59485cf625');
-
-INSERT INTO CONSENT(CANDIDATE_ID, STATUS, DATE)
-values (1, 'GRANTED', '2023-11-20T12:30:00');
+values (1, ARRAY[147, 148, 149], ARRAY[1, 2, 3], 1),
+       (2, ARRAY[147, 149], ARRAY[1, 3], null),
+       (3, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], null),
+       (4, ARRAY[147], ARRAY[1], null),
+       (5, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
+       (6, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], null),
+       (7, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
+       (8, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
+       (9, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
+       (10, ARRAY[], ARRAY[], null);
