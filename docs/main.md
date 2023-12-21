@@ -4,7 +4,7 @@ This is a driver backend application for
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
 (USCT) use case.
 
-[Live Demo](https://usct.dev.sandbox-playground.com/driver-poc/)
+[Live Demo](https://usct.playground.sandbox-playground.com/driver-poc/)
 
 ## Application logic
 
@@ -161,7 +161,7 @@ helm install usct-backend ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm upgrade --install usct-backend ./helm/ --create-namespace --namespace usct
+helm upgrade --:    install usct-backend ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell

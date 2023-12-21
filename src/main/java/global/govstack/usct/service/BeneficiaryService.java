@@ -59,7 +59,6 @@ public class BeneficiaryService {
   }
 
 
-  @Transactional
   public Beneficiary create(Candidate candidate, int enrolledPackageId) {
     log.info("Create beneficiary, firstName: {}", candidate.getPerson().getFirstName());
     String functionalId =
@@ -73,8 +72,7 @@ public class BeneficiaryService {
     beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
     beneficiary.setFunctionalId(functionalId);
     Beneficiary savedBeneficiary = repository.save(beneficiary);
-    consentService.deleteByCandidateId(candidate);
-    candidateService.deleteById(candidate.getId());
+    candidateService.delete(candidate);
     paymentService.registerBeneficiary(List.of(savedBeneficiary));
 
     return savedBeneficiary;

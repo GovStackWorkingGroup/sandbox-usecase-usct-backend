@@ -31,7 +31,7 @@ public class Candidate {
   private Set<Integer> emulatorPackageIds = new HashSet<Integer>();
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "igrant_id", referencedColumnName = "id")
+  @JoinColumn(name = "consent_id", referencedColumnName = "id")
   private Consent consent;
 
   public Set<Integer> getOpenImisPackageIds() {
