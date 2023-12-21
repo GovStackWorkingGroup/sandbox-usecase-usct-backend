@@ -59,6 +59,7 @@ public class IGrantService implements ConsentService {
         return Optional.of(new ConsentDto(ConsentStatus.NOT_GRANTED, null));
       }
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }
@@ -74,6 +75,7 @@ public class IGrantService implements ConsentService {
           String.class);
       return "Consent request was successfully";
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }

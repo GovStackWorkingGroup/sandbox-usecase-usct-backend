@@ -44,6 +44,7 @@ public class OpenImisService implements DigitalRegistriesService {
               .getBody();
       return packagesSet.results().stream().map(PackageDto::new).toList();
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }

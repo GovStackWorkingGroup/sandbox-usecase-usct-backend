@@ -6,6 +6,8 @@ This is a driver backend application for
 
 [Live Demo](https://usct.playground.sandbox-playground.com/driver-poc/)
 
+[Security server №3](https://ss3-im-xroad.playground.sandbox-playground.com)
+
 ## Application logic
 
 ```mermaid

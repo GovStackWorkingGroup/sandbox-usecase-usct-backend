@@ -5,6 +5,8 @@ import global.govstack.usct.controller.dto.CreateCandidateDto;
 import global.govstack.usct.model.Candidate;
 import global.govstack.usct.service.CandidateService;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin
@@ -56,6 +59,7 @@ public class CandidateController {
   @ResponseStatus(HttpStatus.OK)
   CandidateDto updateCandidate(@RequestBody CandidateDto candidateDto) {
     if (candidateDto.getId() == 0) {
+      log.error(HttpStatus.BAD_REQUEST + "Invalid id");
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid id");
     }
     Candidate candidate = convertToEntity(candidateDto);

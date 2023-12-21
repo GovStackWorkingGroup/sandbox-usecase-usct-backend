@@ -44,6 +44,7 @@ public class DigitalRegistriesEmulator implements DigitalRegistriesService {
               .getBody();
       return packagesSet.getResults();
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }
