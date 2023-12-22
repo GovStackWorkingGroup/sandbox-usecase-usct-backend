@@ -28,6 +28,7 @@ create table CANDIDATE
     OPENIMIS_PACKAGE_ID  INTEGER ARRAY,
     EMULATOR_PACKAGE_ID  INTEGER ARRAY,
     CONSENT_ID  INT,
+    I_GRANT_ID  CHARACTER VARYING(255),
     constraint CANDIDATE_PK
         primary key (ID),
     constraint "CANDIDATE_PERSON_ID_fk"
@@ -37,7 +38,6 @@ create table CANDIDATE
 create table CONSENT
 (
     ID             INTEGER AUTO_INCREMENT NOT NULL,
-    ORIGINAL_ID    CHARACTER VARYING(255),
     STATUS         CHARACTER VARYING(255),
     DATE           CHARACTER VARYING(255),
     constraint CONSENT_PK
@@ -95,17 +95,17 @@ values ('9b237f8a-4dc2-4438-af0d-5f01c469b302', 'John', 'Doe', 'john.doe@example
         '1234 Elm Street, Apartment 567', '18011234567', 'Archaeologist', 'Willow Creek', '90210', 'Bob Smith',
         '8837461001', 'MOBILE_MONEY', '', '');
 
-INSERT INTO CONSENT(ID, ORIGINAL_ID, STATUS, DATE)
-values (1,'656076ba38353b59485cf625','GRANTED', '2023-11-20T12:30:00');
+INSERT INTO CONSENT(ID, STATUS, DATE)
+values (1,'GRANTED', '2023-11-20T12:30:00');
 
-INSERT INTO CANDIDATE(PERSON_ID, OPENIMIS_PACKAGE_ID, EMULATOR_PACKAGE_ID, CONSENT_ID)
-values (1, ARRAY[147, 148, 149], ARRAY[1, 2, 3], 1),
-       (2, ARRAY[147, 149], ARRAY[1, 3], null),
-       (3, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], null),
-       (4, ARRAY[147], ARRAY[1], null),
-       (5, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
-       (6, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], null),
-       (7, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
-       (8, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
-       (9, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null),
-       (10, ARRAY[], ARRAY[], null);
+INSERT INTO CANDIDATE(PERSON_ID, OPENIMIS_PACKAGE_ID, EMULATOR_PACKAGE_ID, CONSENT_ID, I_GRANT_ID)
+values (1, ARRAY[147, 148, 149], ARRAY[1, 2, 3], 1, '658018417fb9d4055b5e60a0'),
+       (2, ARRAY[147, 149], ARRAY[1, 3], null, '65801da67fb9d4055b5e60a4'),
+       (3, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], null, '658064c1a1cea46145a801fa'),
+       (4, ARRAY[147], ARRAY[1], null, '658064c1a1cea46145a801fc'),
+       (5, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null, '6580659aa1cea46145a801ff'),
+       (6, ARRAY[147, 148, 149, 150], ARRAY[1, 2, 3, 4], null, '6580659aa1cea46145a80201'),
+       (7, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null, '6580659aa1cea46145a80203'),
+       (8, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null, '6580659aa1cea46145a80205'),
+       (9, ARRAY[147, 148, 149], ARRAY[1, 2, 3], null, '6580659aa1cea46145a80207'),
+       (10, ARRAY[], ARRAY[], null, '6580659aa1cea46145a80209');

@@ -35,12 +35,13 @@ public class IGrantService implements ConsentService {
     this.restTemplateSelfSigned = new RestTemplate(requestFactory);
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
     httpHeaders.add("X-Road-Client", "application/json");
-    httpHeaders.add("Authorization", properties.token());
+    httpHeaders.add("Authorization", "ApiKey " + properties.token());
   }
 
   public Optional<ConsentDto> getConsent(Candidate candidate) {
     log.info("Get consent from IGrant URL: {}", properties.url());
-    httpHeaders.add("X-ConsentBB-IndividualId", String.valueOf(candidate.getConsent().getId()));
+    log.info("Get consent for individual: {}", candidate.getiGrantId());
+    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getiGrantId());
     try {
       ConsentRecordsDto response =
           restTemplateSelfSigned
@@ -51,7 +52,9 @@ public class IGrantService implements ConsentService {
                   ConsentRecordsDto.class)
               .getBody();
       Optional<RecordDto> recordDto = response.getConsentRecords().stream().findFirst();
-      if (recordDto.get().optIn) {
+      if (recordDto.isPresent() && recordDto.get().optIn) {
+        log.info("individualId: " + recordDto.get().individualId + "optIn status: " + recordDto.get().optIn);
+
         // todo it is necessary to extend the logic by obtaining a timestamp
         // https://consent-bb-swagger.igrant.io/v2023.11.1/index.html#get-/service/verification/consent-record/-consentRecordId-
         return Optional.of(new ConsentDto(ConsentStatus.GRANTED, null));
@@ -66,7 +69,7 @@ public class IGrantService implements ConsentService {
 
   public String save(Candidate candidate) {
     log.info("Create consent for candidateId: {}", candidate.getId());
-    httpHeaders.add("X-ConsentBB-IndividualId", String.valueOf(candidate.getConsent().getId()));
+    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getiGrantId());
     try {
       restTemplateSelfSigned.exchange(
           properties.url() + "data-agreement/" + properties.dataAgreementId(),
@@ -75,6 +78,9 @@ public class IGrantService implements ConsentService {
           String.class);
       return "Consent request was successfully";
     } catch (Exception ex) {
+      if (ex.getMessage().contains("exists")){
+        return "Data agreement record for data agreement exists";
+      }
       log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }

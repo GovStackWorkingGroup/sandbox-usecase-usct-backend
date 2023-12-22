@@ -34,6 +34,9 @@ public class Candidate {
   @JoinColumn(name = "consent_id", referencedColumnName = "id")
   private Consent consent;
 
+  @Column(name = "i_grant_id")
+  private String iGrantId;
+
   public Set<Integer> getOpenImisPackageIds() {
     return openImisPackageIds;
   }
@@ -72,5 +75,13 @@ public class Candidate {
 
   public void setConsent(Consent consent) {
     this.consent = consent;
+  }
+
+  public String getiGrantId() {
+    return iGrantId;
+  }
+
+  public void setiGrantId(String iGrantId) {
+    this.iGrantId = iGrantId;
   }
 }

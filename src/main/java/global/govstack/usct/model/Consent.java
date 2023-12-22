@@ -11,9 +11,6 @@ public class Consent {
   @Column
   private int id;
 
-  @Column(name = "original_id")
-  private String originalId;
-
   @OneToOne(mappedBy = "consent")
   private Candidate candidate;
 
@@ -29,14 +26,6 @@ public class Consent {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public String getOriginalId() {
-    return originalId;
-  }
-
-  public void setOriginalId(String originalId) {
-    this.originalId = originalId;
   }
 
   public Candidate getCandidate() {
