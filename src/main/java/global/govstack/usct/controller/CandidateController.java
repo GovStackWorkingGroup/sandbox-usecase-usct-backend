@@ -5,7 +5,6 @@ import global.govstack.usct.controller.dto.CreateCandidateDto;
 import global.govstack.usct.model.Candidate;
 import global.govstack.usct.service.CandidateService;
 import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;

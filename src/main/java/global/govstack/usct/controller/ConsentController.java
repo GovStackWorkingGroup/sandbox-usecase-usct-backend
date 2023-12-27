@@ -21,7 +21,7 @@ public class ConsentController {
 
   public ConsentController(ConsentService consentService, CandidateService candidateService) {
     this.consentService = consentService;
-      this.candidateService = candidateService;
+    this.candidateService = candidateService;
   }
 
   @PostMapping("/consent")

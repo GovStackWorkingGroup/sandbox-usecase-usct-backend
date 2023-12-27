@@ -6,7 +6,6 @@ import global.govstack.usct.model.Candidate;
 import global.govstack.usct.service.dto.consent.igrant.ConsentRecordsDto;
 import global.govstack.usct.service.dto.consent.igrant.RecordDto;
 import global.govstack.usct.types.ConsentStatus;
-
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -40,7 +39,10 @@ public class IGrantService implements ConsentService {
   }
 
   public Optional<ConsentDto> getConsent(Candidate candidate) {
-    log.info("Get consent from IGrant URL: {} for individual: {}", properties.url(), candidate.getConsent());
+    log.info(
+        "Get consent from IGrant URL: {} for individual: {}",
+        properties.url(),
+        candidate.getConsent());
     cleanIndividualsheaders();
     httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIgrantId());
     try {
@@ -54,7 +56,11 @@ public class IGrantService implements ConsentService {
               .getBody();
       Optional<RecordDto> recordDto = response.getConsentRecords().stream().findFirst();
       if (recordDto.isPresent() && recordDto.get().optIn) {
-        log.info("individualId: " + recordDto.get().individualId + "optIn status: " + recordDto.get().optIn);
+        log.info(
+            "individualId: "
+                + recordDto.get().individualId
+                + "optIn status: "
+                + recordDto.get().optIn);
         // todo it is necessary to extend the logic by obtaining a timestamp
         // https://consent-bb-swagger.igrant.io/v2023.11.1/index.html#get-/service/verification/consent-record/-consentRecordId-
         return Optional.of(new ConsentDto(ConsentStatus.GRANTED, null));
@@ -79,7 +85,7 @@ public class IGrantService implements ConsentService {
           String.class);
       return "Consent request was successfully";
     } catch (Exception ex) {
-      if (ex.getMessage().contains("exists")){
+      if (ex.getMessage().contains("exists")) {
         return "Data agreement record for data agreement exists";
       }
       log.error(ex.getMessage());
@@ -95,6 +101,7 @@ public class IGrantService implements ConsentService {
   private void cleanIndividualsheaders() {
     do {
       httpHeaders.remove("X-ConsentBB-IndividualId");
-    } while (httpHeaders.get("X-ConsentBB-IndividualId") != null && httpHeaders.get("X-ConsentBB-IndividualId").isEmpty());
+    } while (httpHeaders.get("X-ConsentBB-IndividualId") != null
+        && httpHeaders.get("X-ConsentBB-IndividualId").isEmpty());
   }
 }

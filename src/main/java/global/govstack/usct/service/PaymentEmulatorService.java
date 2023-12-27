@@ -14,7 +14,6 @@ import global.govstack.usct.types.PaymentOnboardingCallbackMode;
 import global.govstack.usct.types.PaymentOnboardingStatus;
 import java.util.List;
 import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.*;
@@ -135,7 +134,9 @@ public class PaymentEmulatorService implements PaymentService {
   @Override
   @Transactional
   public void registerBeneficiary(List<Beneficiary> beneficiaries) {
-    log.info("Register beneficiary, functionalId: {}", beneficiaries.stream().findFirst().get().getFunctionalId());
+    log.info(
+        "Register beneficiary, functionalId: {}",
+        beneficiaries.stream().findFirst().get().getFunctionalId());
     var requestID = UUID.randomUUID().toString();
     PaymentOnboardingBeneficiaryDTO paymentDto = convertBeneficiary(beneficiaries, requestID);
     try {
