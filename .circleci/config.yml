@@ -68,6 +68,8 @@ commands:
                     --namespace << pipeline.parameters.namespace >> \
                     --set-string "service.authmode=<< pipeline.parameters.authmode >>" \
                     --set-string "oidcKeystorePassword=${OIDC_KEYSTORE_PASSWORD}" \
+                    --set-string "igrant.token=${CONSENT_TOKEN}" \
+                    --set-string "igrant.dataAgreementId=${DATA_AGREEMENT_ID}" \
                     --set-string "deployment.containers.image=${IMAGE}@${DIGEST}" \
                     usct-backend ./helm
 
