@@ -6,6 +6,7 @@ import global.govstack.usct.model.Candidate;
 import global.govstack.usct.service.dto.consent.igrant.ConsentRecordsDto;
 import global.govstack.usct.service.dto.consent.igrant.RecordDto;
 import global.govstack.usct.types.ConsentStatus;
+
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -39,9 +40,9 @@ public class IGrantService implements ConsentService {
   }
 
   public Optional<ConsentDto> getConsent(Candidate candidate) {
-    log.info("Get consent from IGrant URL: {}", properties.url());
-    log.info("Get consent for individual: {}", candidate.getiGrantId());
-    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getiGrantId());
+    log.info("Get consent from IGrant URL: {} for individual: {}", properties.url(), candidate.getConsent());
+    cleanIndividualsheaders();
+    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIgrantId());
     try {
       ConsentRecordsDto response =
           restTemplateSelfSigned
@@ -54,7 +55,6 @@ public class IGrantService implements ConsentService {
       Optional<RecordDto> recordDto = response.getConsentRecords().stream().findFirst();
       if (recordDto.isPresent() && recordDto.get().optIn) {
         log.info("individualId: " + recordDto.get().individualId + "optIn status: " + recordDto.get().optIn);
-
         // todo it is necessary to extend the logic by obtaining a timestamp
         // https://consent-bb-swagger.igrant.io/v2023.11.1/index.html#get-/service/verification/consent-record/-consentRecordId-
         return Optional.of(new ConsentDto(ConsentStatus.GRANTED, null));
@@ -69,7 +69,8 @@ public class IGrantService implements ConsentService {
 
   public String save(Candidate candidate) {
     log.info("Create consent for candidateId: {}", candidate.getId());
-    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getiGrantId());
+    cleanIndividualsheaders();
+    httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIgrantId());
     try {
       restTemplateSelfSigned.exchange(
           properties.url() + "data-agreement/" + properties.dataAgreementId(),
@@ -89,5 +90,11 @@ public class IGrantService implements ConsentService {
   public void deleteByCandidateId(Candidate candidate) {
     //    No need to implement
     //    Only local implementation of consent logic need this functionality.
+  }
+
+  private void cleanIndividualsheaders() {
+    do {
+      httpHeaders.remove("X-ConsentBB-IndividualId");
+    } while (httpHeaders.get("X-ConsentBB-IndividualId") != null && httpHeaders.get("X-ConsentBB-IndividualId").isEmpty());
   }
 }

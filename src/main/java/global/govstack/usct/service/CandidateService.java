@@ -11,6 +11,7 @@ import global.govstack.usct.model.Person;
 import global.govstack.usct.repositories.CandidateRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -106,5 +107,9 @@ public class CandidateService {
     log.info("Create candidate, firstName: {}", candidate.getPerson().getFirstName());
     personService.save(candidate.getPerson());
     return candidateRepository.save(candidate);
+  }
+
+  public Optional<Candidate> getById(int id) {
+    return candidateRepository.findById(id);
   }
 }
