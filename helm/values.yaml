@@ -9,7 +9,7 @@ deployment:
 service:
   name: backend
   port: 8080
-  logLevel: "DEBUG"
+  logLevel: "INFO"
   authmode: local
 
 oidcKeystorePassword: ""
