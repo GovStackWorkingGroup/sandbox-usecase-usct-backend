@@ -35,15 +35,14 @@ public class IGrantService implements ConsentService {
     this.httpHeaders = new HttpHeaders();
     this.restTemplateSelfSigned = new RestTemplate(requestFactory);
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-    httpHeaders.add("X-Road-Client", "application/json");
     httpHeaders.add("Authorization", "ApiKey " + properties.token());
+    httpHeaders.add("X-Road-Client", properties.header());
   }
 
   public Optional<ConsentDto> getConsent(Candidate candidate) {
     log.info("Get consent from IGrant URL: {} for individual: {}", properties.url(), candidate.getConsent());
     cleanIndividualsheaders();
     httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIgrantId());
-    httpHeaders.add("X-Road-Client", properties.header());
     try {
       ConsentRecordsDto response =
           restTemplateSelfSigned
@@ -72,7 +71,6 @@ public class IGrantService implements ConsentService {
     log.info("Create consent for candidateId: {}", candidate.getId());
     cleanIndividualsheaders();
     httpHeaders.add("X-ConsentBB-IndividualId", candidate.getIgrantId());
-    httpHeaders.add("X-Road-Client", properties.header());
     try {
       restTemplateSelfSigned.exchange(
           properties.url() + "data-agreement/" + properties.dataAgreementId(),

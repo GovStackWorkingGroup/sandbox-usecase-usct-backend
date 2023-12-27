@@ -50,7 +50,8 @@ openImis:
   header: "SANDBOX/ORG/CLIENT/TEST"
 
 igrant:
-  url: "https://api.bb-consent.dev/v2/service/individual/record/"
+  url: "http://sandbox-xroad-ss2.im-xroad.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/CONSENT/api/v2/service/individual/record/"
   token: ""
   dataAgreementId: ""
-  mode: "local"
+  header: "SANDBOX/ORG/CLIENT/TEST"
+  mode: "igrant"

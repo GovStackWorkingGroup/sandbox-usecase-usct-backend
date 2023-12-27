@@ -163,7 +163,7 @@ helm install usct-backend ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell
-helm upgrade --:    install usct-backend ./helm/ --create-namespace --namespace usct
+helm upgrade --install usct-backend ./helm/ --create-namespace --namespace usct
 ```
 
 ```shell

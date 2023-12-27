@@ -88,5 +88,7 @@ spec:
               value: "{{.Values.igrant.token}}"
             - name: IGRANT_DATA_AGREEMENT_ID
               value: "{{.Values.igrant.dataAgreementId}}"
+            - name: IGRANT_HEADER
+              value: "{{.Values.igrant.header}}"
             - name: IGRANT_MODE
               value: "{{.Values.igrant.mode}}"
