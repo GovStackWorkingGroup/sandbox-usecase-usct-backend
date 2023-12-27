@@ -14,6 +14,8 @@ import global.govstack.usct.types.PaymentOnboardingCallbackMode;
 import global.govstack.usct.types.PaymentOnboardingStatus;
 import java.util.List;
 import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
+@Slf4j
 @Service
 @ConditionalOnProperty(name = "payment.config.mode", havingValue = "emulator")
 public class PaymentEmulatorService implements PaymentService {
@@ -132,6 +135,7 @@ public class PaymentEmulatorService implements PaymentService {
   @Override
   @Transactional
   public void registerBeneficiary(List<Beneficiary> beneficiaries) {
+    log.info("Register beneficiary, functionalId: {}", beneficiaries.stream().findFirst().get().getFunctionalId());
     var requestID = UUID.randomUUID().toString();
     PaymentOnboardingBeneficiaryDTO paymentDto = convertBeneficiary(beneficiaries, requestID);
     try {
@@ -144,9 +148,11 @@ public class PaymentEmulatorService implements PaymentService {
       if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
         updateBeneficiary(beneficiaries);
       } else {
+        log.error(ex.getMessage());
         throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
       }
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }
@@ -163,6 +169,7 @@ public class PaymentEmulatorService implements PaymentService {
           PaymentResponseDTO.class);
       updateBeneficiaryPaymentStatus(beneficiaries, PaymentOnboardingStatus.ONBOARDED, requestID);
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }
@@ -202,6 +209,7 @@ public class PaymentEmulatorService implements PaymentService {
           new HttpEntity<>(data, httpHeaders),
           PaymentResponseDTO.class);
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }
@@ -213,6 +221,7 @@ public class PaymentEmulatorService implements PaymentService {
           new HttpEntity<>(data, httpHeaders),
           PaymentResponseDTO.class);
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }

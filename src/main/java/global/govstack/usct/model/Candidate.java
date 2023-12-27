@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +29,13 @@ public class Candidate {
 
   @Column(name = "emulator_package_id")
   private Set<Integer> emulatorPackageIds = new HashSet<Integer>();
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "consent_id", referencedColumnName = "id")
+  private Consent consent;
+
+  @Column(name = "igrant_id")
+  private String igrantId;
 
   public Set<Integer> getOpenImisPackageIds() {
     return openImisPackageIds;
@@ -58,5 +67,21 @@ public class Candidate {
 
   public void setPerson(Person person) {
     this.person = person;
+  }
+
+  public Consent getConsent() {
+    return consent;
+  }
+
+  public void setConsent(Consent consent) {
+    this.consent = consent;
+  }
+
+  public String getIgrantId() {
+    return igrantId;
+  }
+
+  public void setIgrantId(String igrantId) {
+    this.igrantId = igrantId;
   }
 }

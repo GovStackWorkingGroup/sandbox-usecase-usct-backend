@@ -2,7 +2,8 @@ deployment:
   name: usct-backend
   containers:
     name: usct-backend
-    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/backend:latest
+    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/backend
+    imageTag: latest
     imagePullPolicy: "Always"
 
 service:
@@ -41,8 +42,16 @@ callback:
   cidr: "0.0.0.0/0,::/0"
 
 openImis:
-  emulator_url: "http://sandbox-xroad-ss2.sandbox-im.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/DIGITALREGISTRIES/emulator/api/v1/data/bpkg/1.0"
+  url: "http://backend.open-imis.svc.cluster.local:8000/data/registryname/111?search=package&filter=phone"
+  emulator_url: "http://digital-registries-bb-emulator.digital-registries-bb-emulator-0.svc.cluster.local:8080/api/v1/data/bpkg/1.0"
   user: "admin"
   password: "govstack"
-  mode: "emulator"
+  mode: "open-imis"
   header: "SANDBOX/ORG/CLIENT/TEST"
+
+igrant:
+  url: "http://sandbox-xroad-ss2.im-xroad.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/CONSENT/api/v2/service/individual/record/"
+  token: ""
+  dataAgreementId: ""
+  header: "SANDBOX/ORG/CLIENT/TEST"
+  mode: "igrant"

@@ -7,9 +7,12 @@ import global.govstack.usct.model.Candidate;
 import global.govstack.usct.repositories.BeneficiaryRepository;
 import global.govstack.usct.types.PaymentStatus;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 public class BeneficiaryService {
   private final BeneficiaryRepository repository;
@@ -17,18 +20,21 @@ public class BeneficiaryService {
   private final CandidateService candidateService;
   private final PaymentProperties properties;
   private final PackageService packageService;
+  private final ConsentService consentService;
 
   public BeneficiaryService(
       BeneficiaryRepository repository,
       PaymentService paymentService,
       CandidateService candidateService,
       PaymentProperties properties,
-      PackageService packageService) {
+      PackageService packageService,
+      ConsentService consentService) {
     this.repository = repository;
     this.paymentService = paymentService;
     this.candidateService = candidateService;
     this.properties = properties;
     this.packageService = packageService;
+    this.consentService = consentService;
   }
 
   public List<BeneficiaryDto> findAll() {
@@ -52,8 +58,9 @@ public class BeneficiaryService {
         beneficiary, packageService.getById(beneficiary.getEnrolledPackageId()));
   }
 
-  @Transactional
+
   public Beneficiary create(Candidate candidate, int enrolledPackageId) {
+    log.info("Create beneficiary, firstName: {}", candidate.getPerson().getFirstName());
     String functionalId =
         candidate.getPerson().getPersonalIdCode()
             + properties.governmentIdentifier()
@@ -65,7 +72,7 @@ public class BeneficiaryService {
     beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
     beneficiary.setFunctionalId(functionalId);
     Beneficiary savedBeneficiary = repository.save(beneficiary);
-    candidateService.deleteById(candidate.getId());
+    candidateService.delete(candidate);
     paymentService.registerBeneficiary(List.of(savedBeneficiary));
 
     return savedBeneficiary;

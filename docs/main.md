@@ -4,7 +4,9 @@ This is a driver backend application for
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
 (USCT) use case.
 
-[Live Demo](https://usct.dev.sandbox-playground.com/driver-poc/)
+[Live Demo](https://usct.playground.sandbox-playground.com/driver-poc/)
+
+[Security server №3](https://ss3-im-xroad.playground.sandbox-playground.com)
 
 ## Application logic
 
@@ -16,7 +18,11 @@ sequenceDiagram
 
     Civil servant ->> USCT-backend: Get all candidates
     USCT-backend ->> OpenIMIS: Get packages
-    Civil servant ->> USCT-backend: Create new beneficiary and remove beneficiary from candidates list
+    USCT-backend ->> Consent BB: Check candidate consent status
+    loop If no consent record
+      USCT-backend ->>Consent BB: Civil servant may apply for consent
+    end
+  Civil servant ->> USCT-backend: When consent record is in place, create new beneficiary and remove beneficiary from candidates list
     USCT-backend ->> Payment BB: Automatically register beneficiary in payment system if not registered
     USCT-backend ->> Payment BB: Automatically update beneficiary in payment system if registered
     Civil servant ->> USCT-backend: Order payment
@@ -55,11 +61,11 @@ To trigger the OIDC authentication flow, a client should issue a GET request to 
 Local authentication uses username/password 
 Mosip uses Foundational ID (VID)
 
-| VID / username                  | Role               | subject                              | Description                                         |
-|---------------------------------|--------------------|--------------------------------------|-----------------------------------------------------|
-| 7495681570 / registry-officer   | REGISTRY_OFFICER   | 268505314334796284434550524121540566 | Officer responsible for creating/editing candidates |
-| 9038952310 / enrollment-officer | ENROLLMENT_OFFICER | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
-| 2405176278 / payment-officer    | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
+| VID / username                  | Role               | Description                                         |
+|---------------------------------|--------------------|-----------------------------------------------------|
+| 7495681570 / registry-officer   | REGISTRY_OFFICER   | Officer responsible for creating/editing candidates |
+| 9038952310 / enrollment-officer | ENROLLMENT_OFFICER | Officer responsible for enrollment                  |
+| 2405176278 / payment-officer    | PAYMENT_OFFICER    | Officer responsible for payment                     |
 
 ## OpenIMIS
 
@@ -77,6 +83,8 @@ The [adapter](https://github.com/openimis/openimis-be-govstack_api_py) provides 
 
 ![Get Packages OpenIMIS](images/getPackages.gif)
 
+## Consent BB
+**GovStack Consent BB API** is an implementation of the building bloc. Details in the [repository](https://github.com/decentralised-dataexchange/bb-consent-api).
 
 ## Payment Building Block
 
@@ -147,6 +155,8 @@ Pipeline variables:
 * CHART_NAMESPACE = `usct`
 * AWS_DEFAULT_REGION = eu-central-1
 * OIDC_KEYSTORE_PASSWORD = [link](main.md#passwordsecret)
+* CONSENT_TOKEN = [link](main.md#passwordsecret)
+* DATA_AGREEMENT_ID = [link](main.md#passwordsecret)
 
 ### Useful commands
 

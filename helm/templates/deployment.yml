@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: "{{ .Values.deployment.containers.name }}"
-          image: "{{ .Values.deployment.containers.image }}"
+          image: "{{ .Values.deployment.containers.image }}:{{ .Values.deployment.containers.imageTag }}"
           imagePullPolicy: {{ .Values.deployment.containers.imagePullPolicy }}
           env:
             - name: OIDC_JWK_KEYSTORE_PASSWORD
@@ -66,11 +66,29 @@ spec:
               value: "{{ .Values.paymenthub.bb.im.header }}"
             - name: CALLBACK_CIDR
               value: "{{ .Values.callback.cidr }}"
-            - name: OPEN-IMIS_URL
-              value: "{{ .Values.openImis.url}}"
             - name: LOGGING_LEVEL_ROOT
               value: "{{ .Values.service.logLevel }}"
             - name: USCT_AUTHENTICATION
               value: "{{ .Values.service.authmode }}"
             - name: OPEN-IMIS_MODE
               value: "{{.Values.openImis.mode}}"
+            - name: OPEN-IMIS_URL
+              value: "{{ .Values.openImis.url}}"
+            - name: OPEN-IMIS_EMULATOR-URL
+              value: "{{ .Values.openImis.emulator_url}}"
+            - name: OPEN-IMIS_USER
+              value: "{{ .Values.openImis.user}}"
+            - name: OPEN-IMIS_PASSWORD
+              value: "{{ .Values.openImis.password}}"
+            - name: OPEN-IMIS_HEADER
+              value: "{{ .Values.openImis.header}}"
+            - name: IGRANT_URL
+              value: "{{.Values.igrant.url}}"
+            - name: IGRANT_TOKEN
+              value: "{{.Values.igrant.token}}"
+            - name: IGRANT_DATA_AGREEMENT_ID
+              value: "{{.Values.igrant.dataAgreementId}}"
+            - name: IGRANT_HEADER
+              value: "{{.Values.igrant.header}}"
+            - name: IGRANT_MODE
+              value: "{{.Values.igrant.mode}}"

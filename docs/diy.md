@@ -32,7 +32,7 @@ kubectl port-forward \
 ```
 
 3. Navigate to 'Clients' tab and press 'Add subsystem' button. 
-4. Fill 'Payment' name as Subsystem Code. 
+4. Fill 'PAYMENT' name as Subsystem Code. 
 5. Press Yes in Register client popup window. 
 6. Go into new 'PAYMENT' subsystem CAPITAL CASE
 7. Click on 'Services' tub. 

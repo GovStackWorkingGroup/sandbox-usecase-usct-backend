@@ -18,6 +18,8 @@ import global.govstack.usct.util.SHAUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
+@Slf4j
 @Service
 @ConditionalOnProperty(name = "payment.config.mode", havingValue = "paymenthub")
 public class PaymentHubService implements PaymentService {
@@ -107,6 +110,7 @@ public class PaymentHubService implements PaymentService {
           new HttpEntity<>(paymentHubDto, httpHeaders),
           PaymentHubBeneficiaryResponseDTO.class);
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }
@@ -138,6 +142,7 @@ public class PaymentHubService implements PaymentService {
           new HttpEntity<>(paymentHubDto, httpHeaders),
           PaymentHubBeneficiaryResponseDTO.class);
     } catch (Exception ex) {
+      log.error(ex.getMessage());
       throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
     }
   }
