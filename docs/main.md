@@ -4,7 +4,17 @@ This is a driver backend application for
 [Unconditional Social Cash Transfer](https://github.com/GovStackWorkingGroup/product-use-cases/blob/main/product-use-case/inst-1-unconditional-social-cash-transfer.md)
 (USCT) use case.
 
-[Live Demo](https://usct.dev.sandbox-playground.com/driver-poc/)
+The purpose of the application is to bring together independent solutions (BB) and organize them in such a way as to obtain a demo use case.
+This means that the application has many external dependencies, making local development difficult.
+To have a local live application, you need to replace the real application with [emulators](https://govstack.gitbook.io/sandbox/explore-stack/building-blocks/emulators).
+
+To do this set emulators in the [application properties](/src/main/resources/application.properties).
+
+[DIY](diy.md) version of the application is based on emulators.
+
+## Live demo
+
+[Link](https://usct.dev.sandbox-playground.com/driver-poc/)
 
 ## Application logic
 
@@ -61,22 +71,37 @@ Mosip uses Foundational ID (VID)
 | 9038952310 / enrollment-officer | ENROLLMENT_OFFICER | 299950323465436931629862208523254959 | Officer responsible for enrollment                  |
 | 2405176278 / payment-officer    | PAYMENT_OFFICER    | 294629625538148508290996199782510910 | Officer responsible for payment                     |
 
-## OpenIMIS
+## Digital registries
 
-OpenIMIS is package provider.
-USCT heavily uses packages. To improve performance USCT uses cache for package to avoid redundant requests. 
+The Digital Registries Building Block provides services to other Building Blocks and to external systems, to store and manage data/claims on any entity (persons, places, and things) in forms of uniquely identiﬁable records in a database.
 
-[Packages](packages.md) pages has more technical details. 
+GovStack specification [link](https://govstack.gitbook.io/bb-digital-registries/2-description).
 
-### Adapter
-Originaly OpenIMIS base on [Fast Healthcare Interoperability Resources](https://en.wikipedia.org/wiki/Fast_Healthcare_Interoperability_Resources) (FHIR) standard.
+### OpenIMIS
+USCT uses OpenIMIS as package provider.
 
-The [adapter](https://github.com/openimis/openimis-be-govstack_api_py) provides Govs OpenIMIS specification compliant.
+[Packages](packages.md) page has examples of package.
 
-### Example of request
+Onboarding documentation of the OpenIMIS is located in sandbox-bb-digital-registries [repository](https://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/blob/main/digital-registries/open-imis/docs/1-main.md).
+
+
+To improve performance USCT uses cache for package to avoid redundant requests.
+
+#### Adapter
+Adaptors are used to map existing APIs and functionality in a Digital Public Good into a format and scheme that is compatible with the GovStack API specifications. For more details check the [link](https://govstack.gitbook.io/sandbox/explore-stack/building-blocks/emulators#emulator-adaptor-implementations).
+
+Originally OpenIMIS base on [Fast Healthcare Interoperability Resources](https://en.wikipedia.org/wiki/Fast_Healthcare_Interoperability_Resources) (FHIR) standard.
+
+
+Adapter implementation is in the openimis-be-govstack_api_py [repository](https://github.com/openimis/openimis-be-govstack_api_py). 
+
+#### Example of request
 
 ![Get Packages OpenIMIS](images/getPackages.gif)
 
+
+### Emulator
+For local development and [DIY version](diy.md) use [emulator](https://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/blob/main/emulator/docs/main.md).
 
 ## Payment Building Block
 
