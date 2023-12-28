@@ -2,8 +2,7 @@ deployment:
   name: usct-backend
   containers:
     name: usct-backend
-    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/backend
-    imageTag: latest
+    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/backend:latest
     imagePullPolicy: "Always"
 
 service:

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: "{{ .Values.deployment.containers.name }}"
-          image: "{{ .Values.deployment.containers.image }}:{{ .Values.deployment.containers.imageTag }}"
+          image: "{{ .Values.deployment.containers.image }}"
           imagePullPolicy: {{ .Values.deployment.containers.imagePullPolicy }}
           env:
             - name: OIDC_JWK_KEYSTORE_PASSWORD
