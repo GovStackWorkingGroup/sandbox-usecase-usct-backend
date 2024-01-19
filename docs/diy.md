@@ -21,7 +21,7 @@ This is minimal version of USCT with only X-Road as full-fledged BB and payment 
 1. Install application
 
 ```shell
-helm install usct https://gitlab.com/oleksiidn/diy-usct/-/package_files/101235864/download --create-namespace --namespace usct
+helm upgrade --install usct ./use-case-helm/ --create-namespace --namespace usct
 ```
 2. Port forward UI of the Security Server 3
 

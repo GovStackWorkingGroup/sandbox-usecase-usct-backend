@@ -9,3 +9,7 @@ im-security-server:
   enabled: true
 ui:
   enabled: true
+digital-registries-backend:
+  enabled: true
+digital-registries-db:
+  enabled: true
