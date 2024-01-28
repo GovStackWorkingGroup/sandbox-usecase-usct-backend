@@ -46,7 +46,7 @@ kubectl port-forward \
 
 
 ### OpenIMIS
-1. follow OpenIMIS deployment [guid](https://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/blob/f2713e8a32848931ada9e392e4214cfc486412ca/digital-registries/open-imis/docs/main.md#sandbox-deployment)
+1. Follow the OpenIMIS deployment [Guide](https://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/blob/f2713e8a32848931ada9e392e4214cfc486412ca/digital-registries/open-imis/docs/main.md#sandbox-deployment)
 2. Connect OpneIMIS to X-Road as you connected paymenthub
 
 ## Uninstall 
