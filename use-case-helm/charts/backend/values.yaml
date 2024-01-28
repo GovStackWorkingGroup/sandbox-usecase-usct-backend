@@ -1,13 +1,13 @@
 deployment:
-  name: open-imis-backend
+  name: backend
   containers:
-    name: usct-open-imis-backend
-    image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-open-imis-backend
+    name: usct-backend
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-backend
     imageTag: latest
     imagePullPolicy: IfNotPresent
 
 service:
-  name: open-imis-backend
+  name: backend
   port: 8080
 
 oidcKeystorePassword: ""
