@@ -36,11 +36,11 @@ spec:
             - containerPort: {{ .Values.dbService.port }}
               name: postgres
           volumeMounts:
-            - name: {{ .Values.global.name }}
+            - name: {{ .Values.dbStatefulset.spec.name }}
               mountPath: {{ .Values.dbStatefulset.spec.mountPath }}
   volumeClaimTemplates:
     - metadata:
-        name: {{ .Values.global.name }}
+        name: {{ .Values.dbStatefulset.spec.name }}
       spec:
         accessModes:
           - ReadWriteOnce

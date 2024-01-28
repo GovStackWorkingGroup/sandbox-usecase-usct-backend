@@ -1,0 +1,7 @@
+apiVersion: v2
+name: open-imis-backend
+description: A Helm chart for deploying a openIMIS open-imis-backend
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+

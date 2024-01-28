@@ -16,8 +16,6 @@ This is minimal version of USCT with only X-Road as full-fledged BB and payment 
 
 ## Installation 
 
-[![USCT in minikube](https://i9.ytimg.com/vi/Lk84PHLp-88/mq2.jpg?sqp=COyZuqoG-oaymwEmCMACELQB8quKqQMa8AEB-AHUBoAC4AOKAgwIABABGDggEyh_MA8=&rs=AOn4CLBTUY048HkPSgdKutzNoU6rFi91ug)](https://www.youtube.com/watch?v=Lk84PHLp-88 "usct in minikube")
-
 1. Install application
 
 ```shell
@@ -46,6 +44,10 @@ kubectl port-forward \
 15. Check 'Client' and 'Provider' checkboxes and press 'Add selected' 
 16. Close popup
 
+
+### OpenIMIS
+1. follow OpenIMIS deployment [guid](https://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/blob/f2713e8a32848931ada9e392e4214cfc486412ca/digital-registries/open-imis/docs/main.md#sandbox-deployment)
+2. Connect OpneIMIS to X-Road as you connected paymenthub
 
 ## Uninstall 
 

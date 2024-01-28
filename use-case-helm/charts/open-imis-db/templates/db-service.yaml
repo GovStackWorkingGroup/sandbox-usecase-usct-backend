@@ -6,8 +6,11 @@ metadata:
   labels:
     app: {{ .Values.dbService.name }}
 spec:
+  type: ClusterIP
+  ## Kubernetes assign a virtual IP dynamically
   ports:
     - port: {{ .Values.dbService.port }}
   selector:
-    app: {{ .Values.global.name }}
+    app: {{ .Values.dbStatefulset.name }}
   clusterIP: None
+  ## headless service

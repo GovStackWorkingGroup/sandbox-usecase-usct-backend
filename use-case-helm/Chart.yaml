@@ -25,11 +25,11 @@ dependencies:
     version: 0.1.0
     repository: file://charts/ui
     condition: ui.enabled
-  - name: digital-registries-backend
+  - name: open-imis-backend
     version: 0.1.0
-    repository: file://charts/digital-registries/backend
-    condition: digital-registries-backend.enabled
-  - name: digital-registries-db
+    repository: file://charts/open-imis-backend
+    condition: open-imis-backend.enabled
+  - name: open-imis-db
     version: 0.1.0
-    repository: file://charts/digital-registries/db
-    condition: digital-registries-db.enabled
+    repository: file://charts/open-imis-db
+    condition: open-imis-db.enabled
