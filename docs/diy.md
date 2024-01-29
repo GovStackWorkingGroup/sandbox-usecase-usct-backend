@@ -44,7 +44,6 @@ kubectl port-forward \
 15. Check 'Client' and 'Provider' checkboxes and press 'Add selected' 
 16. Close popup
 
-
 ### Digital registries BB 
 Digital registries can be implemented by:
 * OpenIMIS (default)
