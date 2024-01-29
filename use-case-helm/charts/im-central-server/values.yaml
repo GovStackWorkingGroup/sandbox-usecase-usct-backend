@@ -4,5 +4,5 @@ serverImage: "im/x-road/central-server"
 serverTag: "latest-cs"
 
 container:
-  image: harbor.k-space.ee/gov-stack/central-server
-  tag: latest
+  image: ghcr.io/govstackworkinggroup/sandbox-bb-information-mediator
+  tag: latest-cs

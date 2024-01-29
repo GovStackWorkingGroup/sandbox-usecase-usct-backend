@@ -1,0 +1,13 @@
+deployment:
+  name: open-imis-backend
+  containers:
+    name: open-imis-backend
+    image: ghcr.io/govstackworkinggroup/sandbox-bb-digital-registries:open-imis-backend
+    imagePullPolicy: "Always"
+    port: 8000
+
+service:
+  name: open-imis-backend
+  port: 8000
+  type: ClusterIP
+  targetPort: 8000

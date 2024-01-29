@@ -25,3 +25,11 @@ dependencies:
     version: 0.1.0
     repository: file://charts/ui
     condition: ui.enabled
+  - name: open-imis-backend
+    version: 0.1.0
+    repository: file://charts/open-imis-backend
+    condition: open-imis-backend.enabled
+  - name: open-imis-db
+    version: 0.1.0
+    repository: file://charts/open-imis-db
+    condition: open-imis-db.enabled

@@ -9,3 +9,7 @@ im-security-server:
   enabled: true
 ui:
   enabled: true
+open-imis-backend:
+  enabled: true
+open-imis-db:
+  enabled: true

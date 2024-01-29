@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.dbStatefulset.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.dbStatefulset.name }}
+spec:
+  replicas: 1
+  serviceName: {{ .Values.dbStatefulset.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.dbStatefulset.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.dbStatefulset.name }}
+    spec:
+      containers:
+        - image: {{ .Values.dbStatefulset.spec.image }}
+          name: {{ .Values.dbStatefulset.name }}
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: password
+            - name: POSTGRES_DB
+              value: {{ .Values.dbService.database.name }}
+            - name: POSTGRES_USER
+              value: {{ .Values.dbService.username }}
+            - name: POSTGRES_POSTGRES_PASSWORD
+              value: {{ .Values.dbService.postgresPassword }}
+
+          ports:
+            - containerPort: {{ .Values.dbService.port }}
+              name: postgres
+          volumeMounts:
+            - name: {{ .Values.dbStatefulset.spec.name }}
+              mountPath: {{ .Values.dbStatefulset.spec.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.dbStatefulset.spec.name }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.dbStatefulset.spec.storage }}
