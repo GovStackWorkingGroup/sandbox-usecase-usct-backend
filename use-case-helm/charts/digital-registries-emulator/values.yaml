@@ -1,0 +1,25 @@
+digital_registries_bb_emulator:
+  name: "digital-registries-bb-emulator"
+  replicaCount: 1
+  labels: 
+    app: "digital-registries-bb-emulator"
+  template:
+    labels: 
+      app: "digital-registries-bb-emulator"
+  container:
+    name: digital-registries-bb-emulator-app
+    image: ghcr.io/govstackworkinggroup/sandbox-bb-digital-registries:emulator
+    imagePullPolicy: "Always"
+  profiles: "container"
+  dbPersist: 
+    volumeMountName: "digital-registries-bb-emulator-pvc"
+    path: "./dbdata/digitalregistriesbb"
+    mountPath: "/workspace/dbdata"
+    storage: 1Gi
+    flushStorageOnInit: false
+  service:
+    name: "digital-registries-bb-emulator"
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+  
