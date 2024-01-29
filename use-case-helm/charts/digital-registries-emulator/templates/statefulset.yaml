@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.digital_registries_bb_emulator.name }}
+  labels:
+    {{- toYaml .Values.digital_registries_bb_emulator.labels | nindent 4 }}
+spec:
+  serviceName: {{ .Values.digital_registries_bb_emulator.service.name }}-headless
+  replicas: {{ .Values.digital_registries_bb_emulator.replicaCount }}
+  selector:
+    matchLabels:
+      {{- toYaml .Values.digital_registries_bb_emulator.template.labels | nindent 6 }}
+  template:
+    metadata:
+      labels: 
+        {{- toYaml .Values.digital_registries_bb_emulator.template.labels | nindent 8 }}
+    spec:
+      initContainers:
+        - name: fix-pvc-permissions
+          image: busybox
+          command: ["sh", "-c"]
+          args:
+            - 
+              chmod -R 777 {{ .Values.digital_registries_bb_emulator.dbPersist.mountPath }}
+
+              if [ $FLUSH_DB_STORAGE == "true" ]; then
+                rm -r {{ .Values.digital_registries_bb_emulator.dbPersist.mountPath }}/* || true;
+              fi
+          volumeMounts:
+            - name: {{ .Values.digital_registries_bb_emulator.dbPersist.volumeMountName }}
+              mountPath: {{ .Values.digital_registries_bb_emulator.dbPersist.mountPath }}
+          env:
+            - name: FLUSH_DB_STORAGE
+              value: "{{ .Values.digital_registries_bb_emulator.dbPersist.flushStorageOnInit }}"
+      containers:
+        - name: {{ .Values.digital_registries_bb_emulator.container.name }}
+          image: "{{ .Values.digital_registries_bb_emulator.container.image }}"
+          imagePullPolicy: {{ .Values.digital_registries_bb_emulator.container.imagePullPolicy }}
+          ports:
+          - containerPort: 8080
+            name: server
+          env:
+            - name: ACTIVE_PROFILES
+              value: {{ .Values.digital_registries_bb_emulator.profiles }}
+            - name: DATABASE_PERSIST_PATH
+              value: {{ .Values.digital_registries_bb_emulator.dbPersist.path }}
+          volumeMounts:
+            - name: {{ .Values.digital_registries_bb_emulator.dbPersist.volumeMountName }}
+              mountPath: {{ .Values.digital_registries_bb_emulator.dbPersist.mountPath }}
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+            requests:
+              cpu: "200m"
+              memory: 512Mi
+  volumeClaimTemplates:
+    - metadata:
+          name: {{ .Values.digital_registries_bb_emulator.dbPersist.volumeMountName }}
+      spec:
+          accessModes:
+              - ReadWriteOnce
+          resources:
+              requests:
+                  storage: {{ .Values.digital_registries_bb_emulator.dbPersist.storage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.digital_registries_bb_emulator.service.name }}-service
+  labels:
+    {{- toYaml .Values.digital_registries_bb_emulator.labels | nindent 4 }}
+spec:
+  type: {{ .Values.digital_registries_bb_emulator.service.type }}
+  ports:
+    - port: {{ .Values.digital_registries_bb_emulator.service.port }}
+      targetPort: {{ .Values.digital_registries_bb_emulator.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- toYaml .Values.digital_registries_bb_emulator.labels | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.digital_registries_bb_emulator.service.name }}-headless
+  labels:
+    {{- toYaml .Values.digital_registries_bb_emulator.labels | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .Values.digital_registries_bb_emulator.service.port }}
+      targetPort: {{ .Values.digital_registries_bb_emulator.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- toYaml .Values.digital_registries_bb_emulator.labels | nindent 4 }}
+
+
+    

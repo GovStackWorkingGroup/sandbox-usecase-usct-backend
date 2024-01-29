@@ -45,9 +45,19 @@ kubectl port-forward \
 16. Close popup
 
 
-### OpenIMIS
+### Digital registries BB 
+Digital registries can be implemented by:
+* OpenIMIS (default)
+* Emulator 
+
+Use [values setting file](../use-case-helm/values.yaml) to choose implementation. 
+
+#### OpenIMIS deployment guide
 1. Follow the OpenIMIS deployment [Guide](https://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/blob/f2713e8a32848931ada9e392e4214cfc486412ca/digital-registries/open-imis/docs/main.md#sandbox-deployment)
 2. Connect OpneIMIS to X-Road as you connected paymenthub
+
+#### Emulator deployment guide
+[Emulator](https://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/blob/4b6605b3ebffe2124988230f508bb5df9fb4e47f/emulator/docs/main.md) documentation.
 
 ## Uninstall 
 
