@@ -1,11 +1,11 @@
 dbService:
   name: open-imis-db
   port: 5432
-  postgresPassword: "IMISuserP@s"
-  username: "IMISuser"
-  password: "IMISuserP@s"
+  postgresPassword: ""
+  username: ""
+  password: ""
   database:
-    name: "IMIS"
+    name: ""
 
 dbStatefulset:
   name: open-imis-db
