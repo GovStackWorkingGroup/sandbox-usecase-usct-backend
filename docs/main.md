@@ -88,6 +88,33 @@ The [adapter](https://github.com/openimis/openimis-be-govstack_api_py) provides 
 
 ## Payment Building Block
 
+Transaction request example:
+
+```bash
+curl --location 'https://localhost:8443/batchtransactions?type=raw' \
+--header 'X-CallbackURL: https://webhook.site/{webhook}' \
+--header 'X-Registering-Institution-ID: 123' \
+--header 'Purpose: test payment' \
+--header 'X-CorrelationID: 123' \
+--header 'Platform-TenantId: gorilla' \
+--header 'X-Program-ID: 00' \
+--header 'Type: raw' \
+--header 'Content-Type: application/json' \
+--data ' {
+        "requestId":"8238482323",
+        "creditParty": [
+            {
+                "key": "msisdn",
+                "value": "8837461856"
+            }
+        ],
+        "paymentMode ": "closedLoop",
+        "amount": "20.00",
+        "currency": "SGD",
+        "descriptionText": "Test Payment"
+    }'
+```
+
 Payments BB is used as payment service that can disburse payment to Beneficiaries which compliant with [specification](https://govstack.gitbook.io/bb-payments/).
 
 Supported payment Building blocks are:
