@@ -6,8 +6,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RestTemplateBean {
-    @Bean
-    public RestTemplate createBean() {
-        return new RestTemplate();
-    }
+  @Bean
+  public RestTemplate createBean() {
+    return new RestTemplate();
+  }
 }

@@ -46,7 +46,8 @@ public class PaymentHubService implements PaymentService {
       HttpComponentsClientHttpRequestFactory requestFactory,
       BeneficiaryRepository beneficiaryRepository,
       PaymentDisbursementRepository paymentDisbursementRepository,
-      PackageService packageService, RestTemplate restTemplate) {
+      PackageService packageService,
+      RestTemplate restTemplate) {
     this.paymentHubProperties = paymentHubProperties;
     this.paymentHubBBInformationMediatorProperties = paymentHubBBInformationMediatorProperties;
     this.requestFactory = requestFactory;
@@ -197,11 +198,8 @@ public class PaymentHubService implements PaymentService {
 
   @Override
   public void orderPayment(List<Beneficiary> beneficiaries) {
-    var beneficiaryList =
-        beneficiaryRepository.findAllById(beneficiaries.stream().map(Beneficiary::getId).toList());
-
     var requestID = UUID.randomUUID().toString();
-    var body = constructOrderPaymentRequestBody(beneficiaryList);
+    var body = constructOrderPaymentRequestBody(beneficiaries);
 
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
@@ -215,10 +213,11 @@ public class PaymentHubService implements PaymentService {
     httpHeaders.add("X-Program-ID", paymentHubProperties.programId());
     httpHeaders.add("type", "raw");
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
-     restTemplate.postForObject(
-             paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
-             new HttpEntity<>(body, httpHeaders),
-            PaymentResponseDTO.class);
+    log.info(body.toString());
+    restTemplate.postForObject(
+        paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
+        new HttpEntity<>(body, httpHeaders),
+        PaymentResponseDTO.class);
   }
 
   @Override
