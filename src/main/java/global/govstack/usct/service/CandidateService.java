@@ -43,7 +43,7 @@ public class CandidateService {
 
   public List<CandidateDto> findAll() {
     log.info("Get list of candidates");
-    List<Candidate> candidates = candidateRepository.findAll();
+    List<Candidate> candidates = candidateRepository.findByIsBeneficiary(false);
     return candidates.stream()
         .map(
             candidate -> {

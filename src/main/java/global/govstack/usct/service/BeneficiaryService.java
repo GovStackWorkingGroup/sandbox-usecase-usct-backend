@@ -69,7 +69,8 @@ public class BeneficiaryService {
     beneficiary.setPaymentStatus(PaymentStatus.INITIATE);
     beneficiary.setFunctionalId(functionalId);
     Beneficiary savedBeneficiary = repository.save(beneficiary);
-    candidateService.delete(candidate);
+    candidate.setIsBeneficiary(true);
+    candidateService.save(candidate);
     paymentService.registerBeneficiary(List.of(savedBeneficiary));
 
     return savedBeneficiary;

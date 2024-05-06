@@ -37,6 +37,9 @@ public class Candidate {
   @Column(name = "igrant_id")
   private String igrantId;
 
+  @Column(name = "is_beneficiary", nullable = false)
+  private boolean isBeneficiary;
+
   public Set<Integer> getOpenImisPackageIds() {
     return openImisPackageIds;
   }
@@ -83,5 +86,12 @@ public class Candidate {
 
   public void setIgrantId(String igrantId) {
     this.igrantId = igrantId;
+  }
+
+  public boolean getIsBeneficiary() {
+      return this.isBeneficiary;
+  }
+  public void setIsBeneficiary(boolean isBeneficiary) {
+    this.isBeneficiary = isBeneficiary;
   }
 }
