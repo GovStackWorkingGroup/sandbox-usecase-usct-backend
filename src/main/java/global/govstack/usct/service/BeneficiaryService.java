@@ -14,25 +14,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class BeneficiaryService {
   private final BeneficiaryRepository repository;
-  private final PaymentService paymentService;
   private final CandidateService candidateService;
   private final PaymentProperties properties;
   private final PackageService packageService;
-  private final ConsentService consentService;
 
   public BeneficiaryService(
       BeneficiaryRepository repository,
-      PaymentService paymentService,
       CandidateService candidateService,
       PaymentProperties properties,
-      PackageService packageService,
-      ConsentService consentService) {
+      PackageService packageService) {
     this.repository = repository;
-    this.paymentService = paymentService;
     this.candidateService = candidateService;
     this.properties = properties;
     this.packageService = packageService;
-    this.consentService = consentService;
   }
 
   public List<BeneficiaryDto> findAll() {
