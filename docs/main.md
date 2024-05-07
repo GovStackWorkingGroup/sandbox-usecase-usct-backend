@@ -10,6 +10,8 @@ This is a driver backend application for
 
 ## Application logic
 
+### Enrollment officer sequence of steps 
+
 ```mermaid
 sequenceDiagram
     Civil servant ->> USCT-backend: Sign in
@@ -23,12 +25,19 @@ sequenceDiagram
       USCT-backend ->>Consent BB: Civil servant may apply for consent
     end
   Civil servant ->> USCT-backend: When consent record is in place, create new beneficiary and remove beneficiary from candidates list
-    USCT-backend ->> Payment BB: Automatically register beneficiary in payment system if not registered
-    USCT-backend ->> Payment BB: Automatically update beneficiary in payment system if registered
-    Civil servant ->> USCT-backend: Order payment
-    USCT-backend ->> Payment BB: Automatically validate prepayment
-    USCT-backend ->> Payment BB: Automatically make bulk payment
-    USCT-backend -->> Civil servant: Return result
+
+```
+
+### Payment officer sequence of steps
+
+```mermaid
+sequenceDiagram
+   Civil servant ->> USCT-backend: Chose a beneficiary from the list
+   Civil servant ->> USCT-backend: Order payment
+   participant im as Information mediator
+
+   USCT-backend ->> Payment BB: Automatically make bulk payment
+   USCT-backend -->> Civil servant: Return result
 ```
 
 ## Authentication / Authorization
@@ -63,7 +72,6 @@ Mosip uses Foundational ID (VID)
 
 | VID / username                  | Role               | Description                                         |
 |---------------------------------|--------------------|-----------------------------------------------------|
-| 7495681570 / registry-officer   | REGISTRY_OFFICER   | Officer responsible for creating/editing candidates |
 | 9038952310 / enrollment-officer | ENROLLMENT_OFFICER | Officer responsible for enrollment                  |
 | 2405176278 / payment-officer    | PAYMENT_OFFICER    | Officer responsible for payment                     |
 

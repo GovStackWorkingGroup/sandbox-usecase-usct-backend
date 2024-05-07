@@ -71,7 +71,6 @@ public class BeneficiaryService {
     Beneficiary savedBeneficiary = repository.save(beneficiary);
     candidate.setIsBeneficiary(true);
     candidateService.save(candidate);
-    paymentService.registerBeneficiary(List.of(savedBeneficiary));
 
     return savedBeneficiary;
   }
