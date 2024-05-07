@@ -213,7 +213,7 @@ public class PaymentHubService implements PaymentService {
     httpHeaders.add("X-Program-ID", paymentHubProperties.programId());
     httpHeaders.add("type", "raw");
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
-    log.info("batch transaction request: {}", body.toString());
+    log.info("batch transaction request: {}", body);
     var response =
         restTemplate.postForObject(
             paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
