@@ -89,8 +89,9 @@ public class Candidate {
   }
 
   public boolean getIsBeneficiary() {
-      return this.isBeneficiary;
+    return this.isBeneficiary;
   }
+
   public void setIsBeneficiary(boolean isBeneficiary) {
     this.isBeneficiary = isBeneficiary;
   }

@@ -7,9 +7,9 @@ import global.govstack.usct.configuration.PaymentHubBBInformationMediatorPropert
 import global.govstack.usct.configuration.PaymentHubProperties;
 import global.govstack.usct.controller.dto.digital.registries.PackageDto;
 import global.govstack.usct.model.Beneficiary;
+import global.govstack.usct.model.PaymentDisbursement;
 import global.govstack.usct.repositories.BeneficiaryRepository;
 import global.govstack.usct.repositories.PaymentDisbursementRepository;
-import global.govstack.usct.service.dto.emulator.PaymentResponseDTO;
 import global.govstack.usct.service.dto.paymenthub.*;
 import global.govstack.usct.types.PaymentOnboardingCallbackMode;
 import global.govstack.usct.types.PaymentOnboardingStatus;
@@ -213,11 +213,22 @@ public class PaymentHubService implements PaymentService {
     httpHeaders.add("X-Program-ID", paymentHubProperties.programId());
     httpHeaders.add("type", "raw");
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
-    log.info(body.toString());
-    restTemplate.postForObject(
-        paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
-        new HttpEntity<>(body, httpHeaders),
-        PaymentResponseDTO.class);
+    log.info("batch transaction request: {}", body.toString());
+    var response =
+        restTemplate.postForObject(
+            paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
+            new HttpEntity<>(body, httpHeaders),
+            String.class);
+    var request = "{\"headers\":%s, \"body\":%s}";
+    try {
+      var headers = objectMapper.writeValueAsString(httpHeaders.entrySet());
+      request = String.format(request, headers, body);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+    paymentDisbursementRepository.save(
+        new PaymentDisbursement("paymenthub", requestID, request, response));
   }
 
   @Override

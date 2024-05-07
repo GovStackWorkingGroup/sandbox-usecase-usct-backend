@@ -88,33 +88,6 @@ The [adapter](https://github.com/openimis/openimis-be-govstack_api_py) provides 
 
 ## Payment Building Block
 
-Transaction request example:
-
-```bash
-curl --location 'https://localhost:8443/batchtransactions?type=raw' \
---header 'X-CallbackURL: https://webhook.site/{webhook}' \
---header 'X-Registering-Institution-ID: 123' \
---header 'Purpose: test payment' \
---header 'X-CorrelationID: 123' \
---header 'Platform-TenantId: gorilla' \
---header 'X-Program-ID: 00' \
---header 'Type: raw' \
---header 'Content-Type: application/json' \
---data ' {
-        "requestId":"8238482323",
-        "creditParty": [
-            {
-                "key": "msisdn",
-                "value": "8837461856"
-            }
-        ],
-        "paymentMode ": "closedLoop",
-        "amount": "20.00",
-        "currency": "SGD",
-        "descriptionText": "Test Payment"
-    }'
-```
-
 Payments BB is used as payment service that can disburse payment to Beneficiaries which compliant with [specification](https://govstack.gitbook.io/bb-payments/).
 
 Supported payment Building blocks are:
@@ -125,9 +98,9 @@ Supported payment Building blocks are:
   * [Implementation](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/implementation) 
   * [Documentation](https://github.com/GovStackWorkingGroup/sandbox-bb-payments/tree/main/emulator/docs)
 * Mifos Payment Hub
-  * [API spec](https://govstack.gitbook.io/bb-payments/) version 2.0 (In Development!) 
-  * Implementation (in progress)
-  * Documentation (in progress)
+  * [API spec](https://govstack.gitbook.io/bb-payments/)
+  * [Implementation](https://github.com/openMF)
+  * [Documentation](https://docs.mifos.org/)
 
 Environment variable is used to define which service to use:
 
@@ -162,6 +135,131 @@ Environment variables for global configuration:
 | JWS_TENANT_PRIVATE_KEY             | More information in PaymentHub Documentation ( TBD )                                                                                                                                        | Default private key from [HERE](https://github.com/openMF/ph-ee-connector-common/blob/master/src/main/resources/application-jws.yaml) |
 | PAYMENTHUB_PAYMENT_MODE            | More information in PaymentHub Documentation ( TBD )                                                                                                                                        | mojaloop                                                                                                                              |
 | PAYMENTHUB_IM_HEADER               | Header value for Information Mediator Building Block request header "X-Road-Client". More [Information](https://govstack.gitbook.io/bb-information-mediation/v/information-mediation-1.0/). | SANDBOX/ORG/CLIENT/TEST                                                                                                               |
+### Swagger
+
+https://app.swaggerhub.com/apis/myapi943/payment-hub_ap_is/1.0
+
+
+### Installation
+
+`helm install my-ph-ee-g2psandbox g2p-sandbox-1-5/ph-ee-g2psandbox --version 1.5.0  --create-namespace --namespace paymenthub`
+
+#### Post Deployment Steps
+The Post_installation_Job is automated through a Kubernetes job in the helm chart. it will create secrets for ElasticSearch and Kibana. and Upload the BPMN. However, The following steps can be used to create Secrets and upload BPMN Manually.
+
+##### Create the required secrets for Elasticsearch and Kibana
+
+Use https://github.com/openMF/ph-ee-env-labs/tree/master/helm/es-secret and https://github.com/openMF/ph-ee-env-labs/tree/master/helm/kibana-secret you can create a secret for Elasticsearch and Kibana. The command used to create a secret is
+
+1. auth
+2. make secrets NAMESPACE=paymenthub
+
+##### Upload BPMN
+https://mifos.gitbook.io/docs/payment-hub-ee/overview/installation-instructions/configuration-instructions/deploy-bpmns-with-multiple-dfsp-ids
+
+
+1. The Payment Hub EE business logic is always driven by the BPMN workflows included in the git repositories. It's not only possible but often necessary to customize these flows to meet the business requirements of a specific environment.
+
+2. Deploying the workflows to the K8S cluster is a separate step, which can be done either manually for each business flow, or using a shell script like this (actual example from the project's CI server):
+
+3. In the below example tenants are picked up from the array declared and for N number of tenants the script will run for N number of times and Internal field separator will convert array into string and store in $t.
+
+4. Zeebe command line tools (the zbctl binary) are also required for deploying the BPMN workflows if Zeebe Operations service is not deployed. This is part of the Zeebe releases and can be downloaded from the Zeebe release page at https://github.com/zeebe-io/zeebe/releases.
+
+5. BPMN deployment should be done with corresponding release version which can be obtained from release notes
+
+6. In the below script HOST should be replaced with the zeebe ops(port-forwarded) url from your cluster.
+
+```bash
+#!/bin/bash
+HOST="http://localhost:5000/zeebe/upload"
+
+deploy(){
+cmd="curl --insecure --location --request POST $HOST \
+--header 'Platform-TenantId: $2' \
+--form 'file=@\"$PWD/$1\"'"
+echo "$cmd"
+eval "$cmd"
+}
+
+TENANTS="gorilla,lion,rhino"
+IFS=',' read -ra TENANT_ARRAY <<< "$TENANTS"
+
+for t in "${TENANT_ARRAY[@]}"; do
+LOC="feel/*.bpmn"
+for f in $LOC; do
+# Check if "DFSPID" is present in the filename
+if echo "$f" | grep -q "DFSPID"; then
+# Replace "DFSPID" with the current tenant value in the filename
+new_file_name=$(echo "$f" | sed "s/DFSPID/$t/")
+else
+# If "DFSPID" is not present, use the original name
+new_file_name="$f"
+fi
+deploy "$new_file_name" "$t"
+done
+
+    LOC2="feel/example/*.bpmn"
+    for f in $LOC2; do
+        # Check if "DFSPID" is present in the filename
+        if echo "$f" | grep -q "DFSPID"; then
+            # Replace "DFSPID" with the current tenant value in the filename
+            new_file_name=$(echo "$f" | sed "s/DFSPID/$t/")
+        else
+            # If "DFSPID" is not present, use the original name
+            new_file_name="$f"
+        fi
+        deploy "$new_file_name" "$t"
+    done
+done
+```
+
+
+#### Change port for bulk connector from 8443 to 8080 and turn off TLS
+
+
+Update config of **ph-ee-connector-bulk** pod
+
+```yaml
+- name: SECURITY_JWS_ENABLE
+  value: "false"
+- name: SERVER_PORT
+  value: "8080"
+- name: SERVER_SSL_ENABLED
+  value: "false"
+
+```
+
+#### Transaction request example:
+
+```bash
+curl --location 'https://localhost:8443/batchtransactions?type=raw' \
+--header 'X-CallbackURL: https://webhook.site/{webhook}' \
+--header 'X-Registering-Institution-ID: 123' \
+--header 'Purpose: test payment' \
+--header 'X-CorrelationID: 123' \
+--header 'Platform-TenantId: gorilla' \
+--header 'X-Program-ID: 00' \
+--header 'Type: raw' \
+--header 'Content-Type: application/json' \
+--data ' {
+        "requestId":"8238482323",
+        "creditParty": [
+            {
+                "key": "msisdn",
+                "value": "8837461856"
+            }
+        ],
+        "paymentMode ": "closedLoop",
+        "amount": "20.00",
+        "currency": "SGD",
+        "descriptionText": "Test Payment"
+    }'
+```
+
+#### get Transactions
+
+http://ph-ee-operations-app:5000/api/v1/batches?page=0&size=10&sortOrder=asc&orderBy=requestFile&Platform-TenantId=gorilla
 
 ## IP FILTER
 In order to protect by IP callback endpoints, whitelist of IP can be provided by ENV VAR

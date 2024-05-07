@@ -86,11 +86,6 @@ public class CandidateService {
     candidateRepository.deleteById(id);
   }
 
-  public void delete(Candidate candidate) {
-    log.info("Delete candidate by id: {}", candidate.getId());
-    candidateRepository.delete(candidate);
-  }
-
   @Transactional
   public Candidate save(CreateCandidateDto createCandidateDto) {
     log.info("Create candidate, firstName: {}", createCandidateDto.person().firstName());
