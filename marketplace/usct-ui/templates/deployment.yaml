@@ -15,9 +15,9 @@ spec:
         {{- toYaml .Values.template.labels | nindent 8 }}
     spec:
       containers:
-        - name: {{ .Values.container.name }}
-          image: "{{ .Values.container.image }}"
-          imagePullPolicy: {{ .Values.container.imagePullPolicy }}
+        - name: {{ .Values.containers.name }}
+          image: "{{ .Values.containers.image }}"
+          imagePullPolicy: {{ .Values.containers.imagePullPolicy }}
           ports:
           - containerPort: 80
             name: server

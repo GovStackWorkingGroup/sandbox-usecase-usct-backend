@@ -13,9 +13,10 @@ open-imis:
 information-mediator:
   enabled: true
 
-usct-ui:
+usct-frontend:
   enabled: true
-  image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:latest
+  containers:
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:latest
 
 consentbb:
   enabled: true

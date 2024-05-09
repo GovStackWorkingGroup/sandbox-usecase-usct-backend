@@ -23,7 +23,7 @@ dependencies:
   - name: usct-frontend
     version: 0.0.1
     repository: "file://../usct-ui"
-    condition: usct-ui.enabled
+    condition: usct-frontend.enabled
 
   - name: consentbb
     version: 2023.12.4
