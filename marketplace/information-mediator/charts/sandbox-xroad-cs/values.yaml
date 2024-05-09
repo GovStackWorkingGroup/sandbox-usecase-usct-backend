@@ -1,0 +1,5 @@
+---
+tokenPin: "1234"
+baseImage: bb/im/sandbox-x-road/central-server
+tag: latest-cs
+image:

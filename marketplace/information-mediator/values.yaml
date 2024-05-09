@@ -1,0 +1,24 @@
+global:
+  registry:
+  revision: latest
+sandbox-im-xroad-cs:
+  tokenPin: "1234"
+  baseImage: ghcr.io/govstackworkinggroup/sandbox-bb-information-mediator
+  tag: "latest-cs"
+  image:
+
+
+sandbox-im-xroad-ss:
+  baseImage: ghcr.io/govstackworkinggroup/sandbox-bb-information-mediator
+  tokenPin: "1234"
+  dbStorage: "5Gi"
+  servers:
+    ss1:
+      image:
+      tag: "latest-ss1"
+    ss2:
+      image:
+      tag: "latest-ss2"
+    ss3:
+      image:
+      tag: "latest-ss3"

@@ -14,3 +14,8 @@ dependencies:
     version: 0.1.0
     repository: "file://../open-imis"
     condition: open-imis.enabled
+
+  - name: sandbox-im-x-road
+    version: 0.1.0
+    repository: "file://../information-mediator"
+    condition: information-mediator.enabled

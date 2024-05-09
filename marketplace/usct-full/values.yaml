@@ -11,6 +11,9 @@ open-imis:
     service:
       name: open-imis-backend
 
+information-mediator:
+  enabled: true
+
 
 payment:
   enabled: true
