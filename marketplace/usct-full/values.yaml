@@ -22,5 +22,10 @@ consentbb:
   enabled: true
   namespace: usct
 
-paymenthub:
+ph-ee-g2psandbox:
   enabled: true
+  ph-ee-engine:
+    elasticsearch:
+      imagePullPolicy: "IfNotPresent"
+      volumeClaimTemplate:
+        storageClassName: "hcloud-volumes"
