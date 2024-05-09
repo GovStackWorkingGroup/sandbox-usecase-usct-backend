@@ -1,0 +1,11 @@
+apiVersion: v2
+name: usct
+description: usct helm package
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies:
+  - name: open-imis
+    version: 0.1.0
+    repository: "file://../open-imis"
+    condition: open-imis.enabled

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.name }}
+    spec:
+      containers:
+        - name: {{ .Values.deployment.containers.name }}
+          image: {{ .Values.deployment.containers.image }}
+          imagePullPolicy: {{ .Values.deployment.containers.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.deployment.containers.port}}
+          env:
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_PASSWORD
+              value: "IMISuserP@s"
+            - name: DB_USER
+              value: "IMISuser"
+            - name: DB_NAME
+              value: "IMIS"
+            - name: DB_ENGINE
+              value: "django.db.backends.postgresql"
+            - name: DB_HOST
+              value: "open-imis-db"
