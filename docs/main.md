@@ -25,6 +25,8 @@ sequenceDiagram
       USCT-backend ->>Consent BB: Civil servant may apply for consent
     end
   Civil servant ->> USCT-backend: When consent record is in place, create new beneficiary and remove beneficiary from candidates list
+  USCT-backend -->> Civil servant: Beneficiary was created
+
 
 ```
 
@@ -37,7 +39,7 @@ sequenceDiagram
    participant im as Information mediator
 
    USCT-backend ->> Payment BB: Automatically make bulk payment
-   USCT-backend -->> Civil servant: Return result
+   USCT-backend -->> Civil servant: Payment was done
 ```
 
 ## Authentication / Authorization
@@ -225,6 +227,8 @@ done
 
 #### Change port for bulk connector from 8443 to 8080 and turn off TLS
 
+**Use it only for demo purpose**
+
 
 Update config of **ph-ee-connector-bulk** pod
 
@@ -265,7 +269,7 @@ curl --location 'https://localhost:8443/batchtransactions?type=raw' \
     }'
 ```
 
-#### get Transactions
+#### Get transactions
 
 http://ph-ee-operations-app:5000/api/v1/batches?page=0&size=10&sortOrder=asc&orderBy=requestFile&Platform-TenantId=gorilla
 
