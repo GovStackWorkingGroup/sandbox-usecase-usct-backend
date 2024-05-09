@@ -29,3 +29,8 @@ dependencies:
     version: 2023.12.4
     repository: "https://decentralised-dataexchange.github.io/bb-consent-infrastructure/stable/"
     condition: consentbb.enabled
+
+  - name: ph-ee-g2psandbox
+    version: 1.5.0
+    repository: "https://fynarfin.io/images/ph-ee-g2psandbox-1.5.0/"
+    condition: paymenthub.enabled

@@ -20,3 +20,6 @@ usct-ui:
 consentbb:
   enabled: true
   namespace: usct
+
+paymenthub:
+  enabled: true
