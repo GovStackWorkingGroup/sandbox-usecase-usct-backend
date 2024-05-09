@@ -1,6 +1,17 @@
 ### Sub Charts Specific Values ###
-backend:
+usct-backend:
   enabled: true
+  deployment:
+    containers:
+      image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-backend:paymenthub-1
+
+open-imis:
+  enabled: true
+  backend:
+    service:
+      name: open-imis-backend
+
+
 payment:
   enabled: true
 im-central-server:
@@ -8,8 +19,6 @@ im-central-server:
 im-security-server:
   enabled: true
 ui:
-  enabled: true
-open-imis:
   enabled: true
 digital-registries-emulator:
   enabled: false

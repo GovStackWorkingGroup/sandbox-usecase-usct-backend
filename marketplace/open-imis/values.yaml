@@ -7,3 +7,5 @@ db:
   enabled: true
 backend:
   enabled: true
+  service:
+    name: backend

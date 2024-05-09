@@ -5,6 +5,11 @@ type: application
 version: 0.1.0
 appVersion: "1.0.0"
 dependencies:
+  - name: usct-backend
+    version: 0.1.0
+    repository: "file://../../helm"
+    condition: usct-backend.enabled
+
   - name: open-imis
     version: 0.1.0
     repository: "file://../open-imis"
