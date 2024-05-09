@@ -24,3 +24,8 @@ dependencies:
     version: 0.0.1
     repository: "file://../usct-ui"
     condition: usct-ui.enabled
+
+  - name: consentbb
+    version: 2023.12.4
+    repository: "https://decentralised-dataexchange.github.io/bb-consent-infrastructure/stable/"
+    condition: consentbb.enabled
