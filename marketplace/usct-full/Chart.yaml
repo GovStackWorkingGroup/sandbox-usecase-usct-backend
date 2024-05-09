@@ -19,3 +19,8 @@ dependencies:
     version: 0.1.0
     repository: "file://../information-mediator"
     condition: information-mediator.enabled
+
+  - name: usct-frontend
+    version: 0.0.1
+    repository: "file://../usct-ui"
+    condition: usct-ui.enabled

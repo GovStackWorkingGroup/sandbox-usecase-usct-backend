@@ -1,0 +1,17 @@
+name: "frontend"
+replicaCount: 1
+labels: 
+  app: "frontend"
+template:
+  labels: 
+    app: "frontend"
+container:
+  name: frontend
+  image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/frontend:latest
+  imagePullPolicy: "Always"
+profiles: "container"
+service:
+  name: "frontend"
+  type: ClusterIP
+  port: 80
+  targetPort: 80

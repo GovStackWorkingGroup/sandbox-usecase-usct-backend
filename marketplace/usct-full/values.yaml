@@ -14,14 +14,9 @@ open-imis:
 information-mediator:
   enabled: true
 
+usct-ui:
+  enabled: true
+  image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:latest
 
 payment:
   enabled: true
-im-central-server:
-  enabled: true
-im-security-server:
-  enabled: true
-ui:
-  enabled: true
-digital-registries-emulator:
-  enabled: false
