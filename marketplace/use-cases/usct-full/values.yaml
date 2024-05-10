@@ -62,6 +62,7 @@ consentbb:
         username: consentbb@gmail.com
       TestMode: false
       User:
+        password:
         username: admin@govstack.global
       Webhooks:
         events:
@@ -72,6 +73,7 @@ consentbb:
     ingress:
       enabled: false
   keycloak:
+    adminPassword:
     adminUsername: admin
     dbName: bitnami_keycloak
     dbUsername: bn_keycloak
