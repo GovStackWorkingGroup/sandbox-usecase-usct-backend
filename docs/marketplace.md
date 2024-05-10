@@ -6,6 +6,10 @@ Marketplace include [implementation](./../marketplace/blocks) of building blocks
 
 ### Generate passwords:
 
+ * open-imis -> db -> dbService -> postgresPassword 
+ * open-imis -> db -> dbService -> password 
+ * open-imis -> db -> secret -> password 
+ * open-imis -> backend -> deployment -> dbPassword 
  * consentbb -> keycloak 
  * consentbb -> api -> configuration -> User -> password 
 

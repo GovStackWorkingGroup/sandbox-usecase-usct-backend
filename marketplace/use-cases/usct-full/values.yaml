@@ -7,8 +7,21 @@ usct-backend:
 open-imis:
   enabled: true
   backend:
+    deployment:
+      dbPassword:
     service:
       name: open-imis-backend
+  db:
+    dbService:
+      name: open-imis-db
+      port: 5432
+      postgresPassword:
+      username: "IMISuser"
+      password:
+      database:
+        name: "IMIS"
+    secret:
+      password:
 
 information-mediator:
   enabled: true

@@ -23,7 +23,7 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: DB_PASSWORD
-              value: "IMISuserP@s"
+              value: {{ .Values.deployment.dbPassword }}
             - name: DB_USER
               value: "IMISuser"
             - name: DB_NAME
