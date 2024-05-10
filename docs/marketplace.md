@@ -18,4 +18,6 @@ Marketplace include [implementation](./../marketplace/blocks) of building blocks
 ` helm upgrade --install usct ./usct-full/ --create-namespace --namespace usct`
 
 ### Payment hub
+[Guide](main.md#post-deployment-steps).
+
 
