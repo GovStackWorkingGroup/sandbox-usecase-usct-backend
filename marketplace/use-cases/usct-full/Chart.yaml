@@ -7,22 +7,22 @@ appVersion: "1.0.0"
 dependencies:
   - name: usct-backend
     version: 0.1.0
-    repository: "file://../../helm"
+    repository: "file://../../../helm"
     condition: usct-backend.enabled
 
   - name: open-imis
     version: 0.1.0
-    repository: "file://../open-imis"
+    repository: "file://../../blocks/open-imis"
     condition: open-imis.enabled
 
   - name: sandbox-im-x-road
     version: 0.1.0
-    repository: "file://../information-mediator"
+    repository: "file://../../blocks/information-mediator"
     condition: information-mediator.enabled
 
   - name: usct-frontend
     version: 0.0.1
-    repository: "file://../usct-ui"
+    repository: "file://../../blocks/usct-ui"
     condition: usct-frontend.enabled
 
   - name: consentbb

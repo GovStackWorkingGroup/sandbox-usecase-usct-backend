@@ -1,29 +1,32 @@
 usct-backend:
-  enabled: true
+  enabled: flase
   deployment:
     containers:
       image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-backend:paymenthub-1
 
 open-imis:
-  enabled: true
+  enabled: false
   backend:
     service:
       name: open-imis-backend
 
 information-mediator:
-  enabled: true
+  enabled: false
 
 usct-frontend:
-  enabled: true
+  enabled: false
   containers:
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:latest
 
 consentbb:
   enabled: true
+  # Namespace for kubernetes cluster
   namespace: usct
+  # Prefix for kubernetes object names
+  storageClassName: "hcloud-volumes"
 
 ph-ee-g2psandbox:
-  enabled: true
+  enabled: false
   ph-ee-engine:
     elasticsearch:
       imagePullPolicy: "IfNotPresent"
