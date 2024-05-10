@@ -30,7 +30,7 @@ paymenthub:
     bulk_connector_url: "http://sandbox-xroad-ss2.im-xroad.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/PAYMENT/bulk-connector"
     callback_base_url: "http://backend.usct.svc.cluster.local:8080"
     registering_institution_id: 123456
-    tenant: rhino
+    tenant: gorilla
     program_id: "00"
     jws_tenant_private_key: ""
     payment_mode: "mojaloop"

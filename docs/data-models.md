@@ -10,24 +10,25 @@ The data model is described in the diagram.
 
 
 ## Beneficiaries
-| Name                          |          Type          | Modifiers |           Description            |
-|:------------------------------|:----------------------:|:----------|:--------------------------------:|
-| id [PK]                       |        integer         | NOT NULL  |           Primary key            |
-| person_id [FK]                |        integer         | NOT NULL  |    foundational id forign key    |
-| package_id    [FK]            |        integer         | NOT NULL  |      Package id forign key       |
-| payment_status                | character varying(255) | NOT NULL  |   [Payment status](status.md)    |
-| functional_id                 | character varying(255) | NOT NULL  | Functional id of the beneficiary |
-| payment_onboarding_status     | character varying(255) | NOT NULL  |    Onboarding request status.    |
-| payment_onboarding_request_id | character varying(255) | NOT NULL  |      Onboarding request id.      |
+| Name                          |          Type          | Modifiers |                      Description                       |
+|:------------------------------|:----------------------:|:----------|:------------------------------------------------------:|
+| id [PK]                       |        integer         | NOT NULL  |                      Primary key                       |
+| person_id [FK]                |        integer         | NOT NULL  |               foundational id forign key               |
+| package_id    [FK]            |        integer         | NOT NULL  |                 Package id forign key                  |
+| payment_status                | character varying(255) | NOT NULL  |              [Payment status](status.md)               |
+| functional_id                 | character varying(255) | NOT NULL  | Public version of the foundation id. [More information](https://govstack-global.atlassian.net/wiki/spaces/GH/pages/239370263/Authentication+and+Cross-BB+Authorization)  |
+| payment_onboarding_status     | character varying(255) | NOT NULL  |               Onboarding request status.               |
+| payment_onboarding_request_id | character varying(255) | NOT NULL  |                 Onboarding request id.                 |
 
 ## Candidates
 
-| Name                |     Type      | Modifiers |                 Description                  |
-|:--------------------|:-------------:|:----------|:--------------------------------------------:|
-| id [PK]             |    integer    | NOT NULL  |                 Primary key                  |
-| person_id   [FK]    |    integer    |           |                                              |
-| openimis_package_id | integer array |           | Ids of [packages](packages.md) from OpenIMIS |
-| emulator_package_id | integer array |           | Ids of [packages](packages.md) from emulator |
+| Name                |     Type      | Modifiers        |                     Description                    |
+|:--------------------|:-------------:|:-----------------|:--------------------------------------------------:|
+| id [PK]             |    integer    | NOT NULL         |                     Primary key                    |
+| person_id   [FK]    |    integer    |                  |                                                    |
+| openimis_package_id | integer array |                  |    Ids of [packages](packages.md) from OpenIMIS    |
+| emulator_package_id | integer array |                  |    Ids of [packages](packages.md) from emulator    |
+| is_beneficiary      |    boolean    | NOT NULL         | Status changes when candidate become a beneficiary |
 
 
 ## Payment Disbursement
