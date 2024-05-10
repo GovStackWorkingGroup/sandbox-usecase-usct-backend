@@ -17,6 +17,14 @@ Marketplace include [implementation](./../marketplace/blocks) of building blocks
 
 ` helm upgrade --install usct ./usct-full/ --create-namespace --namespace usct`
 
+### Optional resources
+
+`kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml`
+
+`helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/`
+
+`helm upgrade --install metrics-server metrics-server/metrics-server`
+
 ### Payment hub
 [Guide](main.md#post-deployment-steps).
 

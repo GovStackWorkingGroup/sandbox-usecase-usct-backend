@@ -1,20 +1,20 @@
 usct-backend:
-  enabled: flase
+  enabled: true
   deployment:
     containers:
       image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-backend:paymenthub-1
 
 open-imis:
-  enabled: false
+  enabled: true
   backend:
     service:
       name: open-imis-backend
 
 information-mediator:
-  enabled: false
+  enabled: true
 
 usct-frontend:
-  enabled: false
+  enabled: true
   containers:
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:latest
 
@@ -104,7 +104,7 @@ consentbb:
     runAsUser: 0
 
 ph-ee-g2psandbox:
-  enabled: false
+  enabled: true
   ph-ee-engine:
     elasticsearch:
       imagePullPolicy: "IfNotPresent"
