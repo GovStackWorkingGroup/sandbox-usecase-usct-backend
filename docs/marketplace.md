@@ -4,7 +4,7 @@ Marketplace include [implementation](./../marketplace/blocks) of building blocks
 
 ## USCT use case deployment guide
 Resource expectation:
-* ~ 64 GB RAM 
+* ~ 32 GB RAM 
 
 ### Generate passwords:
 
