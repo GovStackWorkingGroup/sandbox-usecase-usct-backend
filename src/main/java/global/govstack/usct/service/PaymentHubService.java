@@ -13,8 +13,6 @@ import global.govstack.usct.repositories.PaymentDisbursementRepository;
 import global.govstack.usct.service.dto.paymenthub.*;
 import global.govstack.usct.types.PaymentOnboardingCallbackMode;
 import global.govstack.usct.types.PaymentOnboardingStatus;
-import global.govstack.usct.util.RSAUtil;
-import global.govstack.usct.util.SHAUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,14 +46,15 @@ public class PaymentHubService implements PaymentService {
       HttpComponentsClientHttpRequestFactory requestFactory,
       BeneficiaryRepository beneficiaryRepository,
       PaymentDisbursementRepository paymentDisbursementRepository,
-      PackageService packageService) {
+      PackageService packageService,
+      RestTemplate restTemplate) {
     this.paymentHubProperties = paymentHubProperties;
     this.paymentHubBBInformationMediatorProperties = paymentHubBBInformationMediatorProperties;
     this.requestFactory = requestFactory;
     this.beneficiaryRepository = beneficiaryRepository;
     this.paymentDisbursementRepository = paymentDisbursementRepository;
     this.packageService = packageService;
-    this.restTemplate = new RestTemplate();
+    this.restTemplate = restTemplate;
     this.restTemplateSelfSigned = new RestTemplate(requestFactory);
   }
 
@@ -198,15 +197,9 @@ public class PaymentHubService implements PaymentService {
   }
 
   @Override
-  @Transactional
   public void orderPayment(List<Beneficiary> beneficiaries) {
-    var beneficiaryList =
-        beneficiaryRepository.findAllById(beneficiaries.stream().map(b -> b.getId()).toList());
-
-    validateOnboardingStatus(beneficiaryList);
-
     var requestID = UUID.randomUUID().toString();
-    var body = constructOrderPaymentRequestBody(beneficiaryList);
+    var body = constructOrderPaymentRequestBody(beneficiaries);
 
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(
@@ -218,19 +211,14 @@ public class PaymentHubService implements PaymentService {
     httpHeaders.add("X-CorrelationID", requestID);
     httpHeaders.add("Platform-TenantId", paymentHubProperties.tenant());
     httpHeaders.add("X-Program-ID", paymentHubProperties.programId());
-    httpHeaders.add("X-Signature", signOrderPaymentRequest(requestID, body));
     httpHeaders.add("type", "raw");
     httpHeaders.add("X-Road-Client", paymentHubBBInformationMediatorProperties.header());
-
+    log.info("batch transaction request: {}", body);
     var response =
-        restTemplateSelfSigned
-            .exchange(
-                paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
-                HttpMethod.POST,
-                new HttpEntity<>(body, httpHeaders),
-                String.class)
-            .getBody();
-
+        restTemplate.postForObject(
+            paymentHubProperties.bulkConnectorURL() + "/batchtransactions?type=raw",
+            new HttpEntity<>(body, httpHeaders),
+            String.class);
     var request = "{\"headers\":%s, \"body\":%s}";
     try {
       var headers = objectMapper.writeValueAsString(httpHeaders.entrySet());
@@ -278,18 +266,6 @@ public class PaymentHubService implements PaymentService {
     try {
       return objectMapper.writeValueAsString(rb);
     } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private String signOrderPaymentRequest(String requestID, String body) {
-    var sha3 =
-        SHAUtils.generateSHA(
-            String.format("%s:%s:%s", requestID, paymentHubProperties.tenant(), body), "SHA3-256");
-    try {
-      return RSAUtil.encrypt(
-          sha3, RSAUtil.getPrivateKey(paymentHubProperties.jwsTenantPrivateKey()));
-    } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }

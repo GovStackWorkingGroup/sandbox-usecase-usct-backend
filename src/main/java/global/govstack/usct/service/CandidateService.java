@@ -1,6 +1,5 @@
 package global.govstack.usct.service;
 
-import global.govstack.usct.configuration.IGrantProperties;
 import global.govstack.usct.configuration.OpenImisProperties;
 import global.govstack.usct.controller.dto.CandidateDto;
 import global.govstack.usct.controller.dto.CreateCandidateDto;
@@ -24,26 +23,23 @@ public class CandidateService {
   private final PackageService packageService;
   private final ConsentService consentService;
   private final OpenImisProperties openImisProperties;
-  private final IGrantProperties iGrantProperties;
 
   public CandidateService(
       CandidateRepository candidateRepository,
       PersonService personService,
       PackageService packageService,
       ConsentService consentService,
-      OpenImisProperties openImisProperties,
-      IGrantProperties iGrantProperties) {
+      OpenImisProperties openImisProperties) {
     this.candidateRepository = candidateRepository;
     this.personService = personService;
     this.packageService = packageService;
     this.consentService = consentService;
     this.openImisProperties = openImisProperties;
-    this.iGrantProperties = iGrantProperties;
   }
 
   public List<CandidateDto> findAll() {
     log.info("Get list of candidates");
-    List<Candidate> candidates = candidateRepository.findAll();
+    List<Candidate> candidates = candidateRepository.findByIsBeneficiary(false);
     return candidates.stream()
         .map(
             candidate -> {
@@ -84,11 +80,6 @@ public class CandidateService {
   public void deleteById(Integer id) {
     log.info("Delete candidate by id: {}", id);
     candidateRepository.deleteById(id);
-  }
-
-  public void delete(Candidate candidate) {
-    log.info("Delete candidate by id: {}", candidate.getId());
-    candidateRepository.delete(candidate);
   }
 
   @Transactional
