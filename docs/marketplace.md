@@ -2,9 +2,11 @@
 
 Marketplace include [implementation](./../marketplace/blocks) of building blocks and [use cases](./../marketplace/use-cases).
 
+## Minimum resource requirements
+* ~ 32 GB RAM
+
+
 ## USCT use case deployment guide
-Resource expectation:
-* ~ 32 GB RAM 
 
 ### Generate passwords:
 
