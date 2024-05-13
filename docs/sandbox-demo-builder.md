@@ -1,6 +1,6 @@
-# Marketplace
+# Sandbox Demo Builder
 
-Marketplace include [implementation](./../marketplace/blocks) of building blocks and [use cases](./../marketplace/use-cases).
+Sandbox Demo Builder include [implementation](../sandbox-demo-builder/blocks) of building blocks and [use cases](../sandbox-demo-builder/use-cases).
 
 ## Minimum resource requirements
 * ~ 32 GB RAM
