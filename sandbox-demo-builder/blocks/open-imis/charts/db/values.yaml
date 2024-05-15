@@ -1,0 +1,18 @@
+dbService:
+  name: open-imis-db
+  port: 5432
+  postgresPassword:
+  username: "IMISuser"
+  password:
+  database:
+    name: "IMIS"
+
+dbStatefulset:
+  name: open-imis-db
+  spec:
+    image: ghcr.io/govstackworkinggroup/sandbox-bb-digital-registries:open-imis-db
+    mountPath: /var/lib/pgsql/data
+    storage: 2Gi
+secret:
+  name: open-imis-secret
+  password:

@@ -1,0 +1,36 @@
+apiVersion: v2
+name: usct
+description: usct helm package
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies:
+  - name: usct-backend
+    version: 0.1.0
+    repository: "file://../../../helm"
+    condition: usct-backend.enabled
+
+  - name: open-imis
+    version: 0.1.0
+    repository: "file://../../blocks/open-imis"
+    condition: open-imis.enabled
+
+  - name: sandbox-im-x-road
+    version: 0.1.0
+    repository: "file://../../blocks/information-mediator"
+    condition: information-mediator.enabled
+
+  - name: usct-frontend
+    version: 0.0.1
+    repository: "file://../../blocks/usct-ui"
+    condition: usct-frontend.enabled
+
+  - name: consentbb
+    version: 2023.12.4
+    repository: "https://decentralised-dataexchange.github.io/bb-consent-infrastructure/stable/"
+    condition: consentbb.enabled
+
+  - name: ph-ee-g2psandbox
+    version: 1.5.0
+    repository: "https://fynarfin.io/images/ph-ee-g2psandbox-1.5.0/"
+    condition: ph-ee-g2psandbox.enabled

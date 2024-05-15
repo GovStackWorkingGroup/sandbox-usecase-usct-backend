@@ -1,0 +1,24 @@
+### Global Values if any ###
+global:
+  name: open-imis-db
+
+### Sub Charts Specific Values ###
+db:
+  enabled: true
+  dbService:
+    name: open-imis-db
+    port: 5432
+    postgresPassword:
+    username: "IMISuser"
+    password:
+    database:
+      name: "IMIS"
+  secret:
+    password:
+
+backend:
+  enabled: true
+  service:
+    name: backend
+  deployment:
+    dbPassword:

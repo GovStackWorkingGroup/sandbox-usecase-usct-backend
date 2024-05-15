@@ -1,0 +1,125 @@
+usct-backend:
+  enabled: true
+  deployment:
+    containers:
+      image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-backend:paymenthub-1
+
+open-imis:
+  enabled: true
+  backend:
+    deployment:
+      dbPassword:
+    service:
+      name: open-imis-backend
+  db:
+    dbService:
+      name: open-imis-db
+      port: 5432
+      postgresPassword:
+      username: "IMISuser"
+      password:
+      database:
+        name: "IMIS"
+    secret:
+      password:
+
+information-mediator:
+  enabled: true
+
+usct-frontend:
+  enabled: true
+  containers:
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:latest
+
+consentbb:
+  enabled: true
+  # Namespace for kubernetes cluster
+  namespace: usct
+  # Prefix for kubernetes object names
+  storageClassName: "hcloud-volumes"
+  adminDashboard:
+    configuration:
+      appVersion: 2023.11.6
+      clientId: igrant-ios-app
+    enabled: true
+    image: igrantio/bb-consent-admin-dashboard:2023.11.6
+    ingress:
+      enabled: false
+  api:
+    configuration:
+      Iam:
+        ClientId: igrant-ios-app
+        realm: BB-Consent-Users
+        url: http://usct-sandbox-keycloak-svc:8080
+      Organization:
+        description: GovStack is committed to safeguarding your privacy. We process
+          your personal data in line with data agreements, ensuring adherence to ISO27560
+          standards and legal frameworks like GDPR. For every personal data we process,
+          you can view its usage purpose and make informed choices to opt in or out.
+          For inquiries, contact our Data Protection Officer at dpo@govstack.global
+        eulaUrl: https://www.govstack.global/coc/
+        location: Sweden
+        name: GovStack
+      Policy:
+        GeographicRestriction: Sweden
+        IndustrySector: Public
+        Name: Policy 1
+        StorageLocation: Sweden
+        Url: https://www.govstack.global/privacy/
+      PrivacyDashboardDeployment:
+        Version: 2023.11.6
+      Smtp:
+        adminEmail: consentbb@gmail.com
+        host: smtp.gmail.com
+        port: 587
+        username: consentbb@gmail.com
+      TestMode: false
+      User:
+        password:
+        username: admin@govstack.global
+      Webhooks:
+        events:
+          - consent.allowed
+          - consent.disallowed
+    enabled: true
+    image: igrantio/bb-consent-api:2023.12.2
+    ingress:
+      enabled: false
+  keycloak:
+    adminPassword:
+    adminUsername: admin
+    dbName: bitnami_keycloak
+    dbUsername: bn_keycloak
+    enabled: true
+    image: docker.io/bitnami/keycloak:22.0.2-debian-11-r0
+    ingress:
+      enabled: false
+  mongo:
+    database: bb-consent-consentdb
+    enabled: true
+    image: bitnami/mongodb:7.0
+    username: bb-consent-user
+  postgres:
+    database: bitnami_keycloak
+    enabled: true
+    image: bitnami/postgresql:14.10.0
+    username: bn_keycloak
+  prefix: sandbox
+  privacyDashboard:
+    configuration:
+      clientId: igrant-ios-app
+    enabled: true
+    image: igrantio/bb-consent-privacy-dashboard:2023.11.6
+    ingress:
+      enabled: false
+  resources: { }
+  securityContext:
+    runAsUser: 0
+
+ph-ee-g2psandbox:
+  enabled: true
+  ph-ee-engine:
+    elasticsearch:
+      imagePullPolicy: "IfNotPresent"
+      volumeClaimTemplate:
+        storageClassName: "hcloud-volumes"
