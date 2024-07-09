@@ -1,9 +1,8 @@
 dbService:
   name: open-imis-db
   port: 5432
-  postgresPassword:
   username: "IMISuser"
-  password:
+  password: "IMISuserP@s"
   database:
     name: "IMIS"
 
@@ -15,4 +14,4 @@ dbStatefulset:
     storage: 2Gi
 secret:
   name: open-imis-secret
-  password:
+  password: "IMISuserP@s"

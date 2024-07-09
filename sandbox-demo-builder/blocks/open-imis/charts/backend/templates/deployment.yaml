@@ -32,3 +32,5 @@ spec:
               value: "django.db.backends.postgresql"
             - name: DB_HOST
               value: "open-imis-db"
+            - name: DJANGO_MIGRATE
+              value: "true"
