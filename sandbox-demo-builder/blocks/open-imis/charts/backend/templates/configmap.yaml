@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openimis-script
+data:
+  entrypoint.sh: |
+    #!/bin/bash
+    set -e
+    set -x  # Enable script debugging by printing each command
+
+
+    show_help() {
+      echo """
+      Commands
+      ---------------------------------------------------------------
+
+      start            : start django
+      worker           : start Celery worker
+
+      manage           : run django manage.py
+      eval             : eval shell command
+      bash             : run bash
+      """
+    }
+
+    #export PYTHONPATH="/opt/app:$PYTHONPATH"
+
+    cd ../openIMIS
+    echo pwd
+    echo "Migrating..."
+    python manage.py migrate
+
+    echo "Starting Django..."
+    python manage.py runserver 0.0.0.0:8000
