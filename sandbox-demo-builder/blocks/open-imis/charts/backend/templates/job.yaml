@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: migrate
-          image: {{ .Values.deployment.containers.image }}
+          image: openimis:govstack-seeds-1
           command: ["/bin/bash", "/scripts/entrypoint.sh", "manage", "migrate"]
           volumeMounts:
             - name: script-volume
