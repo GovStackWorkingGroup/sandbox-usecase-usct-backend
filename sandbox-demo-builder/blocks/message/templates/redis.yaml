@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.redis.service.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.redis.service.name }}
+spec:
+  replicas: 1
+  serviceName: {{ .Values.redis.service.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.redis.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.redis.service.name }}
+    spec:
+      containers:
+        - image: {{ .Values.redis.containers.image }}
+          name: {{ .Values.redis.containers.name }}
+          ports:
+            - containerPort: {{ .Values.redis.service.port }}
+          volumeMounts:
+            - name: {{ .Values.global.name }}
+              mountPath: {{ .Values.redis.statefulset.spec.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.global.name }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.redis.statefulset.spec.storage }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.redis.service.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.redis.service.name }}
+spec:
+  ports:
+    - port: {{ .Values.redis.service.port }}
+      targetPort: {{ .Values.redis.service.port }}
+      protocol: TCP
+  selector:
+    app: {{ .Values.redis.service.name }}
+  clusterIP: None

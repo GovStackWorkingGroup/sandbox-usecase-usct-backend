@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rapidpro
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ .Values.rapidpro.containers.image }}
+          imagePullPolicy: {{ .Values.rapidpro.containers.imagePullPolicy }}
+          ports:
+            - containerPort: {{.Values.rapidpro.service.port }}
+          env:
+            - name: DOMAIN_NAME
+              value: "https://rapidpro-bb.playground.sandbox-playground.com/"
+            - name: ALLOWED_HOSTS
+              value: "https://rapidpro-bb.playground.sandbox-playground.com/"
+            - name: TEMBA_HOST
+              value: "https://rapidpro-bb.playground.sandbox-playground.com/"
+            - name: DJANGO_DEBUG
+              value: "true"
+            - name: DATABASE_URL
+              value: {{.Values.rapidpro.containers.databaseUrl}}
+            - name: REDIS_URL
+              value: {{.Values.rapidpro.containers.redisUrl}}
+            - name: SECRET_KEY
+              value: "super-secret-key"
+            - name: MANAGEPY_COLLECTSTATIC
+              value: "on"
+            - name: MANAGEPY_COMPRESS
+              value: "on"
+            - name: MANAGEPY_INIT_DB
+              value: "on"
+            - name: MANAGEPY_MIGRATE
+              value: "on"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.rapidpro.service.name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  ports:
+    - port: {{ .Values.rapidpro.service.port }}
+      targetPort: {{ .Values.rapidpro.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Values.rapidpro.service.name }}
