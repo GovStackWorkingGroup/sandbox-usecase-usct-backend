@@ -1,0 +1,5 @@
+global:
+  baserow:
+    domain: "your-baserow-domain.com"
+    backendDomain: "api.your-baserow-domain.com"
+    objectsDomain: "objects.your-baserow-domain.com"
