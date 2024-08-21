@@ -1,0 +1,7 @@
+apiVersion: v2
+name: rapidpro
+description: RapidPro is an implementation of message building block
+
+type: application
+version: 0.0.1
+appVersion: v4

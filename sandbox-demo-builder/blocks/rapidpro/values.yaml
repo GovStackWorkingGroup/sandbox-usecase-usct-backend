@@ -1,0 +1,67 @@
+### Global Values if any ###
+global:
+  name: rapidpro
+
+### Sub Charts Specific Values ###
+rapidpro:
+  name: "rapidpro"
+  template:
+    labels: 
+      app: "rapidpro"
+  containers:
+    name: "rapidpro"
+    image: ghcr.io/govstackworkinggroup/sandbox-bb-messaging:stable
+    imagePullPolicy: "IfNotPresent"
+    redisUrl: "redis://redis:6379/0"
+  profiles: "container"
+  service:
+    name: rapidpro
+    type: ClusterIP
+    port: 8000
+    targetPort: 8000
+
+postgresql:    
+  name: "postgresql"
+  replicaCount: 1
+  template:
+    labels:
+      app: "postgresql"
+  containers:
+    name: "postgresql"
+    image: ghcr.io/baosystems/postgis:15-3.3
+    imagePullPolicy: "IfNotPresent"
+  statefulset:
+    name: postgresql
+    username: "temba"
+    password: "temba"
+    databaseName: "temba"
+    postgresPassword: "tembatemba"
+    spec:
+      mountPath: /var/lib/pgsql/data
+      storage: 1Gi
+  service:
+    name: postgresql
+    type: ClusterIP
+    port: 5432
+    selector:
+      app: postgresql
+    
+redis:
+  name: "redis"
+  replicaCount: 1
+  template:
+    labels:
+      app: "redis"
+  containers:
+    name: "redis"
+    image: redis:6.2-alpine
+    imagePullPolicy: "IfNotPresent"
+  statefulset:
+    name: redis
+    spec:
+      mountPath: /rapidpro/media/
+      storage: 1Gi
+  service:
+    name: "redis"
+    type: ClusterIP
+    port: 6379
