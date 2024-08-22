@@ -1,0 +1,116 @@
+DB_HOST: open-imis-db
+DB_USER: temba
+DB_PORT: 5432
+DB_PASSWORD: temba
+Running database migrations...
+Traceback (most recent call last):
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 275, in ensure_connection
+    self.connect()
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/contrib/gis/db/backends/postgis/base.py", line 126, in get_new_connection
+    connection = super().get_new_connection(conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/postgresql/base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/psycopg/connection.py", line 119, in connect
+    raise last_ex.with_traceback(None)
+psycopg.OperationalError: connection failed: could not connect to server: Connection refused
+	Is the server running on host "127.0.0.1" and accepting
+	TCP/IP connections on port 5432?
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/rapidpro/manage.py", line 9, in <module>
+    execute_from_command_line(sys.argv)
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/management/base.py", line 413, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/management/base.py", line 459, in execute
+    output = self.handle(*args, **options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/management/base.py", line 107, in wrapper
+    res = handle_func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/management/commands/migrate.py", line 100, in handle
+    self.check(databases=[database])
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/core/checks/model_checks.py", line 36, in check_all_models
+    errors.extend(model.check(**kwargs))
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/models/base.py", line 1617, in check
+    *cls._check_constraints(databases),
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/models/base.py", line 2467, in _check_constraints
+    connection.features.supports_nulls_distinct_unique_constraints
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/postgresql/features.py", line 141, in is_postgresql_15
+    return self.connection.pg_version >= 150000
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/postgresql/base.py", line 438, in pg_version
+    with self.temporary_connection():
+  File "/usr/local/lib/python3.11/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 691, in temporary_connection
+    with self.cursor() as cursor:
+         ^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 316, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 292, in _cursor
+    self.ensure_connection()
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 274, in ensure_connection
+    with self.wrap_database_errors:
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 275, in ensure_connection
+    self.connect()
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/contrib/gis/db/backends/postgis/base.py", line 126, in get_new_connection
+    connection = super().get_new_connection(conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/django/db/backends/postgresql/base.py", line 277, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/rapidpro/.venv/lib/python3.11/site-packages/psycopg/connection.py", line 119, in connect
+    raise last_ex.with_traceback(None)
+django.db.utils.OperationalError: connection failed: could not connect to server: Connection refused
+	Is the server running on host "127.0.0.1" and accepting
+	TCP/IP connections on port 5432?
