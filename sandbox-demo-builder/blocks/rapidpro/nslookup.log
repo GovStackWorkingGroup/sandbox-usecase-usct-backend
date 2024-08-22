@@ -1,0 +1,19 @@
+nslookup postgresql
+Server:		172.20.0.10
+Address:	172.20.0.10:53
+
+** server can't find postgresql.cluster.local: NXDOMAIN
+
+** server can't find postgresql.svc.cluster.local: NXDOMAIN
+
+** server can't find postgresql.cluster.local: NXDOMAIN
+
+Name:	postgresql.temprapid.svc.cluster.local
+Address: 10.42.10.118
+
+
+** server can't find postgresql.svc.cluster.local: NXDOMAIN
+
+** server can't find postgresql.eu-central-1.compute.internal: NXDOMAIN
+
+** server can't find postgresql.eu-central-1.compute.internal: NXDOMAIN

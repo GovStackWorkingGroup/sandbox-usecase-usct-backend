@@ -28,3 +28,8 @@ helm install --debug --dry-run temprapid ./rapidpro/ --create-namespace --namesp
 ```shell
 helm uninstall temprapid --namespace temprapid
 ```
+
+```shell
+  kubectl create deployment test --image=busybox -n temprapid -- sleep 3600
+```
+

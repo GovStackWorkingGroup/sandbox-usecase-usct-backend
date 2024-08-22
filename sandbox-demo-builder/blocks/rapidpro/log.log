@@ -1,4 +1,4 @@
-DB_HOST: open-imis-db
+DB_HOST: postgresql
 DB_USER: temba
 DB_PORT: 5432
 DB_PASSWORD: temba
