@@ -45,7 +45,8 @@ GitHub [repository](https://github.com/openimis/openimis-be-govstack_api_py).
 2. Create a [docker image](https://github.com/openimis/openimis-be_py/blob/develop/Dockerfile) of backend and [deploy](../charts) it.
 3. Execute next commands in the backend pod:
 * run migrations `python manage.py migrate`
-* [Create superuser](https://github.com/openimis/openimis-be_py#to-start-working-in-openimis-as-a-module-developer). Username: admin, password: govstack
+* `python manage.py createsuperuser`  admin
+* `python manage.py changepassword admin` govstack
 4. Connect to DB and run [USCT migration](https://github.com/GovStackWorkingGroup/sandbox-usecase-usct-backend/blob/main/docs/packages.md#sql-script).
 
 ## Useful commands
