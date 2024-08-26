@@ -8,7 +8,7 @@ digital_registries_bb_emulator:
       app: "digital-registries-bb-emulator"
   container:
     name: digital-registries-bb-emulator-app
-    image: ghcr.io/govstackworkinggroup/digital-registries-emulator:0.0.1
+    image: ghcr.io/govstackworkinggroup/sandbox-bb-digital-registries:emulator-0.0.1
     imagePullPolicy: "IfNotPresent"
   profiles: "container"
   dbPersist: 
