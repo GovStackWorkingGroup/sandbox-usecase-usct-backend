@@ -1,0 +1,97 @@
+postgres:
+  storage:
+    volName: govstack-gdb-postgres-pv-volume
+    claimName: govstack-gdb-postgres-pv-claim
+    labels:
+      type: local
+      app: postgres-gdb
+    spec:
+      storageClassName: manual
+      persistentVolumeReclaimPolicy: Delete
+      capacity:
+        storage: 5Gi
+      accessMode: ReadWriteOnce
+      hostPath:
+        path: "/mnt/data"
+  deployment:
+    name: govstack-gdb-postgres
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: postgres-gdb
+      temp:
+        metadata:
+          labels:
+            app: postgres-gdb
+        spec:
+          containers:
+              name: govstack-gdb-postgres
+              image: postgres:12
+              imagePullPolicy: "Always"
+              containerPort: 5432
+              volumeMountName: postgredb-gdb
+              volumeName: postgredb-gdb
+              passwordSecretName: govstack-gdb-postgres-admin-secret
+              volumeClaimName: govstack-gdb-postgres-pv-claim
+          volumes:
+            - name: postgredb-gdb
+              claimName: govstack-gdb-postgres-pv-claim
+  service:
+    name: govstack-gdb-postgres
+    labels:
+      app: postgres-gdb
+    spec:
+      type: NodePort
+      port: 5432
+      selector:
+        app: postgres-gdb
+redis:
+  configMap:
+    name: govstack-gdb-redis-config         
+  name: govstack-gdb-redis
+  deployment:
+    name: govstack-gdb-redis
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: redis-gdb
+      temp:
+        metadata:
+          labels:
+            app: redis-gdb
+        spec:
+          containers:
+            name: govstack-gdb-redis
+            image: redis:5.0.4
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+            port: 6379
+  service:
+    name: govstack-gdb-redis
+    labels:
+      app: redis-gdb
+    spec:
+      type: NodePort
+      port: 6379
+      selector:
+        app: redis-gdb
+secret:
+  postgres:
+    adminPassword:
+      name: govstack-gdb-postgres-admin-secret
+      type: Opaque
+application:      
+  service:
+    name: govstack-gdb
+    type: ClusterIP
+  deployment:
+    name: govstack-gdb
+    containers:
+      name: govstack-gdb
+      imageName: gdb
+      imagePullPolicy: "Always"
+                                                                                                                 
