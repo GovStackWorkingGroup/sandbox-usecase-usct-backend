@@ -23,7 +23,7 @@ Sandbox Demo Builder include [implementation](../sandbox-demo-builder/blocks) of
 
 ` helm dependency build ./usct-full/`
 
-` helm upgrade --install openimis ./open-imis/ --create-namespace --namespace openimis`
+` helm upgrade --install usct ./usct-full/ --create-namespace --namespace usct`
 
 ### Optional resources
 

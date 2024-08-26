@@ -17,14 +17,8 @@ spec:
         - name: {{ .Values.deployment.containers.name }}
           image: {{ .Values.deployment.containers.image }}
           imagePullPolicy: {{ .Values.deployment.containers.imagePullPolicy }}
-          command: ["/bin/bash", "/scripts/entrypoint.sh", "start"]
           ports:
             - containerPort: {{ .Values.deployment.containers.port}}
-          volumeMounts:
-            - name: script-volume
-              mountPath: /scripts/entrypoint.sh
-              subPath: entrypoint.sh
-              readOnly: true
           env:
             - name: DB_PORT
               value: "5432"
@@ -38,9 +32,3 @@ spec:
               value: "django.db.backends.postgresql"
             - name: DB_HOST
               value: "open-imis-db"
-            - name: DJANGO_MIGRATE
-              value: "true"
-      volumes:
-        - name: script-volume
-          configMap:
-            name: openimis-script
