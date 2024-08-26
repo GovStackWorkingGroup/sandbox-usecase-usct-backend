@@ -7,12 +7,12 @@ rapidpro:
   enabled: true
   name: "rapidpro"
   template:
-    labels:
+    labels: 
       app: "rapidpro"
   containers:
     name: "rapidpro"
-    image: sdehaan/rapidpro:v4
-    imagePullPolicy: "Always"
+    image: ghcr.io/govstackworkinggroup/sandbox-bb-messaging:stable
+    imagePullPolicy: "IfNotPresent"
     databaseUrl: "postgresql://postgres:postgres@postgresql/rapidpro"
     redisUrl: "redis://redis:6379/0"
   profiles: "container"
@@ -22,46 +22,31 @@ rapidpro:
     port: 8000
     targetPort: 8000
 
-celeryBase:
-  name: "celery-base"
-  replicaCount: 1
-  template:
-    labels:
-      app: "celery-base"
-  containers:
-    name: "celery-base"
-    image: sdehaan/rapidpro:v4
-    imagePullPolicy: "Always"
-  profiles: "container"
-  service:
-    name: "celery-base"
-    type: ClusterIP
-    port: 8000
-    targetPort: 8000
 postgresql:    
-  name: "postgresql"
+  name: "postgres"
   replicaCount: 1
   template:
     labels:
-      app: "postgresql"
+      app: "postgres"
   containers:
-    name: "postgresql"
-    image: mdillon/postgis:9.6
-    imagePullPolicy: "Always"
+    name: "postgres"
+    image: ghcr.io/baosystems/postgis:15-3.3
+    imagePullPolicy: "IfNotPresent"
   statefulset:
-    name: postgresql
-    username: "postgres"
-    password: "postgres"
-    databaseName: "rapidpro"
+    name: postgres
+    username: "temba"
+    password: "temba"
+    databaseName: "temba"
+    postgresPassword: "tembatemba"
     spec:
       mountPath: /var/lib/pgsql/data
       storage: 1Gi
   service:
-    name: postgresql
+    name: postgres
     type: ClusterIP
     port: 5432
     selector:
-      app: postgresql
+      app: postgres
     
 redis:
   name: "redis"
@@ -71,8 +56,8 @@ redis:
       app: "redis"
   containers:
     name: "redis"
-    image: redis:alpine
-    imagePullPolicy: "Always"
+    image: redis:6.2-alpine
+    imagePullPolicy: "IfNotPresent"
   statefulset:
     name: redis
     spec:

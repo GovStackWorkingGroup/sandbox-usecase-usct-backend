@@ -14,15 +14,15 @@ https://github.com/nyaruka/rapidpro
 ### Useful commands
 
 ```shell
-helm install rapidpro ./message/ --create-namespace --namespace rapidpro
+helm install rapidpro ./rapidpro/ --create-namespace --namespace rapidpro
 ```
 
 ```shell
-helm upgrade --install rapidpro ./message/ --create-namespace --namespace rapidpro
+helm upgrade --install rapidpro ./rapidpro/ --create-namespace --namespace rapidpro
 ```
 
 ```shell
-helm install --debug --dry-run rapidpro ./message/ --create-namespace --namespace rapidpro
+helm install --debug --dry-run rapidpro ./rapidpro/ --create-namespace --namespace rapidpro
 ```
 
 ```shell
