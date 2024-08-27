@@ -1,0 +1,24 @@
+payment_bb_emulator:
+  name: "payment-bb-emulator"
+  replicaCount: 1
+  labels: 
+    app: "payment-bb-emulator"
+  template:
+    labels: 
+      app: "payment-bb-emulator"
+  container:
+    name: payment-bb-emulator-app
+    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/bb/payments/emulator:latest
+    imagePullPolicy: "Always"
+  profiles: "container"
+  dbPersist: 
+    volumeMountName: "payment-bb-emulator-pvc"
+    path: "./dbdata/paymentbb"
+    mountPath: "/workspace/dbdata"
+    storage: 1Gi
+    flushStorageOnInit: false
+  service:
+    name: "payment-bb-emulator"
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
