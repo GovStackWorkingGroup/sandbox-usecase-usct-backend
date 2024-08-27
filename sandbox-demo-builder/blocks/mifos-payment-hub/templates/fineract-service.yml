@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: fineract-server-local
+  name: fineract-server-local
+spec:
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 8443
+  selector:
+    app: fineract-server
+    tier: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mifos-community-local
+  name: mifos-community-local
+spec:
+  ports:
+  - protocol: TCP
+    port: 9090
+    targetPort: 80
+  selector:
+    app: mifos-community
+    tier: frontend
