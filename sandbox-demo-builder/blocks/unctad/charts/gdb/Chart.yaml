@@ -1,0 +1,7 @@
+apiVersion: v2
+name: gdb
+description: A Helm chart for deploying a GDB implementation of digital registries BB
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+

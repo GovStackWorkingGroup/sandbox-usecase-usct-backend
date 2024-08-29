@@ -7,7 +7,7 @@ appVersion: "1.0.0"
 dependencies:
   - name: usct-backend
     version: 0.1.0
-    repository: "file://../../../helm"
+    repository: "file://../../blocks/usct-backend"
     condition: usct-backend.enabled
 
   - name: open-imis
