@@ -8,7 +8,7 @@ playground_frontend:
       app: "frontend"
   container:
     name: frontend
-    image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:roles-fix-3
     imageTag: latest
     imagePullPolicy: IfNotPresent
   profiles: "container"
