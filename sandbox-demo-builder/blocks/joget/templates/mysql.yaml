@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.mysql.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.mysql.name }}
+spec:
+  replicas: 1
+  serviceName: {{ .Values.mysql.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.mysql.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mysql.name }}
+    spec:
+      containers:
+        - image: {{ .Values.mysql.containers.image }}
+          name: {{ .Values.mysql.containers.name }}
+          env:
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.statefulset.databaseName }}
+            - name: MYSQL_ROOT_PASSWORD
+              value: {{ .Values.mysql.statefulset.password }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.mysql.statefulset.password }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.statefulset.username }}
+          ports:
+            - containerPort: {{ .Values.mysql.service.port }}
+              name: {{ .Values.mysql.name }}
+          volumeMounts:
+            - name: {{ .Values.mysql.name }}
+              mountPath: {{ .Values.mysql.statefulset.spec.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.mysql.name }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.mysql.statefulset.spec.storage }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mysql.service.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.mysql.service.name }}
+spec:
+  ports:
+    - protocol: TCP
+      port: {{ .Values.mysql.service.port }}
+      targetPort: {{ .Values.mysql.service.port }}
+  selector:
+    app: {{ .Values.mysql.service.name }}
+  clusterIP: None
