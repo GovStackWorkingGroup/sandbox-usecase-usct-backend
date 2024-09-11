@@ -7,6 +7,10 @@ Web page https://x-road.global/
 * https://github.com/nordic-institute/X-Road
 * https://github.com/nortal/GovStack-IM-BB-X-Road
 
+## How to Implement the Publish/Subscribe Pattern without a Centralised Message Broker
+
+[<img src="images/youtube-preview.png">](https://www.youtube.com/watch?v=luMnhRkqi68)
+
 
 ## Specification
 
