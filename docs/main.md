@@ -319,4 +319,8 @@ helm uninstall usct-backend --namespace usct
 
 ## Password/Secret
 
-https://govstack-global.atlassian.net/wiki/spaces/DEMO/pages/338690049/Passwords
+In line with best practices, storing passwords in Git is discouraged.
+
+Some passwords or secrets can be found in [Confluence](https://govstack-global.atlassian.net/wiki/spaces/DEMO/pages/338690049/Passwords).
+
+Please generate your own passwords or secrets, or reach out to the building block vendor for assistance.
