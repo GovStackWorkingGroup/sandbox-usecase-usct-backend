@@ -5,7 +5,7 @@ deployment:
     image: ghcr.io/govstackworkinggroup/sandbox-bb-digital-registries:open-imis-backend
     imagePullPolicy: "Always"
     port: 8000
-  dbPassword: "IMISuserP@s"
+  dbPassword:
 
 service:
   name: backend

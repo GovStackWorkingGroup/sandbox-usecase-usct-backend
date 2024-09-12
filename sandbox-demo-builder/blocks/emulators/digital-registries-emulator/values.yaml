@@ -8,8 +8,8 @@ digital_registries_bb_emulator:
       app: "digital-registries-bb-emulator"
   container:
     name: digital-registries-bb-emulator-app
-    image: oleksiidn/digital-registries-emulator:0.0.1
-    imagePullPolicy: "IfNotPresent"
+    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/bb/digital-registries/emulator:latest
+    imagePullPolicy: "Always"
   profiles: "container"
   dbPersist: 
     volumeMountName: "digital-registries-bb-emulator-pvc"

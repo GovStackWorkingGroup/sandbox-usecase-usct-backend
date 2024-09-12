@@ -29,7 +29,8 @@ spec:
               value: {{ .Values.dbService.database.name }}
             - name: POSTGRES_USER
               value: {{ .Values.dbService.username }}
-
+            - name: POSTGRES_POSTGRES_PASSWORD
+              value: {{ .Values.dbService.postgresPassword }}
 
           ports:
             - containerPort: {{ .Values.dbService.port }}

@@ -10,15 +10,15 @@ db:
     port: 5432
     postgresPassword:
     username: "IMISuser"
-    password: "IMISuserP@s"
+    password:
     database:
       name: "IMIS"
   secret:
-    password: "SU1JU3VzZXJQQHM="
+    password:
 
 backend:
   enabled: true
   service:
     name: backend
   deployment:
-    dbPassword: "IMISuserP@s"
+    dbPassword:
