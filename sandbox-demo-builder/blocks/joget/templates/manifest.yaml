@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: joget-dx8-tomcat9-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: joget-dx8-tomcat9-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: joget-dx8-tomcat9
+  labels:
+    app: joget-dx8-tomcat9
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: joget-dx8-tomcat9
+  template:
+    metadata:
+      labels:
+        app: joget-dx8-tomcat9
+    spec:
+      volumes:
+        - name: joget-dx8-tomcat9-pv
+          persistentVolumeClaim:
+            claimName: joget-dx8-tomcat9-pvc
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 0
+      containers:
+        - name: joget-dx8-tomcat9
+          image: jogetworkflow/joget-dx8-tomcat9:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: joget-dx8-tomcat9-pv
+              mountPath: /opt/joget/wflow
+          env:
+            - name: LOGGING.LEVEL.ROOT
+              value: "DEBUG"
+            - name: KUBERNETES_NAMESPACE
+              value: "default"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: joget-dx8-tomcat9
+  labels:
+    app: joget-dx8-tomcat9
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: https
+      port: 9080
+      targetPort: 9080
+  selector:
+    app: joget-dx8-tomcat9
+  type: NodePort
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: joget-dx8-tomcat9-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: joget-dx8-tomcat9-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /jw
+            pathType: Prefix
+            backend:
+              service:
+                name: joget-dx8-tomcat9
+                port:
+                  number: 8080
+
