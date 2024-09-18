@@ -1,9 +1,10 @@
 # Joget as building block
 
-This is a custom deployment build on top of [official Joget helm charts](https://github.com/jogetworkflow/helm-joget). 
+This is a custom deployment build on top of [official Joget on Kubernetes deployment](https://dev.joget.org/community/display/DX8/Joget+on+Kubernetes). 
 
 ## Deployment
 
+The application is expected to be deployed in the default namespace or have to do namespace adjustments.
 ```
-helm upgrade joget ./joget --install --create-namespace --namespace joget
+helm upgrade joget ./joget --install 
 ```
