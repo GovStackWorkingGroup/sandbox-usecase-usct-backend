@@ -11,7 +11,7 @@ rapidpro:
       app: "rapidpro"
   containers:
     name: "rapidpro"
-    image: ghcr.io/govstackworkinggroup/sandbox-bb-messaging:stable
+    image: oleksiidn/rapidpro:csrf-hard-2
     imagePullPolicy: "IfNotPresent"
     databaseUrl: "postgresql://postgres:postgres@postgresql/rapidpro"
     redisUrl: "redis://redis:6379/0"
@@ -22,6 +22,24 @@ rapidpro:
     port: 8000
     targetPort: 8000
 
+mailroom:
+  enabled: true
+  name: "mailroom"
+  template:
+    labels:
+      app: "mailroom"
+  containers:
+    name: "mailroom"
+    image: oleksiidn/mailroom:1
+    imagePullPolicy: "IfNotPresent"
+    databaseUrl: "postgresql://postgres:postgres@postgresql/rapidpro"
+    redisUrl: "redis://redis:6379/0"
+  profiles: "container"
+  service:
+    name: mailroom
+    type: ClusterIP
+    port: 8090
+    targetPort: 8090
 postgresql:    
   name: "postgres"
   replicaCount: 1
@@ -67,3 +85,39 @@ redis:
     name: "redis"
     type: ClusterIP
     port: 6379
+
+minio:
+  clusterDomain: localhost
+  resources:
+    requests:
+      memory: 512Mi
+  replicas: 1
+  mode: standalone
+  rootUser: rootuser
+  rootPassword: rootpass123
+  environment:
+    MINIO_DOMAIN: "rapidpro-minio"
+
+  buckets:
+    - name: temba-sessions
+      # Policy to be set on the
+      # bucket [none|download|upload|public]
+      policy: public
+      # Purge if bucket exists already
+      purge: false
+      # set versioning for
+      # bucket [true|false]
+      versioning: false # remove this key if you do not want versioning feature
+      # set objectlocking for
+      # bucket [true|false] NOTE: versioning is enabled by default if you use locking
+      objectlocking: false
+    - name: temba-attachments
+      policy: public
+      purge: false
+      versioning: false # remove this key if you do not want versioning feature
+      objectlocking: false
+    - name: temba-logs
+      policy: public
+      purge: false
+      versioning: false # remove this key if you do not want versioning feature
+      objectlocking: false

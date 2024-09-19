@@ -41,7 +41,7 @@ spec:
           - name: TEMBA_HOST
             value: "https://rapidpro-bb.playground.sandbox-playground.com"
           - name: CSRF_TRUSTED_ORIGINS
-            value: "rapidpro-bb.playground.sandbox-playground.com"
+            value: "https://rapidpro-bb.playground.sandbox-playground.com"
           - name: CORS_ORIGIN_WHITELIST
             value: "https://rapidpro-bb.playground.sandbox-playground.com"
           - name: CSRF_COOKIE_DOMAIN
@@ -80,6 +80,9 @@ spec:
             value: "True"
           - name: SESSION_COOKIE_SECURE
             value: "False"
+          - name: MAILROOM_URL
+            value: "http://mailroom:8090"
+
 
 
 ---

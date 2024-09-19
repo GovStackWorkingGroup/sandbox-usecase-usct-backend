@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio-client
+  labels:
+    app: minio-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio-client
+  template:
+    metadata:
+      labels:
+        app: minio-client
+    spec:
+      containers:
+        - name: minio-client
+          image: oleksiidn/minio-client:logs
+          imagePullPolicy: {{ .Values.mailroom.containers.imagePullPolicy }}
+
+          ports:
+            - containerPort: 8060
+          env:
+          - name: MINIO_HOST
+            value: "rapidpro-minio:9000"
+          - name: MINIO_ACCESS_KEY
+            value: "admin"
+          - name: MINIO_SECRET_KEY
+            value: "admin123"
+
