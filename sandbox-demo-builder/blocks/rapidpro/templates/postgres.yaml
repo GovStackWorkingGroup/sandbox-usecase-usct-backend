@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.postgresql.service.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.postgresql.service.name }}
+spec:
+  replicas: 1
+  serviceName: {{ .Values.postgresql.service.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.postgresql.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.postgresql.service.name }}
+    spec:
+      containers:
+        - image: {{ .Values.postgresql.containers.image }}
+          name: {{ .Values.postgresql.containers.name }}
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.postgresql.statefulset.databaseName }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgresql.statefulset.password }}
+            - name: POSTGRES_USER
+              value: {{ .Values.postgresql.statefulset.username }}
+
+          ports:
+            - containerPort: {{ .Values.postgresql.service.port }}
+              name: postgres
+          volumeMounts:
+            - name: {{ .Values.global.name }}
+              mountPath: {{ .Values.postgresql.statefulset.spec.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.global.name }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.postgresql.statefulset.spec.storage }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.postgresql.service.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.postgresql.service.name }}
+spec:
+  ports:
+    - protocol: TCP
+      port: {{ .Values.postgresql.service.port }}
+      targetPort: {{ .Values.postgresql.service.port }}
+  selector:
+    app: {{ .Values.postgresql.service.name }}
+  clusterIP: None

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.mailroom.name }}
+  labels:
+    app: {{ .Values.mailroom.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.mailroom.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mailroom.name }}
+    spec:
+      containers:
+        - name: {{ .Values.mailroom.name }}
+          image: {{ .Values.mailroom.containers.image }}
+          imagePullPolicy: {{ .Values.mailroom.containers.imagePullPolicy }}
+
+          ports:
+            - containerPort: {{.Values.mailroom.service.port }}
+          env:
+          - name: MAILROOM_PORT
+            value: "{{.Values.mailroom.service.port }}"
+          - name: MAILROOM_DB
+            value: "postgres://temba:temba@postgres:5432/temba?sslmode=disable"
+          - name: MAILROOM_REDIS
+            value: "redis://redis:6379/15"
+          - name: MAILROOM_LOG_LEVEL
+            value: "DEBUG"
+          - name: MAILROOM_AWS_ACCESS_KEY_ID
+            value: "admin"
+          - name: MAILROOM_AWS_SECRET_ACCESS_KEY
+            value: "admin123"
+          - name: MAILROOM_SECURE
+            value: "false"
+          - name: MAILROOM_S3_ENDPOINT
+            value: "rapidpro-minio:9000"
+          - name: MAILROOM_S3_SESSIONS_BUCKET
+            value: temba-sessions
+          - name: MAILROOM_S3_ATTACHMENTS_BUCKET
+            value: temba-attachments
+          - name: MAILROOM_S3_LOGS_BUCKET
+            value: temba-logs
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mailroom.service.name }}
+  labels:
+    app: {{ .Values.mailroom.name }}
+spec:
+  ports:
+    - port: {{ .Values.mailroom.service.port }}
+      targetPort: {{ .Values.mailroom.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Values.mailroom.service.name }}
