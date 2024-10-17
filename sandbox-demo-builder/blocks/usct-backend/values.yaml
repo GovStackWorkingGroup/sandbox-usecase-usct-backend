@@ -2,14 +2,14 @@ deployment:
   name: usct-backend
   containers:
     name: usct-backend
-    image: 161826879607.dkr.ecr.eu-central-1.amazonaws.com/app/usct/backend:latest
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-backend:paymenthub-1
     imagePullPolicy: "Always"
 
 service:
   name: backend
   port: 8080
   logLevel: "INFO"
-  authmode: local
+  authMode: "local"
 
 oidcKeystorePassword: ""
 
@@ -50,7 +50,10 @@ openImis:
 
 igrant:
   url: "http://sandbox-xroad-ss2.im-xroad.svc.cluster.local:8080/r1/SANDBOX/GOV/PROVIDER/CONSENT/api/v2/service/individual/record/"
-  token: ""
+  apiKey: ""
   dataAgreementId: ""
   header: "SANDBOX/ORG/CLIENT/TEST"
   mode: "igrant"
+
+restartSchedule:
+  enabled: false

@@ -69,7 +69,7 @@ spec:
             - name: LOGGING_LEVEL_ROOT
               value: "{{ .Values.service.logLevel }}"
             - name: USCT_AUTHENTICATION
-              value: "{{ .Values.service.authmode }}"
+              value: {{ .Values.service.authMode }}
             - name: OPEN-IMIS_MODE
               value: "{{.Values.openImis.mode}}"
             - name: OPEN-IMIS_URL
@@ -83,11 +83,11 @@ spec:
             - name: OPEN-IMIS_HEADER
               value: "{{ .Values.openImis.header}}"
             - name: IGRANT_URL
-              value: "{{.Values.igrant.url}}"
+              value: "{{ .Values.igrant.url }}"
             - name: IGRANT_TOKEN
-              value: "{{.Values.igrant.token}}"
+              value: {{ .Values.igrant.apiKey }}
             - name: IGRANT_DATA_AGREEMENT_ID
-              value: "{{.Values.igrant.dataAgreementId}}"
+              value: {{ .Values.igrant.dataAgreementId }}
             - name: IGRANT_HEADER
               value: "{{.Values.igrant.header}}"
             - name: IGRANT_MODE
