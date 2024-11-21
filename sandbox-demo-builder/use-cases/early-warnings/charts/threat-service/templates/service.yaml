@@ -5,10 +5,9 @@ metadata:
   labels:
     app: {{ .Values.backend.name }}
 spec:
+  selector:
+    app: {{.Values.backend.name}}
   ports:
     - protocol: TCP
       port: {{ .Values.backend.containers.port }}
       targetPort: {{ .Values.backend.containers.port }}
-  selector:
-    app: {{.Values.backend.name}}
-  clusterIP: None

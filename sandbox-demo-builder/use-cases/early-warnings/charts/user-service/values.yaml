@@ -3,7 +3,7 @@ backend:
   containers:
     name: user-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-userservice
-    imageTag: latest
+    imageTag: 0.0.1
     imagePullPolicy: IfNotPresent
     port: 8080
 
@@ -15,7 +15,7 @@ db:
     imagePullPolicy: IfNotPresent
     port: 5432
     mountName: pgdata
-    mountPath: /var/lib/postgresql/data
+    mountPath: /mnt/pgdata
     storage: 1Gi
     username: user
     password: password

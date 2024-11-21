@@ -3,7 +3,7 @@ backend:
   containers:
     name: threat-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-threatservice
-    imageTag: latest
+    imageTag: 0.0.3
     imagePullPolicy: IfNotPresent
     port: 8080
 
@@ -15,7 +15,7 @@ db:
     imagePullPolicy: IfNotPresent
     port: 5432
     mountName: pgdata
-    mountPath: /var/lib/postgresql/data
+    mountPath: /mnt/pgdata
     storage: 1Gi
     username: user
     password: password
@@ -23,4 +23,4 @@ db:
       name: threat-db
 
 kafka:
-  bootstrapServers: early-warning-kafka:9092
+  bootstrapServers: early-warnings-kafka:9092
