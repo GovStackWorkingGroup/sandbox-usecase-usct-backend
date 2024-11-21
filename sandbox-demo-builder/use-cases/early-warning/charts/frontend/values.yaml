@@ -1,0 +1,21 @@
+frontend:
+  name: "frontend"
+  replicaCount: 1
+  labels:
+    app: "frontend"
+  template:
+    labels:
+      app: "frontend"
+  spec:
+    container:
+      name: frontend
+      image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-frontend
+      imageTag: 0.0.6
+      imagePullPolicy: IfNotPresent
+
+  profiles: "container"
+  service:
+    name: "frontend"
+    type: ClusterIP
+    port: 80
+    targetPort: 80

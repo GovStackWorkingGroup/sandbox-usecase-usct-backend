@@ -1,0 +1,15 @@
+dependencies:
+- name: user-service
+  repository: ""
+  version: 0.1.0
+- name: threat-service
+  repository: ""
+  version: 0.1.0
+- name: frontend
+  repository: ""
+  version: 0.1.0
+- name: kafka
+  repository: ""
+  version: 0.1.0
+digest: sha256:5d3ed0f1ea2a0c90ff5866608794455e8965382836233db7ccd7bb94d82f89b7
+generated: "2024-11-18T20:03:34.276087351+02:00"

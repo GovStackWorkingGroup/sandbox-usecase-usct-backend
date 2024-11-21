@@ -1,0 +1,26 @@
+backend:
+  name: user-service
+  containers:
+    name: user-service
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-userservice
+    imageTag: latest
+    imagePullPolicy: IfNotPresent
+    port: 8080
+
+db:
+  name: user-db-service
+  containers:
+    name: user-db-service
+    image: postgres:14-alpine
+    imagePullPolicy: IfNotPresent
+    port: 5432
+    mountName: pgdata
+    mountPath: /var/lib/postgresql/data
+    storage: 1Gi
+    username: user
+    password: password
+    database:
+      name: user-db
+
+kafka:
+  bootstrapServers: early-warning-kafka:9092
