@@ -19,6 +19,8 @@ spec:
           ports:
             - containerPort: {{ .Values.backend.containers.port }}
           env:
+            - name: SERVER_PORT
+              value: "8080"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://{{ .Values.db.name }}:{{ .Values.db.containers.port }}/{{ .Values.db.containers.database.name }}
             - name: POSTGRES_DB
