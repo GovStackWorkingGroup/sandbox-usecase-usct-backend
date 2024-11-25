@@ -29,21 +29,3 @@ spec:
               value: {{ .Values.db.containers.username }}
             - name: POSTGRES_PASSWORD
               value: {{ .Values.db.containers.password }}
-            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              value: {{ .Values.kafka.bootstrapServers }}
-            - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
-              value: earliest
-            - name: SPRING_KAFKA_CONSUMER_ENABLE_AUTO_COMMIT
-              value: "true"
-            - name: SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER
-              value: org.apache.kafka.common.serialization.StringDeserializer
-            - name: SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER
-              value: org.apache.kafka.common.serialization.StringDeserializer
-            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_REQUEST_TIMEOUT_MS
-              value: "60000"
-            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SESSION_TIMEOUT_MS
-              value: "60000"
-            - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
-              value: org.apache.kafka.common.serialization.StringSerializer
-            - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
-              value: org.apache.kafka.common.serialization.StringSerializer

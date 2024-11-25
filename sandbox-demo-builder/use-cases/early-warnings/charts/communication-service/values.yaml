@@ -1,0 +1,17 @@
+backend:
+  name: communication-service
+  containers:
+    name: communication-service
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-communicationservice
+    imageTag: 0.0.1
+    imagePullPolicy: IfNotPresent
+    port: 8080
+
+kafka:
+  bootstrapServers: early-warnings-kafka:9092
+
+rapidpro:
+  flowUrl: https://rapidpro.io/api/v2/flow_starts.json
+  token: ""
+userService:
+  url: http://user-service:8080/api/v1/end-user

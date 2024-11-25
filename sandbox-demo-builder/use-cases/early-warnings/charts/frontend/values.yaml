@@ -10,7 +10,7 @@ frontend:
     container:
       name: frontend
       image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-frontend
-      imageTag: 0.0.6
+      imageTag: 0.0.10
       imagePullPolicy: IfNotPresent
 
   profiles: "container"
