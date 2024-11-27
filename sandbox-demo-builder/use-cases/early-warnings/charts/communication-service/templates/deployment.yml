@@ -1,3 +1,4 @@
+{{- if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,7 +27,7 @@ spec:
             - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
               value: earliest
             - name: SPRING_KAFKA_CONSUMER_ENABLE_AUTO_COMMIT
-              value: "true"
+              value: "false"
             - name: SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER
               value: org.apache.kafka.common.serialization.StringDeserializer
             - name: SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER
@@ -39,9 +40,16 @@ spec:
               value: org.apache.kafka.common.serialization.StringSerializer
             - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
               value: org.apache.kafka.common.serialization.StringSerializer
-            - name: RAPID-PRO_FLOW_URL
-              value: {{ .Values.rapidpro.flowUrl }}
-            - name: RAPID-PRO_TOKEN
-              value: {{ .Values.rapidpro.token }}
             - name: USER-SERVICE_URL
               value: {{ .Values.userService.url }}
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://{{ .Values.db.name }}:{{ .Values.db.containers.port }}/{{ .Values.db.containers.database.name }}
+            - name: POSTGRES_DB
+              value: {{ .Values.db.containers.database.name }}
+            - name: POSTGRES_USER
+              value: {{ .Values.db.containers.username }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.db.containers.password }}
+            - name: SPRING_LIQUIBASE_CHANGE-LOG
+              value: "liquibase-changeLog.xml"
+{{- end }}

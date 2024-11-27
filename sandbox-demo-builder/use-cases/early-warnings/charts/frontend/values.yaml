@@ -1,3 +1,4 @@
+enabled: true
 frontend:
   name: "frontend"
   replicaCount: 1
@@ -10,7 +11,7 @@ frontend:
     container:
       name: frontend
       image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-frontend
-      imageTag: 0.0.10
+      imageTag: 0.0.12
       imagePullPolicy: IfNotPresent
 
   profiles: "container"

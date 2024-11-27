@@ -1,3 +1,4 @@
+{{- if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,3 +32,4 @@ spec:
 
               echo "Successfully created the following topics:"
               kafka-topics --bootstrap-server {{ .Values.kafkaTopicCreator.kafka.bootstrapServer }} --list
+{{- end}}

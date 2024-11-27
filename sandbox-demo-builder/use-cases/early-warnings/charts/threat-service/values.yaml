@@ -1,3 +1,4 @@
+enabled: true
 backend:
   name: threat-service
   containers:

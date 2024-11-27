@@ -22,20 +22,12 @@ spec:
           env:
             - name: SERVER_PORT
               value: "8080"
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://{{ .Values.db.name }}:{{ .Values.db.containers.port }}/{{ .Values.db.containers.database.name }}
-            - name: POSTGRES_DB
-              value: {{ .Values.db.containers.database.name }}
-            - name: POSTGRES_USER
-              value: {{ .Values.db.containers.username }}
-            - name: POSTGRES_PASSWORD
-              value: {{ .Values.db.containers.password }}
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: {{ .Values.kafka.bootstrapServers }}
             - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
               value: earliest
             - name: SPRING_KAFKA_CONSUMER_ENABLE_AUTO_COMMIT
-              value: "true"
+              value: "false"
             - name: SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER
               value: org.apache.kafka.common.serialization.StringDeserializer
             - name: SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER

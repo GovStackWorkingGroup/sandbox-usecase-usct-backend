@@ -11,6 +11,8 @@ dependencies:
     version: 0.1.0
   - name: communication-service
     version: 0.1.0
+  - name: data-ingestion-service
+    version: 0.1.0
   - name: frontend
     version: 0.1.0
   - name: kafka

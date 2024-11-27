@@ -1,3 +1,4 @@
+{{- if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,3 +30,4 @@ spec:
               value: {{ .Values.db.containers.username }}
             - name: POSTGRES_PASSWORD
               value: {{ .Values.db.containers.password }}
+{{- end }}

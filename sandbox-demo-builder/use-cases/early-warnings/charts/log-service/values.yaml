@@ -1,0 +1,12 @@
+enabled: true
+backend:
+  name: log-service
+  containers:
+    name: log-service
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-logservice
+    imageTag: 0.0.2
+    imagePullPolicy: IfNotPresent
+    port: 8080
+
+kafka:
+  bootstrapServers: early-warnings-kafka:9092
