@@ -1,5 +1,4 @@
 # Early Warnings System
-
 Provide proof for a backend architecture enabling the Early Warnings App to scale in terms of geographically and\
 organizationally distributed users (information providers and consumers) and in terms of usability\
 by end users (especially back channel to provide feedback).
