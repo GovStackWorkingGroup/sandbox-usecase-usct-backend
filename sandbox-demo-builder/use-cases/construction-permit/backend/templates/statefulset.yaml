@@ -12,8 +12,8 @@ spec:
       {{- toYaml .Values.rpc_backend.template.labels | nindent 6 }}
   template:
     metadata:
-      labels: 
-        {{- toYaml .Values.rppull main branchc_backend.template.labels | nindent 8 }}
+      labels:
+        {{- toYaml .Values.rpc_backend.template.labels | nindent 8 }}
     spec:
       initContainers:
         - name: fix-pvc-permissions
