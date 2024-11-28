@@ -4,7 +4,7 @@ backend:
   containers:
     name: threat-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-threatservice
-    imageTag: 0.0.3
+    imageTag: be206511
     imagePullPolicy: IfNotPresent
     port: 8080
 
@@ -14,14 +14,20 @@ db:
     name: threat-db-service
     image: postgres:14-alpine
     imagePullPolicy: IfNotPresent
-    port: 5432
-    mountName: pgdata
-    mountPath: /mnt/pgdata
-    storage: 1Gi
-    username: user
-    password: password
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+    databasePlatform: org.hibernate.dialect.H2Dialect
     database:
-      name: threat-db
+      url: jdbc:h2:file:./src/main/resources/db/data/threat;AUTO_SERVER=true
 
 kafka:
   bootstrapServers: early-warnings-kafka:9092
+  topic:
+    name: threats-topic
+
+userService:
+  url: http://user-service:8080/api/v1/
+
+restartSchedule:
+  enabled: true

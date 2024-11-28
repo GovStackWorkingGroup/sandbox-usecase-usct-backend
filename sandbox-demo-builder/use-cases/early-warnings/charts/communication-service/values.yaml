@@ -4,7 +4,7 @@ backend:
   containers:
     name: communication-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-communicationservice
-    imageTag: govstack-1
+    imageTag: govstack-3
     imagePullPolicy: IfNotPresent
     port: 8080
 db:
@@ -24,4 +24,4 @@ db:
 kafka:
   bootstrapServers: early-warnings-kafka:9092
 userService:
-  url: http://user-service:8080/api/v1/end-user
+  url: http://user-service:8080/api/v1/users

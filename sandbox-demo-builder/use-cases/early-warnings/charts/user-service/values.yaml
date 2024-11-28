@@ -4,7 +4,7 @@ backend:
   containers:
     name: user-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-userservice
-    imageTag: 0.0.1
+    imageTag: govstack-2
     imagePullPolicy: IfNotPresent
     port: 8080
 

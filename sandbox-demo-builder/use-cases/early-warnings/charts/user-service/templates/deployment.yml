@@ -30,4 +30,8 @@ spec:
               value: {{ .Values.db.containers.username }}
             - name: POSTGRES_PASSWORD
               value: {{ .Values.db.containers.password }}
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY
+              value: DEBUG
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
+              value: TRACE
 {{- end }}

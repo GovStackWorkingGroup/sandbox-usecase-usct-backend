@@ -23,13 +23,25 @@ spec:
             - name: SERVER_PORT
               value: "8080"
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://{{ .Values.db.name }}:{{ .Values.db.containers.port }}/{{ .Values.db.containers.database.name }}
-            - name: POSTGRES_DB
-              value: {{ .Values.db.containers.database.name }}
-            - name: POSTGRES_USER
+              value: {{ .Values.db.containers.database.url }}
+            - name: SPRING_DATASOURCE_USERNAME
               value: {{ .Values.db.containers.username }}
-            - name: POSTGRES_PASSWORD
+            - name: SPRING_DATASOURCE_PASSWORD
               value: {{ .Values.db.containers.password }}
+            - name: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+              value: {{ .Values.db.containers.driverClassName }}
+            - name: SPRING_JPA_DATABASE_PLATFORM
+              value: {{ .Values.db.containers.databasePlatform }}
+            - name: SPRING_SQL_INIT_MODE
+              value: always
+            - name: SPRING_H2_CONSOLE_ENABLED
+              value: "true"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
+              value: "true"
+            - name: SPRING_JPA_HIBERNATE_DDL-AUTO
+              value: update
+            - name: SPRING_JPA_GENERATE-DDL
+              value: "true"
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: {{ .Values.kafka.bootstrapServers }}
             - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
@@ -48,4 +60,14 @@ spec:
               value: org.apache.kafka.common.serialization.StringSerializer
             - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
               value: org.apache.kafka.common.serialization.StringSerializer
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+              value: DEBUG
+            - name: LOGGING_LEVEL_ORG_ROOT
+              value: DEBUG
+            - name: LOGGING_LEVEL_ORG_WEB
+              value: DEBUG
+            - name: USER-SERVICE_URL
+              value: {{ .Values.userService.url }}
+            - name: MESSAGE_TOPIC_NAME
+              value: {{ .Values.kafka.topic.name }}
 {{- end }}
