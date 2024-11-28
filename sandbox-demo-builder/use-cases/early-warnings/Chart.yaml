@@ -1,0 +1,19 @@
+apiVersion: v2
+name: early-warnings
+description: early warnings use case
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies:
+  - name: user-service
+    version: 0.1.0
+  - name: threat-service
+    version: 0.1.0
+  - name: communication-service
+    version: 0.1.0
+  - name: data-ingestion-service
+    version: 0.1.0
+  - name: frontend
+    version: 0.1.0
+  - name: kafka
+    version: 0.1.0

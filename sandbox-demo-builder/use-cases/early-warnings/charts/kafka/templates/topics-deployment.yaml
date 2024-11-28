@@ -1,0 +1,35 @@
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-topic-creator
+  labels:
+    app: kafka-topic-creator
+spec:
+  replicas: {{ .Values.kafkaTopicCreator.replicaCount }}
+  selector:
+    matchLabels:
+      app: kafka-topic-creator
+  template:
+    metadata:
+      labels:
+        app: kafka-topic-creator
+    spec:
+      containers:
+        - name: kafka-topic-creator
+          image: "{{ .Values.kafkaTopicCreator.image.repository }}:{{ .Values.kafkaTopicCreator.image.tag }}"
+          imagePullPolicy: {{ .Values.kafkaTopicCreator.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # Wait for Kafka to be reachable
+              kafka-topics --bootstrap-server {{ .Values.kafkaTopicCreator.kafka.bootstrapServer }} --list
+
+              echo "Creating Kafka topics"
+              {{- range .Values.kafkaTopicCreator.topics }}
+              kafka-topics --bootstrap-server {{ $.Values.kafkaTopicCreator.kafka.bootstrapServer }} --create --if-not-exists --topic {{ .name }} --replication-factor {{ .replicationFactor }} --partitions {{ .partitions }}
+              {{- end }}
+
+              echo "Successfully created the following topics:"
+              kafka-topics --bootstrap-server {{ .Values.kafkaTopicCreator.kafka.bootstrapServer }} --list
+{{- end}}

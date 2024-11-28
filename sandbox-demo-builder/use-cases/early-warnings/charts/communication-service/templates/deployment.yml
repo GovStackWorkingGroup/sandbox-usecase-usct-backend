@@ -1,0 +1,55 @@
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.backend.name }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Values.backend.name }}"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.backend.name }}"
+    spec:
+      containers:
+        - name: "{{ .Values.backend.containers.name }}"
+          image: "{{ .Values.backend.containers.image }}:{{ .Values.backend.containers.imageTag }}"
+          imagePullPolicy: {{ .Values.backend.containers.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.backend.containers.port }}
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.bootstrapServers }}
+            - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
+              value: earliest
+            - name: SPRING_KAFKA_CONSUMER_ENABLE_AUTO_COMMIT
+              value: "false"
+            - name: SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER
+              value: org.apache.kafka.common.serialization.StringDeserializer
+            - name: SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER
+              value: org.apache.kafka.common.serialization.StringDeserializer
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_REQUEST_TIMEOUT_MS
+              value: "60000"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SESSION_TIMEOUT_MS
+              value: "60000"
+            - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
+              value: org.apache.kafka.common.serialization.StringSerializer
+            - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
+              value: org.apache.kafka.common.serialization.StringSerializer
+            - name: USER-SERVICE_URL
+              value: {{ .Values.userService.url }}
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://{{ .Values.db.name }}:{{ .Values.db.containers.port }}/{{ .Values.db.containers.database.name }}
+            - name: POSTGRES_DB
+              value: {{ .Values.db.containers.database.name }}
+            - name: POSTGRES_USER
+              value: {{ .Values.db.containers.username }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.db.containers.password }}
+            - name: SPRING_LIQUIBASE_CHANGE-LOG
+              value: "liquibase-changeLog.xml"
+{{- end }}

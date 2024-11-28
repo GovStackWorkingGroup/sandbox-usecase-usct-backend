@@ -1,0 +1,14 @@
+user-service:
+  enabled: true
+threat-service:
+  enabled: true
+communication-service:
+  enabled: true
+data-ingestion-service:
+  enabled: true
+log-service:
+  enabled: true
+frontend:
+  enabled: true
+kafka:
+  enabled: true

@@ -1,0 +1,43 @@
+enabled: true
+kafka:
+  controller:
+    replicaCount: 3
+    automountServiceAccountToken: true
+  externalAccess:
+    enabled: true
+    controller:
+      service:
+        type: NodePort
+        ports:
+          external: 9094
+    autoDiscovery:
+      enabled: true
+  serviceAccount:
+    create: true
+  rbac:
+    create: true
+  listeners:
+    client:
+      protocol: PLAINTEXT
+    controller:
+      protocol: PLAINTEXT
+  broker:
+    automountServiceAccountToken: true
+  topic:
+    autoCreate: true
+
+kafkaTopicCreator:
+  image:
+    repository: confluentinc/cp-kafka
+    tag: 7.4.4
+    pullPolicy: IfNotPresent
+  kafka:
+    bootstrapServer: early-warning-kafka:9092
+  replicaCount: 1
+  topics:
+    - name: threats-topic
+      replicationFactor: 1
+      partitions: 1
+    - name: broadcast-topic
+      replicationFactor: 1
+      partitions: 1

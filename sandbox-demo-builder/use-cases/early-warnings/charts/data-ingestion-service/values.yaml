@@ -1,0 +1,12 @@
+enabled: true
+backend:
+  name: data-ingestion-service
+  containers:
+    name: data-ingestion-service
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-dataingestionservice
+    imageTag: 0.0.1
+    imagePullPolicy: IfNotPresent
+    port: 8080
+
+kafka:
+  bootstrapServers: early-warnings-kafka:9092

@@ -1,0 +1,27 @@
+enabled: true
+backend:
+  name: communication-service
+  containers:
+    name: communication-service
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-communicationservice
+    imageTag: govstack-3
+    imagePullPolicy: IfNotPresent
+    port: 8080
+db:
+  name: communication-db-service
+  containers:
+    name: communication-db-service
+    image: postgres:14-alpine
+    imagePullPolicy: IfNotPresent
+    port: 5432
+    mountName: pgdata
+    mountPath: /mnt/pgdata
+    storage: 1Gi
+    username: user
+    password: password
+    database:
+      name: config-db
+kafka:
+  bootstrapServers: early-warnings-kafka:9092
+userService:
+  url: http://user-service:8080/api/v1/users
