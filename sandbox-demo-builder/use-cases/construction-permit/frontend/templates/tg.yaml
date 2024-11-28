@@ -1,0 +1,11 @@
+{{- if .Values.bp_frontend.targetGroupARN }}
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: "{{ .Values.bp_frontend.service.name }}-tg"
+spec:
+  serviceRef:
+    name: "{{ .Values.bp_frontend.service.name }}"
+    port: {{ .Values.bp_frontend.service.targetPort }}
+  targetGroupARN: "{{ .Values.bp_frontend.targetGroupARN }}"
+{{- end }}

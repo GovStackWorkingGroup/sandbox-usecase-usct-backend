@@ -1,0 +1,19 @@
+bp_frontend:
+  name: "bp-frontend"
+  replicaCount: 1
+  labels:
+    app: "bp-frontend"
+  template:
+    labels:
+      app: "bp-frontend"
+  container:
+    name: bp-frontend
+    image: ghcr.io/govstackworkinggroup/sandbox-usecase-bp-frontend:latest
+    imagePullPolicy: "Always"
+  profiles: "container"
+  service:
+    name: "frontend"
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  targetGroupARN:
