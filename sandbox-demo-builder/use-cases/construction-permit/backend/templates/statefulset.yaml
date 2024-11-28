@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.rpc_backend.name }}
+  labels:
+    {{- toYaml .Values.rpc_backend.labels | nindent 4 }}
+spec:
+  serviceName: {{ .Values.rpc_backend.service.name }}
+  replicas: {{ .Values.rpc_backend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- toYaml .Values.rpc_backend.template.labels | nindent 6 }}
+  template:
+    metadata:
+      labels: 
+        {{- toYaml .Values.rppull main branchc_backend.template.labels | nindent 8 }}
+    spec:
+      initContainers:
+        - name: fix-pvc-permissions
+          image: busybox
+          command: ["sh", "-c"]
+          args:
+            - 
+              chmod -R 777 {{ .Values.rpc_backend.dbPersist.mountPath }}
+
+              if [ $FLUSH_DB_STORAGE == "true" ]; then
+                rm -r {{ .Values.rpc_backend.dbPersist.mountPath }}/* || true;
+              fi
+          env:
+            - name: FLUSH_DB_STORAGE
+              value: "{{ .Values.rpc_backend.dbPersist.flushStorageOnInit }}"
+          volumeMounts:
+            - name: {{ .Values.rpc_backend.dbPersist.volumeMountName }}
+              mountPath: {{ .Values.rpc_backend.dbPersist.mountPath }}
+      containers:
+        - name: {{ .Values.rpc_backend.container.name }}
+          image: "{{ .Values.rpc_backend.container.image }}"
+          imagePullPolicy: {{ .Values.rpc_backend.container.imagePullPolicy }}
+          ports:
+          - containerPort: 8080
+            name: server
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: server
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: server
+          env:
+            - name: ACTIVE_PROFILES
+              value: {{ .Values.rpc_backend.profiles }}
+            - name: DATABASE_PERSIST_PATH
+              value: {{ .Values.rpc_backend.dbPersist.path }}
+          volumeMounts:
+            - name: {{ .Values.rpc_backend.dbPersist.volumeMountName }}
+              mountPath: {{ .Values.rpc_backend.dbPersist.mountPath }}
+  volumeClaimTemplates:
+    - metadata:
+          name: {{ .Values.rpc_backend.dbPersist.volumeMountName }}
+      spec:
+          accessModes:
+              - ReadWriteOnce
+          resources:
+              requests:
+                  storage: {{ .Values.rpc_backend.dbPersist.storage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.rpc_backend.service.name }}-service
+  labels:
+    {{- toYaml .Values.rpc_backend.labels | nindent 4 }}
+spec:
+  type: {{ .Values.rpc_backend.service.type }}
+  ports:
+    - port: {{ .Values.rpc_backend.service.port }}
+      targetPort: {{ .Values.rpc_backend.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- toYaml .Values.rpc_backend.labels | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.rpc_backend.service.name }}-headless
+  labels:
+    {{- toYaml .Values.rpc_backend.labels | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .Values.rpc_backend.service.port }}
+      targetPort: {{ .Values.rpc_backend.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- toYaml .Values.rpc_backend.labels | nindent 4 }}
