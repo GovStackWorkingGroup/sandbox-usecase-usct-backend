@@ -19,15 +19,15 @@ At the same time it could be configured to retain data for a longer period of ti
 ### Useful commands
 
 ```shell
-helm install early-warnings ./ --create-namespace --namespace early-warnings
+helm install early-warnings ./early-warnings --create-namespace --namespace early-warnings
 ```
 
 ```shell
-helm upgrade --install early-warnings ./ --create-namespace --namespace early-warnings
+helm upgrade --install early-warnings ./early-warnings --create-namespace --namespace early-warnings
 ```
 
 ```shell
-helm install --debug --dry-run early-warnings ./ --create-namespace --namespace early-warnings > temp.yaml
+helm install --debug --dry-run early-warnings ./early-warnings --create-namespace --namespace early-warnings > temp.yaml
 ```
 
 ```shell

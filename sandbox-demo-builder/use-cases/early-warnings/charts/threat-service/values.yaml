@@ -4,7 +4,7 @@ backend:
   containers:
     name: threat-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-threatservice
-    imageTag: be206511
+    imageTag: e7672a4a
     imagePullPolicy: IfNotPresent
     port: 8080
 

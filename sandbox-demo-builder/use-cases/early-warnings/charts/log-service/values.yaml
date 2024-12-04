@@ -4,7 +4,7 @@ backend:
   containers:
     name: log-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-logservice
-    imageTag: 0.0.2
+    imageTag: 464577c3
     imagePullPolicy: IfNotPresent
     port: 8080
 

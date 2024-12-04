@@ -4,7 +4,7 @@ backend:
   containers:
     name: communication-service
     image: ghcr.io/govstackworkinggroup/sandbox-usecase-earlywarning-communicationservice
-    imageTag: govstack-3
+    imageTag: cf695a20
     imagePullPolicy: IfNotPresent
     port: 8080
 db:
