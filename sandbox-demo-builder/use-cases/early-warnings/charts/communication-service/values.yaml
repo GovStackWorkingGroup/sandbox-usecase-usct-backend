@@ -15,7 +15,7 @@ db:
     imagePullPolicy: IfNotPresent
     port: 5432
     mountName: pgdata
-    mountPath: /mnt/pgdata
+    mountPath: /var/lib/postgresql/data
     storage: 1Gi
     username: user
     password: password

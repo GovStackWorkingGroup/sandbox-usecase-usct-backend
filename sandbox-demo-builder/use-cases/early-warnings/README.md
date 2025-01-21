@@ -18,6 +18,14 @@ At the same time it could be configured to retain data for a longer period of ti
 
 ### Useful commands
 
+First time for Kafka charts
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm dep build
+```
+
 ```shell
 helm install early-warnings ./early-warnings --create-namespace --namespace early-warnings
 ```
