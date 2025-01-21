@@ -2,5 +2,20 @@ dependencies:
 - name: user-service
   repository: ""
   version: 0.1.0
-digest: sha256:a2ebaa8fdd0aa7a3692e9cb5d7f8a5da36f56b5158b2781fc8f6f463678795e5
-generated: "2024-11-26T13:20:48.122219124+02:00"
+- name: threat-service
+  repository: ""
+  version: 0.1.0
+- name: communication-service
+  repository: ""
+  version: 0.1.0
+- name: data-ingestion-service
+  repository: ""
+  version: 0.1.0
+- name: frontend
+  repository: ""
+  version: 0.1.0
+- name: kafka
+  repository: ""
+  version: 0.1.0
+digest: sha256:c7d3378a338e35d7b61637c72a703ab01fbd330d0fdcbc8616e72e93cbfb664f
+generated: "2025-01-21T10:34:05.760345315+02:00"

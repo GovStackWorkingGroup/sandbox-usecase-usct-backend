@@ -26,12 +26,15 @@ spec:
               value: {{ .Values.db.containers.database.name }}
             - name: POSTGRES_USER
               value: {{ .Values.db.containers.username }}
+            - name: PGDATA
+              value: {{ .Values.db.containers.mountPath }}
           ports:
             - containerPort: {{ .Values.db.containers.port }}
               name: postgres
           volumeMounts:
             - name: {{ .Values.db.containers.mountName }}
               mountPath: {{ .Values.db.containers.mountPath }}
+              subPath: {{ .Values.db.containers.mountName }}
   volumeClaimTemplates:
     - metadata:
         name: {{ .Values.db.containers.mountName }}
