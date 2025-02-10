@@ -11,7 +11,8 @@ dbStatefulset:
   name: open-imis-db
   spec:
     image: ghcr.io/govstackworkinggroup/sandbox-bb-digital-registries:open-imis-db
-    mountPath: /var/lib/pgsql/data
+    mountPath: /var/lib/postgresql/data
+    mountName: pgdata
     storage: 2Gi
 secret:
   name: open-imis-secret

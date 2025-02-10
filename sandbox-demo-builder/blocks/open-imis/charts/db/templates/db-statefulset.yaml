@@ -29,8 +29,9 @@ spec:
               value: {{ .Values.dbService.database.name }}
             - name: POSTGRES_USER
               value: {{ .Values.dbService.username }}
-            - name: POSTGRES_POSTGRES_PASSWORD
-              value: {{ .Values.dbService.postgresPassword }}
+            - name: PGDATA
+              value: {{ .Values.dbStatefulset.spec.mountPath }}
+
 
           ports:
             - containerPort: {{ .Values.dbService.port }}
@@ -38,6 +39,7 @@ spec:
           volumeMounts:
             - name: {{ .Values.global.name }}
               mountPath: {{ .Values.dbStatefulset.spec.mountPath }}
+              subPath: {{ .Values.dbStatefulset.spec.mountName }}
   volumeClaimTemplates:
     - metadata:
         name: {{ .Values.global.name }}
