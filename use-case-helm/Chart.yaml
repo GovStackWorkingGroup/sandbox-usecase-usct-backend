@@ -25,9 +25,9 @@ dependencies:
     version: 0.1.0
     repository: file://charts/ui
     condition: ui.enabled
-  - name: sandbox-open-imis
+  - name: open-imis-backend
     version: 0.1.0
-    repository: oci://github.com/GovStackWorkingGroup/sandbox-bb-digital-registries/tree/main/digital-registries/open-imis
+    repository: file://charts/open-imis-backend
     condition: open-imis-backend.enabled
   - name: open-imis-db
     version: 0.1.0
