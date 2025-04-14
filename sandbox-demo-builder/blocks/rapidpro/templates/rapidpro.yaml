@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.rapidpro.name }}
+  labels:
+    app: {{ .Values.rapidpro.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rapidpro
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.rapidpro.name }}
+    spec:
+      containers:
+        - name: {{ .Values.rapidpro.name }}
+          image: {{ .Values.rapidpro.containers.image }}
+          imagePullPolicy: {{ .Values.rapidpro.containers.imagePullPolicy }}
+          command: [ "/bin/sh", "-c" ]
+          args:
+            - |
+              set -e;
+              echo "DB_HOST: ${DB_HOST:-Not Set}"
+              echo "DB_USER: ${DB_USER:-Not Set}"
+              echo "DB_PORT: ${DB_PORT:-Not Set}"
+              echo "DB_PASSWORD: ${DB_PASSWORD:-Not Set}"
+              echo "CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-Not Set}"
+              echo "Running database migrations...";
+              poetry run python3 manage.py migrate;
+              echo "Starting the RapidPro web server...";
+              poetry run python3 manage.py runserver 0.0.0.0:8000;
+          ports:
+            - containerPort: {{.Values.rapidpro.service.port }}
+          env:
+          - name: DOMAIN_NAME
+            value: "https://rapidpro-bb.playground.sandbox-playground.com"
+          - name: ALLOWED_HOSTS
+            value: "https://rapidpro-bb.playground.sandbox-playground.com"
+          - name: TEMBA_HOST
+            value: "https://rapidpro-bb.playground.sandbox-playground.com"
+          - name: CSRF_TRUSTED_ORIGINS
+            value: "https://rapidpro-bb.playground.sandbox-playground.com"
+          - name: CORS_ORIGIN_WHITELIST
+            value: "https://rapidpro-bb.playground.sandbox-playground.com"
+          - name: CSRF_COOKIE_DOMAIN
+            value: ".sandbox-playground.com"
+          - name: DEBUG
+            value: "True"
+          - name: DJANGO_LOG_LEVEL
+            value: "DEBUG"
+          - name: DJANGO_REQUEST_LOG_LEVEL
+            value: "DEBUG"
+          - name: DJANGO_SECURITY_LOG_LEVEL
+            value: "DEBUG"
+          - name: DB_HOST
+            value: {{.Values.postgresql.service.name}}
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            value: {{.Values.postgresql.statefulset.databaseName}}
+          - name: DB_USER
+            value: {{.Values.postgresql.statefulset.username}}
+          - name: DB_PASSWORD
+            value: {{.Values.postgresql.statefulset.password}}
+          - name: REMOTE_CONTAINERS
+            value: "true"
+          - name: CSRF_COOKIE_SAMESITE
+            value: "None"
+          - name: CSRF_COOKIE_SECURE
+            value: "False"
+          - name: SECURE_BROWSER_XSS_FILTER
+            value: "False"
+          - name: SECURE_CONTENT_TYPE_NOSNIFF
+            value: "False"
+          - name: SECURE_HSTS_INCLUDE_SUBDOMAINS
+            value: "False"
+          - name: SECURE_SSL_REDIRECT
+            value: "True"
+          - name: SESSION_COOKIE_SECURE
+            value: "False"
+          - name: MAILROOM_URL
+            value: "http://mailroom:8090"
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.rapidpro.service.name }}
+  labels:
+    app: {{ .Values.rapidpro.name }}
+spec:
+  ports:
+    - port: {{ .Values.rapidpro.service.port }}
+      targetPort: {{ .Values.rapidpro.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Values.rapidpro.service.name }}
