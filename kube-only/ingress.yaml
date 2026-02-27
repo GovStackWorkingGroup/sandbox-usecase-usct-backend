@@ -1,0 +1,131 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ingress-nginx
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ingress-nginx
+    spec:
+      serviceAccountName: ingress-nginx
+      containers:
+        - name: controller
+          image: registry.k8s.io/ingress-nginx/controller:v1.14.1
+          args:
+            - /nginx-ingress-controller
+            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
+            - --election-id=ingress-controller-leader
+            - --ingress-class=nginx
+            - --watch-ingress-without-class=false
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ingress-nginx
+  annotations:
+    service.beta.kubernetes.io/upcloud-load-balancer-config: |
+      {
+        "name": "black-white-lb",
+        "frontends": [
+          {
+            "name": "https",
+            "mode": "http",
+            "port": 443,
+            "rules": [
+              {
+                "name": "add-ip-header",
+                "priority": 100,
+                "matchers": [],
+                "actions": [
+                  {
+                    "type": "set_forwarded_headers",
+                    "action_set_forwarded_headers": {}
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "http",
+            "mode": "http",
+            "port": 80,
+            "rules": [
+              {
+                "name": "redirect-to-https",
+                "priority": 100,
+                "matchers": [],
+                "actions": [
+                  {
+                    "type": "http_redirect",
+                    "action_http_redirect": {
+                      "scheme": "https"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+  labels:
+    app: your-application
+  name: your-application-lb
+spec:
+  ports:
+    - port: 443
+      name: https
+      protocol: TCP
+      targetPort: 8080
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: your-application
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ingress-nginx-test
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: ingress-nginx
+    namespace: ingress-nginx
