@@ -1,0 +1,123 @@
+= Https/SSL certificates logic
+
+== Install cert-manager
+
+Install CRDs and controllers:
+
+[source,bash]
+----
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+----
+
+Verify installation:
+
+[source,bash]
+----
+kubectl get pods -n cert-manager
+----
+
+You should see something like:
+
+[source,bash]
+----
+cert-manager
+cert-manager-cainjector
+cert-manager-webhook
+----
+
+== Create a Let's Encrypt ClusterIssuer
+
+Create clusterissuer.yaml file:
+
+
+[source,bash]
+----
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    email: your@email.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-private-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+----
+
+== Update your Ingress
+
+[source,bash]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simulation-ingress
+  namespace: simulation
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+
+  tls:
+  - hosts:
+    - myapp.example.com
+    secretName: simulation-tls
+
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: simulation
+            port:
+              number: 80
+----
+
+== Watch certificate creation
+
+Cert-manager will now automatically:
+
+. create a certificate request
+. create a temporary challenge ingress
+. validate domain ownership
+. issue certificate
+. store it as Kubernetes secret
+
+[source,bash]
+----
+----
+
+== Verify TLS secret
+
+[source,bash]
+----
+kubectl get secret -n simulation
+----
+
+Expected:
+
+[source,bash]
+----
+simulation-tls   kubernetes.io/tls
+----
+
+== Test HTTPS
+Visit demo webpage
+
+== Automatic renewal (nothing to do)
+
+Certificates:
+
+. valid for 90 days
+. renewed automatically ~30 days before expiration
+
+Cert-manager handles everything automatically.
+
+You don't need cronjobs or scripts.
