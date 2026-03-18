@@ -44,3 +44,26 @@ spec:
       name: http
   selector:
     {{- toYaml .Values.labels | nindent 4 }}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: simulation
+spec:
+  tls:
+    - hosts:
+        - sandbox.govstack.global
+      secretName: simulation-tls
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simulation
+                port:
+                  number: 80

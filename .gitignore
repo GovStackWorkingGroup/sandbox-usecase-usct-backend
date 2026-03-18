@@ -28,3 +28,6 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 /src/main/resources/db/data/*
+
+*.tgz
+*.lock
