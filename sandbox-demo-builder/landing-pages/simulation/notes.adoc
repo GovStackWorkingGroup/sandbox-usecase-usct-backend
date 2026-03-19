@@ -3,3 +3,23 @@
 https://simulation.govstack.global/
 
 image::images/main-page.png/[]
+
+== Useful commands
+
+export KUBECONFIG=
+
+[source,shell]
+----
+helm install simulation ./sandbox-demo-builder/landing-pages/simulation  --create-namespace --namespace simulation
+----
+
+[source,shell]
+----
+helm upgrade --install simulation ./../landing-pages/simulation --create-namespace --namespace simulation
+----
+
+== PlusServer
+
+https://docs.plusserver.com/en/container/managed-kubernetes/tutorials/lb_configuration/
+
+https://docs.plusserver.com/de/container/managed-kubernetes/tutorials/sample-deployment/

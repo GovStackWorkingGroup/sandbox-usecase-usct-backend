@@ -57,21 +57,22 @@ spec:
       secretName: {{ .Values.tls.certificateName }}
   ingressClassName: nginx
   rules:
-    - http:
+    - host: {{ .Values.tls.dnsNames }}
+      http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.name }}
+                name: {{ .Values.service.name }}
                 port:
-                  number: 443
+                  number: 80
 ---
+
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ .Values.name }}
-  namespace: {{ .Values.name }}
 spec:
   dnsNames:
     - {{ .Values.tls.dnsNames }}

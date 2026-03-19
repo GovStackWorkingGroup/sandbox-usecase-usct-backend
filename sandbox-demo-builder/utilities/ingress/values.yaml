@@ -1,0 +1,7 @@
+controller:
+  service:
+    type: LoadBalancer
+    annotations:
+      loadbalancer.openstack.org/proxy-protocol: "false"
+      loadbalancer.openstack.org/keep-floatingip: "false"
+      service.beta.kubernetes.io/openstack-internal-load-balancer: "false"
