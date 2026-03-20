@@ -1,4 +1,7 @@
-= Ingerss
+= Ingress
+
+One of the way to get cluster load balancer and public IP.
+Plusserver https://docs.plusserver.com/en/container/managed-kubernetes/tutorials/lb_configuration/[load balancer docs].
 
 [,bash]
 ----
