@@ -50,6 +50,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-http
 spec:
   tls:
     - hosts:
@@ -78,5 +80,5 @@ spec:
     - {{ .Values.tls.dnsNames }}
   secretName: {{ .Values.tls.certificateName }}
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-http
     kind: ClusterIssuer

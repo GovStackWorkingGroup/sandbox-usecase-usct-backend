@@ -10,7 +10,7 @@ https://cert-manager.io/docs/installation/helm/
 
 [,bash]
 ----
-helm install example ./helm  --namespace cert-manager --create-namespace
+helm install example ./utilities/cert-manager/helm  --namespace cert-manager --create-namespace
 ----
 
 
@@ -21,7 +21,7 @@ helm dependency update
 
 [,bash]
 ----
-kubectl apply -f ./helm/clusterissuer.yaml
+kubectl apply -f utilities/cert-manager/clusterissuer.yaml
 ----
 
 === Install simulation
