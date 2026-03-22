@@ -7,7 +7,7 @@ template:
     app: "simulation"
 containers:
   name: frontend
-  image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:roles-fix-3
+  image: ghcr.io/govstackworkinggroup/sandbox-landingpage:0.0.1
   imagePullPolicy: "Always"
 profiles: "container"
 service:

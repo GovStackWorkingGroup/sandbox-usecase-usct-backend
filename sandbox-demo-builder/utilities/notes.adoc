@@ -1,0 +1,12 @@
+= GovStack kubernetes cluster
+
+== Example
+https://cert-manager.io/docs/tutorials/acme/nginx-ingress/
+
+== Set up
+
+. Install NGiNX ingress
+. Install Cert manager
+. Install Cluster issuer
+. Update DNS records
+. Install demos

@@ -1,17 +1,20 @@
-name: "frontend"
+name: "sandbox"
 replicaCount: 1
 labels: 
-  app: "frontend"
+  app: "sandbox"
 template:
   labels: 
-    app: "frontend"
+    app: "sandbox"
 containers:
-  name: frontend
-  image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/usct/frontend:latest
+  name: sandbox
+  image: ghcr.io/govstackworkinggroup/sandbox-usecase-usct-frontend:roles-fix-3
   imagePullPolicy: "Always"
 profiles: "container"
 service:
-  name: "frontend"
+  name: "sandbox"
   type: ClusterIP
   port: 80
   targetPort: 80
+tls:
+  dnsNames: "usct.playground.sandbox-playground.com"
+  certificateName: "sandbox-tls"

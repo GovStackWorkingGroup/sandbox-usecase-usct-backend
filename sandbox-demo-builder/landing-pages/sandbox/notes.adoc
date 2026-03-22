@@ -3,3 +3,15 @@
 https://sandbox.govstack.global/
 
 image::images/main-page.png/[]
+
+== Useful commands
+
+[source,shell]
+----
+helm install sandbox ./landing-pages/sandbox  --create-namespace --namespace sandbox
+----
+
+[source,shell]
+----
+helm upgrade --install sandbox ./landing-pages/sandbox --create-namespace --namespace sandbox
+----
