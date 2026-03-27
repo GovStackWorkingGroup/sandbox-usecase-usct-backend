@@ -1,0 +1,20 @@
+name: "cross-border"
+replicaCount: 1
+labels: 
+  app: "cross-border"
+template:
+  labels: 
+    app: "cross-border"
+containers:
+  name: frontend
+  image: ghcr.io/govstackworkinggroup/sandbox-usecase-cross-border-payment:0.0.1
+  imagePullPolicy: "Always"
+profiles: "container"
+service:
+  name: "cross-border"
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+tls:
+  dnsNames: "cross-border.sandbox.govstack.global"
+  certificateName: "cross-border-tls"
