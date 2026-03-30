@@ -1,0 +1,4 @@
+= Mifos
+
+== Deployment
+https://github.com/openMF/mifos-gazelle/blob/main/docs/MIFOS-GAZELLE-README.md#quick-start
